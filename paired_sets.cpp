@@ -15,14 +15,11 @@ typedef long long ll;
 #define F first
 #define S second
 #define pb push_back
-#define itr set<int>:: iterator
-#define ftr(myset) for(itr it=myset.begin(); it!=myset.end();it++)
 using namespace std;
 
 //GLOBALS
-int n,k;
-vector<ll> sum;
-set<int> a[M];
+bool a[M][M];
+int leng[M];
 
 void writel(ll n)
 {
@@ -50,36 +47,72 @@ void scanl(ll &x){
     		x=(x<<1)+(x<<3)+c-48;
     }
 
+
 int main()
 {
 	fio;
 	test
 	{
-        scan(n); scan(k);
-        ll req=(k*(k+1))/2;
-        int len=0,ele,ctr=0;
-        f(i,0,n)
+		int n,k,len,ele,ctr=0,ptr=0;
+		scan(n); scan(k);
+		ll ans=0;
+		//RESETTING PHASE
+		f(i,0,M)
+		{
+			f(j,0,M)
+				a[i][j]=0;
+		}
+
+		f(i,0,n)
         {
-            scan(len);
-            f(j,0,len)
-            {
-                scan(ele);
-                a[i].insert(ele);
-            }
-            ll s=0;
-            ftr(a[i])
-                s+=*it;
-            sum.pb(s);
-        }
-        //naive one
-        f(i,0,n)
-        {
-            f(j,0,n)
-            {
-                if(sum[i]+sum[j]>=req)
-                
-            }
-        }
+			scan(len);
+            if(len>=k)
+			{
+				ans+=n-1-ptr;
+				f(j,0,len)
+					scan(ele);
+				//give the sets which are already paired with
+				ptr++;
+			}
+			else
+			{
+				leng[ctr]=len;
+				f(j,0,len)
+				{
+					scan(ele);
+					a[ctr][ele-1]=1;
+				}
+				ctr++;
+			}
+		}
+		//only CTR set sare needed to be checked 
+		//processing
+		f(i,0,ctr)
+		{
+			f(j,i+1,ctr)
+			{
+				bool res=1;
+				//if sum of length is greater than k
+				if(leng[i]+leng[j] >=k)
+				{
+					f(tr,0,k)
+					{
+						//if either of them is 1
+						if(a[i][tr] or a[j][tr])
+							continue;
+						else
+						{
+							res=0;
+							break;
+						}
+					}
+					if(res)
+						ans++;
+				}
+			}
+		}
+		writel(ans);	
 	}
+	cin>>t;
 	return 0;
 }

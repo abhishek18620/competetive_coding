@@ -1,10 +1,16 @@
+//SOURCE : CODEFORCES (http://codeforces.com/blog/entry/18051)
+//ITS JUST SIMPLY GRT....
+// TEMPLATE //
+//ELLIOT ALDERSON(NO I'M NOT Mr. ROBOT)
+//YES IAM AN ACTIVE BLACK HAT AIMING FOR 0.0 2M HERE
+//MY TEAM HAD ALREADY REPORTED 3 BUGS IN CODECHEF'S SITE BUT THEY NEVER ACKNOWLEDGED THEM.
 #include <bits/stdc++.h>
 #define M 1e6+2
 #define sz 1e5+9
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
-#define fuck(i, j, k) for (int i = j; i < k; i++)
+#define f(i, j, k) for (int i = j; i < k; i++)
 #define fr(i, j, k) for (int i = j; i >= k; i--)
 #define gc() getchar_unlocked()
 #define test int t; scan(t); while(t--)
@@ -74,10 +80,10 @@ void build()
 			}
 		}
 		//if any primes left
-		fuck(j,ind_l,s_l)
+		f(j,ind_l,s_l)
 			seg[i].pb(seg[le][j]);
 		
-		fuck(j,ind_r,s_r)
+		f(j,ind_r,s_r)
 			seg[i].pb(seg[ri][j]);
 	}
 }
@@ -109,7 +115,7 @@ int query(int l, int r, int x, int y)
 //---------------------------------------------------------------------------
 void solve_for_each_lr()
 {
-	fuck(i,0,n)
+	f(i,0,n)
 	{
 		int ele=a[i];
 		while(ele!=1)
@@ -123,7 +129,7 @@ void solve_for_each_lr()
 // void solve_for_each_lr(int pr)
 // {
 // 	ll num,res;
-// 	fuck(i,0,n)
+// 	f(i,0,n)
 // 	{
 // 		num=a[i];
 // 		while(num%pr==0)
@@ -136,7 +142,7 @@ void solve_for_each_lr()
 
 // void solve_for_each_xy()
 // {
-//     fuck(i,2,MAX+1)
+//     f(i,2,MAX+1)
 //     {
 // 		//this will make leave's trees for xy seg tree
 //         if(isprime[i])
@@ -175,7 +181,7 @@ int main()
 	fio;
 	scanl(n);
 	MAX=-1;
-	fuck(i,0,n)
+	f(i,0,n)
 	{
 		scanl(a[i]);
 		if(a[i]>MAX)
@@ -192,5 +198,7 @@ int main()
 		l--;
 		cout<<query(l,r,x,y)<<endl;
 	}
+	int t;
+	cin>>t;
 	return 0;
 }

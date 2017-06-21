@@ -3,7 +3,7 @@
 //YES IAM AN ACTIVE BLACK HAT AIMING FOR 0.0 2M HERE
 //MY TEAM HAD ALREADY REPORTED 3 BUGS IN CODECHEF'S SITE BUT THEY NEVER ACKNOWLEDGED THEM.
 #include <bits/stdc++.h>
-#define M 10000
+#define M 2509
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -43,17 +43,48 @@ void scanl(ll &x){
     		x=(x<<1)+(x<<3)+c-48;
     }
 
+bitset<M> bs[M],bs_temp;
 int main()
 {
 	fio;
-	//    ios::sync_with_stdio(false); cin.tie(NULL);
-    	ll t; cin>>t;
-        bitset<4> bs1,bs2,bs3;
-        bs1=1100;
-        bs2=0000;
-		cout<<(bs1&bs2)<<endl;
-		if( (bs1&bs2)==0)
-        	cout<<(bs1&bs2)<<endl;
-    	cin>>t;
-        return 0;
+	test
+	{
+		int n,k,len,ele,ctr=0,ptr=0; cin>>n>>k;
+		ll ans=0;
+		f(i,0,n)
+			bs[i].reset();
+		f(i,0,n)
+        {
+			scan(len);
+            if(len==k)
+			{
+				ans+=n-1-ptr;
+				f(j,0,len)
+					scan(ele);
+				ptr++;
+			}
+			else
+			{
+				f(j,0,len)
+				{
+					scan(ele);
+					bs[ctr][M-ele]=1;
+				}
+				ctr++;
+			}
+		}
+		//processing
+		f(i,0,ctr)
+		{
+			f(j,i+1,ctr)
+			{
+				bs_temp=bs[i]|bs[j];
+				if(bs_temp.count()==k)
+					ans++;
+			}
+		}
+		cout<<ans<<endl;	
+	}
+	cin>>t;
+	return 0;
 }
