@@ -1,3 +1,4 @@
+//(--------------------------------------------SEGMENT TREE AND OPTIMISED SIEVE-------------------------------------------------------------------)
 //SOURCE : CODEFORCES (http://codeforces.com/blog/entry/18051)
 //ITS JUST SIMPLY GRT....
 // TEMPLATE //
@@ -153,11 +154,13 @@ void solve_for_each_lr()
 // 	}
 // }
 
+
+//------------------------------------------------------------------SEIVES----------------------------------------------------------
 //OPTIMISED SIEVE
 //A GOOD IDEA OF PRIME FACTORISATION
 //just put the first prime factor of ele at fac[ele]
 //source: a senior from my college(https://www.codechef.com/viewsolution/14255020)
-void seive()
+void sieve()
 {
 	long long i, j;
 	for(i=2; i<=M; i+=2)
@@ -176,6 +179,21 @@ void seive()
 	}
 }
 
+//OPTIMISED SIEVE
+void optimised_sieve()
+{
+	memset(isprime,1,sizeof(isprime));
+	for(int i = 2; i * i<= M; i++)
+	{
+		if (isprime[i])
+		{
+			for(int j = i * i; j<= M; j+=i) 
+				isprime[j] =0;
+		}
+    }
+}
+//-----------------------------------------------------------------------------------------------------------------------------------
+
 int main()
 {
 	fio;
@@ -188,7 +206,7 @@ int main()
 			MAX=a[i];
 	}
 	scanl(q);
-	seive();
+	sieve();
 	solve_for_each_lr();
 	build();
 	ll x,y,l,r;

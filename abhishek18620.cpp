@@ -1,196 +1,60 @@
 #include <bits/stdc++.h>
-#define M 1e6+2
-#define sz 1e5+9
+#define M 100009
 #define INF 999999
-#define fio ios::sync_with_stdio(false); cin.tie(NULL);
+#define fnf ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
 #define fuck(i, j, k) for (int i = j; i < k; i++)
-#define fr(i, j, k) for (int i = j; i >= k; i--)
-#define gc() getchar_unlocked()
-#define test int t; scan(t); while(t--)
-#define mp(i,j) make_pair(i,j)
-#define F first
-#define S second
-#define pb push_back
+#define fuck_rev(i, j, k) for (int i = j; i >= k; i--)
 using namespace std;
-//don't know maybe...just hoping it solves it..
-//outer seg tree(x,y) contains query(l,r) = sum(inner_seg_tree())
-//----------------------------GLOBALS----------------------------------------
-ll n,MAX,q;
-int fac[1000009];
-ll a[100007];
-vector<ll> seg[200010];
-//---------------------------------------------------------------------------
-//----------------------------I/O UTILS--------------------------------------
-void writel(ll n)
-{
-	if(n<0){n=-n;putchar('-');}
-	ll i=10;
-	char output_buffer[11];output_buffer[10]='\n';
-	do{output_buffer[--i]=(n%10)+'0';n/=10;}
-	while(n);
-	do{putchar(output_buffer[i]);}while(++i<11);
-}
-
-void scan(int &x){
-    	register int c = gc();
-    	x = 0;
-    	for(;c<48 || c>57;c=gc());
-    	for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-    }
-
-void scanl(ll &x){
-    	register ll c = gc();
-    	x = 0;
-    	for(;c<48 || c>57;c=gc());
-    	for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-    }
-//-------------------------------------------------------------------------------
-//-----------------------BUILDING TREES--------------------------------------
-void build()
-{  	// build the tree
-	ll le,ri,s_l,s_r;
-	for (int i = n - 1; i > 0; --i)
-	{
-		le=i<<1;
-		ri=i<<1|1;
-		s_l=seg[le].size();
-		s_r=seg[ri].size();
-		int ind_l=0,ind_r=0;
-		//entering numbers in a sorted order
-		while(ind_l<s_l and ind_r<s_r)
-		{
-			if(seg[le][ind_l] < seg[ri][ind_r])
-			{
-				seg[i].pb(seg[le][ind_l]);
-				ind_l++;
-			}
-			else
-			{
-				seg[i].pb(seg[ri][ind_r]);
-				ind_r++;
-			}
-		}
-		//if any primes left
-		fuck(j,ind_l,s_l)
-			seg[i].pb(seg[le][j]);
-		
-		fuck(j,ind_r,s_r)
-			seg[i].pb(seg[ri][j]);
-	}
-}
-
-int query(int l, int r, int x, int y) 
-{  	// sum on interval [l, r)
-	int res = 0;
- 	for (l += n, r += n; l < r; l >>= 1, r >>= 1)
-	{
-		if (l&1)
-		{
-			int l1=lower_bound(seg[l].begin(),seg[l].end(),x)-seg[l].begin();
-			int r1=upper_bound(seg[l].begin(),seg[l].end(),y)-seg[l].begin()-1;
-			res+=r1-l1+1;
-			l++;
-		}
-		if (r&1)
-		{
-			r--;
-			int l1=lower_bound(seg[r].begin(),seg[r].end(),x)-seg[r].begin();
-			int r1=upper_bound(seg[r].begin(),seg[r].end(),y)-seg[r].begin()-1;
-			res+=r1-l1+1;
-		}
-	}
-	return res;
-}
 
 
-//---------------------------------------------------------------------------
-void solve_for_each_lr()
-{
-	fuck(i,0,n)
-	{
-		int ele=a[i];
-		while(ele!=1)
-		{
-			seg[n+i].pb(fac[ele]);
-			ele/=fac[ele];
-		}
-	}
-}
-
-// void solve_for_each_lr(int pr)
-// {
-// 	ll num,res;
-// 	fuck(i,0,n)
-// 	{
-// 		num=a[i];
-// 		while(num%pr==0)
-// 		{
-// 			seg[n+i].pb(pr);
-// 			num/=pr;
-// 		}
-// 	}
-// }
-
-// void solve_for_each_xy()
-// {
-//     fuck(i,2,MAX+1)
-//     {
-// 		//this will make leave's trees for xy seg tree
-//         if(isprime[i])
-// 		{
-// 			ll curr=i;	//this is the prime
-//         	solve_for_each_lr(i);
-// 		}
-// 	}
-// }
-
-//OPTIMISED SIEVE
-//A GOOD IDEA OF PRIME FACTORISATION
-//just put the first prime factor of ele at fac[ele]
-//source: a senior from my college(https://www.codechef.com/viewsolution/14255020)
-void seive()
-{
-	long long i, j;
-	for(i=2; i<=M; i+=2)
-		fac[i] = 2;
-	for(i=3; i<=M; i+=2)
-	{
-		if(!fac[i])
-		{
-			fac[i] = i;
-			for(j=2; i*j <= M; j++)
-			{
-				if(!fac[i*j])
-					fac[i*j] = i;
-			}
-		}
-	}
-}
-
+//GLOBALS
+ll a[M],sum[M];
 int main()
 {
-	fio;
-	scanl(n);
-	MAX=-1;
-	fuck(i,0,n)
-	{
-		scanl(a[i]);
-		if(a[i]>MAX)
-			MAX=a[i];
-	}
-	scanl(q);
-	seive();
-	solve_for_each_lr();
-	build();
-	ll x,y,l,r;
-	while(q--)
-	{
-		scanl(l); scanl(r); scanl(x); scanl(y);
-		l--;
-		cout<<query(l,r,x,y)<<endl;
-	}
+	fnf;
+	int t; cin>>t;
+    while(t--)
+    {
+        ll n; cin>>n;
+        ll sum1=0, sum2=0;
+        ll ctr=0;
+        ll te;
+        fuck(i,0,n)
+            cin>>a[i];
+        sort(a,a+n);
+        sum[0]=0;
+        fuck(i,1,n+1)
+        {
+            if(a[i-1]<0)
+            {
+                sum1+=a[i-1];
+                sum[i]=sum[i-1]+a[i-1];
+            }
+            else
+            {
+                sum2+=a[i-1];
+                ctr++;
+            }
+        }
+        ll ans=sum2*ctr+sum1;
+        if(a[n-1]<=0) 
+            cout<<sum1<<endl;
+        else
+        {
+            int ctr_new=ctr;
+            int ind=n-1-ctr;
+            ll sum_new=sum2;
+            fuck_rev(i,ind,0)
+            {
+                sum_new=sum2+sum[ind+1]-sum[i];
+                ll temp_ans=sum_new*(++ctr_new) + sum[i];
+                if(temp_ans > ans)
+                    ans=temp_ans;
+            }
+            cout<<ans<<endl;
+        }
+    }
+    cin>>t;
 	return 0;
 }
