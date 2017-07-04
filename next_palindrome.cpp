@@ -1,10 +1,18 @@
+// TEMPLATE //
+//ELLIOT ALDERSON(NO I'M NOT Mr. ROBOT)
+//YES IAM AN ACTIVE BLACK HAT AIMING FOR 0.0 2M HERE
+//MY TEAM HAD ALREADY REPORTED 3 BUGS IN CODECHEF'S SITE BUT THEY NEVER ACKNOWLEDGED THEM.
+//finally
 #include <bits/stdc++.h>
-#define M 1000009
+#include<stdio.h>
+#define M 10000
 #define INF 999999
-#define fnf ios::sync_with_stdio(false); cin.tie(NULL);
-typedef unsigned long long ll;
-#define fuck(i, j, k) for (int i = j; i < k; i++)
-#define fuck_rev(i, j, k) for (int i = j; i >= k; i--)
+#define fio ios::sync_with_stdio(false); cin.tie(NULL);
+typedef long long ll;
+#define f(i, j, k) for (int i = j; i < k; i++)
+#define fr(i, j, k) for (int i = j; i >= k; i--)
+#define gc() getchar_unlocked()
+#define test ll t; scanl(t); while(t--)
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
@@ -21,7 +29,7 @@ void get_palin(int n)
 	bool nine=1;
 	//just checking if its a 9 string
 	//otherwise just making a palindrome by l--->r 
-	fuck(i,0,n)
+	f(i,0,n)
 	{
 		if(s[i]!='9' and nine)
 			nine=0;
@@ -29,14 +37,14 @@ void get_palin(int n)
 
 	if(nine)
 	{
-		fuck(i,0,n)
+		f(i,0,n)
 			s[i]='0';
 		s[0]='1';
 		s.pb('1');
 	}
 	else
 	{
-		fuck(i,0,n/2)
+		f(i,0,n/2)
 			s[n-1-i]=s[i];
 		//can be equal in case of a palindrome
 		if(s<=s1)
@@ -48,7 +56,7 @@ void get_palin(int n)
 			}
 			else
 				l=r=n/2;
-			fuck(i,0,n/2+1)
+			f(i,0,n/2+1)
 			{
 				if(s[l]!='9')
 				{
@@ -72,12 +80,19 @@ void get_palin(int n)
 	}
 }
 
+void scanl(ll &x){
+		register ll c = gc();
+		x = 0;
+		for(;c<48 || c>57;c=gc());
+		for(;c>47 && c<58;c=gc())
+			x=(x<<1)+(x<<3)+c-48;
+	}
+
 int main()
 {
-	//fnf;
-	ll t; cin>>t;
-    while(t--)
-    {
+	//fio;
+	test
+	{
 		getline(cin,s);
 		int n = s.length();
 		//CASE 1

@@ -5,5 +5,5 @@
     "command": "g++",
     "isShellCommand": true,
     "showOutput": "always",
-    "args": ["-g", "${workspaceRoot}/abhishek18620.cpp"]
+    "args": ["-g", "${workspaceRoot}/chef's_garden.cpp"]
 }

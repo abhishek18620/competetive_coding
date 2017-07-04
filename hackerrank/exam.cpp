@@ -10,7 +10,6 @@ typedef long long ll;
 #define f(i, j, k) for (int i = j; i < k; i++)
 #define fr(i, j, k) for (int i = j; i >= k; i--)
 #define gc() getchar_unlocked()
-#define test int t; scan(t); while(t--)
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
