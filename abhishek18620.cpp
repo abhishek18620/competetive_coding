@@ -1,10 +1,11 @@
 #include <bits/stdc++.h>
-#define M 1000009
-#define INF 999999
+#include<stdint.h>
+#define M 10000
 #define fnf ios::sync_with_stdio(false); cin.tie(NULL);
-typedef unsigned long long ll;
+typedef long long int ll;
 #define fuck(i, j, k) for (int i = j; i < k; i++)
 #define fuck_rev(i, j, k) for (int i = j; i >= k; i--)
+#define gc() getchar_unlocked()
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
@@ -12,81 +13,64 @@ typedef unsigned long long ll;
 using namespace std;
 
 //GLOBALS
-string s,s1;
-
-void get_palin(int n)
-{
-	s1=s;
-	int l,r,mid;
-	bool nine=1;
-	//just checking if its a 9 string
-	//otherwise just making a palindrome by l--->r 
-	fuck(i,0,n)
-	{
-		if(s[i]!='9' and nine)
-			nine=0;
-	}
-
-	if(nine)
-	{
-		fuck(i,0,n)
-			s[i]='0';
-		s[0]='1';
-		s.pb('1');
-	}
-	else
-	{
-		fuck(i,0,n/2)
-			s[n-1-i]=s[i];
-		//can be equal in case of a palindrome
-		if(s<=s1)
-		{
-			if(n%2==0)
-			{
-				l=n/2-1;
-				r=n/2;
-			}
-			else
-				l=r=n/2;
-			fuck(i,0,n/2+1)
-			{
-				if(s[l]!='9')
-				{
-					if(l!=r)
-					{
-						s[l]++;
-						s[r]++;
-					}
-					else
-						s[l]++;
-					break;
-				}
-				else
-				{
-					s[l]='0';
-					s[r]='0';
-				}
-				l--; r++;
-			}
-		}
-	}
-}
+const ll MOD = 1e9+7;
+ll dp[1<<10][102];
+bool a[12][102];
 
 int main()
 {
 	//fnf;
-	ll t; cin>>t;
+    int n,t,te,mask,num;
+	scanf("%d",&t);
     while(t--)
-    {
-		getline(cin,s);
-		int n = s.length();
-		//CASE 1
-		//(already a palindrome)
-		//1 9 9 1
-		get_palin(n);
-		//cout<<"\n"<<s1<<" ----> "<<s<<endl;
-		cout<<s<<endl;
+	{
+        scanf("%d",&n);
+        memset(dp,0,sizeof(dp));    
+		memset(a,0,sizeof(a));
+		//take input as string
+		fuck(i,1,n+2)
+		{
+			string s,out;
+			stringstream ss;
+			getline(cin,s);
+			ss<<s;
+			while(ss>>out)
+			{
+				stringstream convert(out);
+				convert>>te;
+				a[i-1][te]=1;
+			}
+		}
+
+		//DP begins
+		//dp(i,j)=j tshirts been alredy alloted
+		//bitmask of i (indexes having 1 are already alloted a tshirt as order doesn't matter)
+		dp[0][0]=1;
+		fuck(i,0,1<<n)
+		{
+			fuck(j,1,101)
+			{
+				dp[i][j]=(dp[i][j]+dp[i][j-1])%MOD;
+			}
+			//now need to check which bits are set in bitset of i
+			//which are still left to be alloted
+			fuck(j,1,n+1)
+			{
+				//if(j th bit is set in i)
+				bool set=i&(1<<(j-1));
+				if(!set)
+				{
+					mask=i|(1<<(j-1));
+					fuck(k,1,101)
+					{
+						if(a[j][k])	//checking if tshirt k is available for person j
+							dp[mask][k]=(dp[mask][k]+dp[i][k-1])%MOD;
+					}
+				}
+			}
+		}
+		printf("%lld\n",dp[(1<<n)-1][100]);
 	}
-	cin>>t;
+cin>>t;
 	return 0;
 }

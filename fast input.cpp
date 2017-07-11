@@ -100,3 +100,23 @@ void scanl(ll &x){
 		copy(istream_iterator<string>(iss2),
      	istream_iterator<string>(),
      	back_inserter(sec));
+
+
+// numeric string with spaces
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    string s,out;
+    stringstream ss;
+    getline(cin,s);
+    ss<<s;
+    int x;
+    while(ss>>out)
+    {
+        stringstream convert(out);
+        convert>>x;
+        cout<<x<<endl;
+    }
+    return 0;
+}
