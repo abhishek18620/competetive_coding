@@ -1,185 +1,174 @@
-    #include <bits/stdc++.h>
-    using namespace std;
-     
-    #define all(v) v.begin(), v.end()
-    #define mp                    make_pair
-    #define pb                    push_back
-    #define clr(ara)              memset(ara, 0, sizeof(ara))
-    #define dp(ara)            memset(ara, -1, sizeof(ara))
-    #define White                 0
-    #define Grey                  1
-    #define Black                 2
-     
-    #define sf                    scanf
-    #define pf                    printf
-     
-    #define Test_Case(a)             for(int cs = 1; cs <= t; cs++)
-    #define REP(i, a, b)      for(int i=a;i<=b;i++)
-    #define loop(i,n)       for(int i=0;i<n;i++)
-     
-    #define READ                  freopen("input.txt", "r", stdin);
-    #define WRITE                 freopen("output.txt", "w", stdout);
-     
-    int fx[] = { -1, 1, 0, 0 };
-    int fy[] = { 0, 0, -1, 1 };
-     
-    int dx[] = { 1, 1, 0, -1, -1, -1, 0, 1 };
-    int dy[] = { 0, 1, 1, 1, 0, -1, -1, -1 };
-     
-    int kx[] = { 1, 1, -1, -1, 2, 2, -2, -2 }; // Knight Moves.
-    int ky[] = { 2, -2, 2, -2, 1, -1, 1, -1 };
-     
-    typedef  long long            ll;
-     
-    typedef  map <int,int>	           mii;
-    typedef  map <int,string>	       mis;
-    typedef  map <ll, ll>              mll;
-    typedef  map <char,int>            mci;
-    typedef  map <string,int>          msi;
-    typedef  map <string, string>      mss;
-     
-    typedef  pair <int,int> 	       pii;
-    typedef  pair <ll, ll>             pll;
-    typedef  pair <char,int>           pci;
-    typedef  pair <string,int>         psi;
-    typedef  pair <string, string>     pss;
-     
-    typedef  vector<int> 	           vi;
-    typedef  vector<string> 	       vs;
-    typedef  vector<char>	           vc;
-    typedef  vector<bool>              vb;
-    typedef  vector < pii>             vii;
-     
-    bool cmp(const pii &a, const pii &b)
+#include <bits/stdc++.h>
+#define fast ios::sync_with_stdio(false); cin.tie(NULL);
+typedef long long ll;
+#define rep(i, j, k) for (int i = j; i < k; i++)
+#define rep_r(i, j, k) for (int i = j; i >= k; i--)
+#define gc() getchar_unlocked()
+using namespace std;
+
+ll fac,c1,c2;
+
+void gcd(ll A, ll B)
+{
+    if(B == 0)
     {
-        return a.first < b.first;
+        fac = A;
+        c1 = 1;
+        c2 = 0;
     }
-     
-    #define SizeN 1010
-    int status[SizeN/2], prime[1000];
-    int num[100010];
-     
-    vector <int> tree[100010*4];
-     
-    void seive()
+    else 
     {
-        int rt = (int)sqrt((double)SizeN)+1;
-        for(int i = 3; i <= rt; i += 2)
+        gcd(B, A%B);
+        ll temp = c1;
+        c1 = c2;
+        c2 = temp - (A/B)*c2;
+    }
+}
+
+ll modmul(ll a,ll b,ll mod)
+{
+	ll res = 0;
+	a %= mod;
+
+	while (b)
+	{
+		if (b & 1)
+			res = (res + a) % mod;
+
+		a = (2 * a) % mod;
+
+		b >>= 1;
+    }
+
+	return res;
+}
+
+ll modInverse(ll a, ll m)
+{
+	ll m0 = m, t, q;
+	ll x0 = 0, x1 = 1;
+
+	if (m == 1)
+	return 0;
+
+	while (a > 1)
+	{
+		// q is quotient
+		q = a / m;
+
+		t = m;
+
+		// m is remainder now, process same as
+		// Euclid's algo
+		m = a % m, a = t;
+
+		t = x0;
+
+		x0 = x1 - q * x0;
+
+		x1 = t;
+	}
+
+	// Make x1 positive
+	if (x1 < 0)
+	x1 += m0;
+
+	return x1;
+}
+
+
+void writel(ll n)
+{
+	if(n<0){n=-n;putchar('-');}
+	ll i=10;
+	char output_buffer[11];output_buffer[10]='\n';
+	do{output_buffer[--i]=(n%10)+'0';n/=10;}
+	while(n);
+	do{putchar(output_buffer[i]);}while(++i<11);
+}
+
+void scan(int &x){
+    	register int c = gc();
+    	x = 0;
+    	for(;c<48 || c>57;c=gc());
+    	for(;c>47 && c<58;c=gc())
+    		x=(x<<1)+(x<<3)+c-48;
+    }
+
+void scanl(ll &x){
+    	register ll c = gc();
+    	x = 0;
+    	for(;c<48 || c>57;c=gc());
+    	for(;c>47 && c<58;c=gc())
+    		x=(x<<1)+(x<<3)+c-48;
+    }
+
+int main()
+{
+    fast;
+	ll m1=1e9+7;
+    ll m2=1e9+9;
+    ll n,a,b,den,sol1,sol2,a1,a2,inv1,inv2;
+	ll t; scanl(t); 
+    while(t--)
+	{
+        scanl(n);
+        --n;
+        if(n==0)
+            cout<<"0 0"<<endl;
+        else if(n==1 or n==2)
+            cout<<"1 1"<<endl;
+        else
         {
-            if(status[i>>1] == 0)
+            den=2*n-1;
+            //n is even
+            if(n%2==0)
             {
-                for(int j = i*i; j <= SizeN; j += i+i)
+                a=n/2;
+                b=n+1;
+                gcd(b,den);
+                if(fac>1)
                 {
-                    status[j>>1] = 1;
+                    b=b/fac;
+                    den=den/fac;
+                }
+
+                gcd(a,den);
+                if(fac>1)
+                {
+                    a=a/fac;
+                    den=den/fac;
                 }
             }
-        }
-     
-        int indx = 0;
-        prime[indx++] = 2;
-        for(int i = 3; i <= SizeN; i += 2)
-        {
-            if(status[i>>1] == 0)
+            else        // n is odd
             {
-                prime[indx++] = i;
-            }
-        }
-    }
-     
-    int x, y;
-     
-    void build(int node, int b, int e)
-    {
-        if(b == e)
-        {
-            int n = num[b];
-            int rt = int( sqrt((double) n)) + 1;
-            int c = n;
-     
-            for(int i = 0; prime[i] <= rt; i++)
-            {
-                if(n % prime[i] == 0)
+                a=(n+1)/2;
+                b=n;
+                
+                gcd(b,den);
+                if(fac>1)
                 {
-     
-                    while(n % prime[i] == 0)
-                    {
-                        tree[node].pb(prime[i]);
-                        n /= prime[i];
-                    }
-     
-                    rt = sqrt((double)n)+1;
+                    b=b/fac;
+                    den=den/fac;
+                }
+
+                gcd(a,den);
+                if(fac>1)
+                {
+                    a=a/fac;
+                    den=den/fac;
                 }
             }
-     
-            if(n > 1)
-            {
-                tree[node].pb(n);
-            }
-     
-            return;
+            //sol1=modDivide(a,b,den,m1);
+            a1 = modmul(a,b,m1);
+            a2 = modmul(a,b,m2);
+            inv1=modInverse(den,m1);
+	        inv2=modInverse(den,m2);
+            sol1=modmul(a1,inv1,m1);
+            sol2=modmul(a2,inv2,m2);
+            cout<<sol1<<" "<<sol2<<endl;
         }
-     
-        int mid = (b+e) >> 1;
-        int left = node << 1;
-        int right = left | 1;
-     
-        build(left, b, mid);
-        build(right, mid+1, e);
-     
-        merge(all(tree[left]), all(tree[right]), back_inserter(tree[node]));
-        return;
-     
     }
-     
-    int query(int node, int b, int e, int i, int j)
-    {
-        if(b > j || i > e)
-            return 0;
-     
-        if(b >= i && e <= j)
-        {
-            int up = upper_bound(all(tree[node]), y) - tree[node].begin();
-            int low = lower_bound(all(tree[node]), x) - tree[node].begin();
-     
-            up -= low;
-     
-            return up;
-        }
-     
-        int mid = (b+e) >> 1;
-        int left = node << 1;
-        int right = left | 1;
-     
-        return query(left, b, mid, i, j) + query(right, mid+1, e, i, j);
-    }
-     
-    int main()
-    {
-        seive();
-     
-        int n;
-        sf("%d", &n);
-     
-        loop(i, n)
-        {
-            sf("%d", &num[i+1]);
-        }
-     
-        build(1, 1, n);
-     
-        int q;
-        sf("%d", &q);
-     
-        while(q--)
-        {
-            int l, r;
-            sf("%d %d %d %d", &l, &r, &x, &y);
-     
-            int ans = query(1, 1, n, l, r);
-     
-            pf("%d\n", ans);
-        }
-     
-        return 0;
-    }
-     
+    cin>>t;
+	return 0;
+}

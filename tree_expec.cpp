@@ -1,27 +1,40 @@
+// TEMPLATE //
+//ELLIOT ALDERSON(NO I'M NOT Mr. ROBOT)
+//YES IAM AN ACTIVE BLACK HAT AIMING FOR 0.0 2M HERE
+//MY TEAM HAD ALREADY REPORTED 3 BUGS IN CODECHEF'S SITE BUT THEY NEVER ACKNOWLEDGED THEM.
 #include <bits/stdc++.h>
-#define fast ios::sync_with_stdio(false); cin.tie(NULL);
-typedef unsigned long long ll;
-#define rep(i, j, k) for (int i = j; i < k; i++)
-#define rep_r(i, j, k) for (int i = j; i >= k; i--)
+#define M 10000
+#define INF 999999
+#define fio ios::sync_with_stdio(false); cin.tie(NULL);
+typedef long long ll;
+#define f(i, j, k) for (int i = j; i < k; i++)
+#define fr(i, j, k) for (int i = j; i >= k; i--)
 #define gc() getchar_unlocked()
+#define test int t; scan(t); while(t--)
+#define mp(i,j) make_pair(i,j)
+#define F first
+#define S second
+#define pb push_back
 using namespace std;
 
-ll fac,c1,c2;
+//GLOBALS
+
+ll fac,k1,k2;
 
 void gcd(ll A, ll B)
 {
     if(B == 0)
     {
         fac = A;
-        c1 = 1;
-        c2 = 0;
+        k1 = 1;
+        k2 = 0;
     }
     else 
     {
         gcd(B, A%B);
-        ll temp = c1;
-        c1 = c2;
-        c2 = temp - (A/B)*c2;
+        ll temp = k1;
+        k1 = k2;
+        k2 = temp - (A/B)*k2;
     }
 }
 
@@ -53,13 +66,10 @@ ll modInverse(ll a, ll m)
 
 	while (a > 1)
 	{
-		// q is quotient
 		q = a / m;
 
 		t = m;
 
-		// m is remainder now, process same as
-		// Euclid's algo
 		m = a % m, a = t;
 
 		t = x0;
@@ -69,13 +79,21 @@ ll modInverse(ll a, ll m)
 		x1 = t;
 	}
 
-	// Make x1 positive
 	if (x1 < 0)
 	x1 += m0;
 
 	return x1;
 }
 
+void writes(ll n)
+{
+	if(n<0){n=-n;putchar('-');}
+	ll i=10;
+	char output_buffer[11];output_buffer[10]=' ';
+	do{output_buffer[--i]=(n%10)+'0';n/=10;}
+	while(n);
+	do{putchar(output_buffer[i]);}while(++i<11);
+}
 
 void writel(ll n)
 {
@@ -105,11 +123,11 @@ void scanl(ll &x){
 
 int main()
 {
+    fio;
 	ll m1=1e9+7;
     ll m2=1e9+9;
-    ll n,a,b,den,sol1,sol2;
-	ll t; scanl(t); 
-    while(t--)
+    ll n,a,b,den,sol1,sol2,a1,a2,inv1,inv2;
+	test
 	{
         scanl(n);
         --n;
@@ -120,7 +138,6 @@ int main()
         else
         {
             den=2*n-1;
-            //n is even
             if(n%2==0)
             {
                 a=n/2;
@@ -139,7 +156,7 @@ int main()
                     den=den/fac;
                 }
             }
-            else        // n is odd
+            else
             {
                 a=(n+1)/2;
                 b=n;
@@ -158,14 +175,12 @@ int main()
                     den=den/fac;
                 }
             }
-            cout<<"fraction is = "<<(a*b)<<"/"<<den<<endl;
-            //sol1=modDivide(a,b,den,m1);
-            ll a1 = ((a%m1)*(b%m1))%m1;
-            ll a2 = ((a%m2)*(b%m2))%m2;
-            ll inv1=modInverse(3,m1);
-	        ll inv2=modInverse(3,m2);
-            ll sol1=(a1*inv1)%m1;
-            ll sol2=(a2*inv2)%m2;
+            a1 = modmul(a,b,m1);
+            a2 = modmul(a,b,m2);
+            inv1=modInverse(den,m1);
+	        inv2=modInverse(den,m2);
+            sol1=modmul(a1,inv1,m1);
+            sol2=modmul(a2,inv2,m2);
             cout<<sol1<<" "<<sol2<<endl;
         }
     }
