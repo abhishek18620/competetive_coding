@@ -1,12 +1,9 @@
 #include <bits/stdc++.h>
 #define M 10000
 #define INF 9999999
-#define fast ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
 #define rep(i, j, k) for (int i = j; i < k; i++)
 #define rep_r(i, j, k) for (int i = j; i >= k; i--)
-#define gc() getchar_unlocked()
-#define test int t; scan(t); while(t--)
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
@@ -67,49 +64,19 @@ void bfs(int x,int y)
 }
 
 
-void writel(ll n)
-{
-	if(n<0){n=-n;putchar('-');}
-	ll i=10;
-	char output_buffer[11];output_buffer[10]='\n';
-	do{output_buffer[--i]=(n%10)+'0';n/=10;}
-	while(n);
-	do{putchar(output_buffer[i]);}while(++i<11);
-}
-
-void scan(int &x){
-    	register int c = gc();
-    	bool neg=(c=='-')?1:0;
-        x = 0;
-    	for(;c<48 || c>57;c=gc());
-    	for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-        x*=(neg)?-1:1;
-    }
-
-void scanl(ll &x){
-    	register ll c = gc();
-        bool neg=(c=='-')?1:0;
-    	x = 0;
-    	for(;c<48 || c>57;c=gc());
-    	for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-        x*=(neg)?-1:1;
-    }
-
 int main()
 {
-	fast;
-	test
+	int t; cin>>t;
+	while(t--)
 	{
-		scan(n); scan(m);
+		cin>>n>>m;
 		rep(i,0,n)
 			rep(j,0,m)
-				scan(pf[i][j]);
+				cin>>pf[i][j];
 		
 		rep(i,0,n)
 			rep(j,0,m)
-				scan(pt[i][j]);
+				cin>>pt[i][j];
 		
 		bfs(0,0);
 		cout<<dp[n-1][m-1].F<<" "<<dp[n-1][m-1].S<<endl;

@@ -19,7 +19,7 @@ using namespace std;
 typedef vector< vector<ll> > matrix;
 
 //GLOBALS
-int m,n,k;
+int n,k;
 const ll MOD=1000000000;
 
 // computes A * B
@@ -29,7 +29,7 @@ matrix mul(matrix A, matrix B)
     f(i,0,k)
         f(j,0,k) 
             f(s,0,k)
-                C[i][j] = (C[i][j] + (A[i][s] * B[s][j]));
+                C[i][j] = (C[i][j] + (A[i][s] * B[s][j])%MOD)%MOD;
     return C;
 }
 
@@ -101,19 +101,14 @@ int main()
         f(i,0,k)
             trans[k-1][i]=c[k-1-i];
         
-         scan(m); scan(n);
+        scan(n);
         //fn = trans^(n-1) * f1;
-        ll sum=0;
-        matrix tr1;
-        f(i,m,n+1)
-        {    
-            tr1 = expo(trans,i-1);
-            ll sol=0;
-            f(j,0, k)
-                sol = (sol + (tr1[0][j] * f1[j]));
-            sum+=sol;
-        }
-        writel(sum);
+        trans = expo(trans,n-1);
+        ll sol=0;
+        f(i,0, k)
+            sol = (sol + (trans[0][i] * f1[i]) % MOD)%MOD;
+        
+        writel(sol);
     }
     cin>>t;
 	return 0;

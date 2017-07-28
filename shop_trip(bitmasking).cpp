@@ -10,7 +10,7 @@ typedef long long ll;
 #define f(i, j, k) for (int i = j; i < k; i++)
 #define fr(i, j, k) for (int i = j; i >= k; i--)
 #define gc() getchar_unlocked()
-#define test int t; scan(t); while(t--)
+#define test int t; cin>>t; while(t--)
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
@@ -18,12 +18,25 @@ typedef long long ll;
 using namespace std;
 
 //GLOBALS   
-int n,k,sol,mask;
+int n,k,sol;
 string str;
 ll ingr[40];
-bitset<12> orres;
-int dp[(1<<12)+4][40];
+double dp[(1<<12)+10][40];
 int coor[40][2];
+
+//i----->
+double dist_origin(int i)
+{
+	return sqrt(coor[i][0]*coor[i][0] + coor[i][1]*coor[i][1]);
+}
+
+double dist(int i, int j)
+{
+	int x=coor[i][0]-coor[j][0];
+	int y=coor[i][1]-coor[j][1];
+	double res = sqrt(x*x + y*y);
+	return res;
+}
 
 ll str_to_num()
 {
@@ -36,57 +49,80 @@ ll str_to_num()
 	return ret;
 }
 
-void writel(ll n)
-{
-	if(n<0){n=-n;putchar('-');}
-	ll i=10;
-	char output_buffer[11];output_buffer[10]='\n';
-	do{output_buffer[--i]=(n%10)+'0';n/=10;}
-	while(n);
-	do{putchar(output_buffer[i]);}while(++i<11);
-}
-
-void scan(int &x){
-    	register int c = gc();
-    	x = 0;
-    	for(;c<48 || c>57;c=gc());
-    	for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-    }
-
-void scanl(ll &x){
-    	register ll c = gc();
-    	x = 0;
-    	for(;c<48 || c>57;c=gc());
-    	for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-    }
-
 int main()
 {
 	fio;
-    test
+    cout << fixed << setprecision(11);
+  	cerr << fixed << setprecision(6);
+	test
 	{
 		//state(i,j)-----(i=bitmask j=if i can go there)
         //shops and ingredients
-        scan(n); scan(k);
+        cin>>n>>k;
+		f(i,0,(1<<k))
+			f(j,0,40)
+				dp[i][j]=double(-1);
 		//INPUT
 		f(i,0,n)
 			cin>>coor[i][0]>>coor[i][1];
 		f(i,0,n)
 		{
-			getline(cin,str);
+			cin>>str;
 			ingr[i]=str_to_num();
 		}
 		ll ret;
-        f(i,0,1<<k)	
+		//sets which are directly reachable from origin
+		f(i,0,n)
+			dp[ingr[i]][i]=dist_origin(i);
+		
+		f(i,0,1<<k)	
         {
             f(j,0,n)
             {
-				ret=i|ingr[j];
-				 		
+				// going from shop k
+				if(dp[i][j] == -1)
+					continue;
+				f(k,0,n)
+				{
+					//going from set(i) to set(ret) after buying from shop k
+					ret=i|ingr[k];
+					//got nothing new from this shop
+					if(ret==i)
+						continue;
+					bitset<12> te(ret);
+					//cout<<"\nnew ingredient set :	"<<te<<endl;
+					if(dp[ret][k]==-1)
+						dp[ret][k]=dp[i][j]+dist(k,j);
+					else
+						dp[ret][k]=min(dp[ret][k], dp[i][j]+dist(k,j));
+					//cout<<"going from shop 	"<<j+1<<" to "<<k+1<<" with total distance travelled yet = "<<dp[ret][k]<<endl;
+				}
             }
         }
+
+		//sol will the minimum of last row of memo table
+		//from return journey just move back to origin directly
+		double ans = -1;
+		//last row
+		// f(i,0,n)
+		// 	cout<<"\n	"<<dp[(1<<k)-1][i]<<endl;
+		f(i,0,n)
+		{
+			if(dp[(1<<k)-1][i] == -1)
+				continue;
+			else if(ans == -1)
+				ans=dp[(1<<k)-1][i]+dist_origin(i);
+			else
+				ans=min(ans,dp[(1<<k)-1][i]+dist_origin(i)); 
+		}
+		if(ans==-1)
+			cout<<"-1"<<endl;
+		else
+		{
+			//cout<<fixed;
+			cout<<ans<<endl;
+		}
 	}
+	cin>>t;
 	return 0;
 }
