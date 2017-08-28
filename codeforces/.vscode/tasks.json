@@ -5,5 +5,5 @@
     "command": "g++",
     "isShellCommand": true,
     "showOutput": "always",
-    "args": ["-g", "${workspaceRoot}/petya_exam.cpp"]
+    "args": ["-std=c++11", "${workspaceRoot}/429B.cpp"]
 }

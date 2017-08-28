@@ -1,9 +1,18 @@
+/******************************************
+*  Author : elliot   
+*  Created On : Mon Aug 21 2017
+*  File : joker_and_batman.cpp
+*******************************************/
+// TEMPLATE //
+//ELLIOT ALDERSON(NO I'M NOT Mr. ROBOT)
+//YES IAM AN ACTIVE BLACK HAT AIMING FOR 0.0 2M HERE
+//MY TEAM HAD ALREADY REPORTED 3 BUGS IN CODECHEF'S SITE BUT THEY NEVER ACKNOWLEDGED THEM.
 #include <bits/stdc++.h>
 #define M 10000
 #define INF 9999999
 typedef long long ll;
-#define rep(i, j, k) for (int i = j; i < k; i++)
-#define rep_r(i, j, k) for (int i = j; i >= k; i--)
+#define f(i, j, k) for (int i = j; i < k; i++)
+#define fr(i, j, k) for (int i = j; i >= k; i--)
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
@@ -15,8 +24,8 @@ pair<int , int> dp[12][12];
 
 void bfs(int x,int y)
 {
-	rep(i,0,n+1)
-		rep(j,0,m+1)
+	f(i,0,n+1)
+		f(j,0,m+1)
 			dp[i][j].F=dp[i][j].S=INF;
 	queue< pair<int,int> > q;
 	q.push(mp(x,y));
@@ -29,9 +38,9 @@ void bfs(int x,int y)
 		int currx=q.front().F;
 		int curry=q.front().S;
 		q.pop();
-		rep(i,currx-1,currx+2)
+		f(i,currx-1,currx+2)
 		{
-			rep(j,curry-1,curry+2)
+			f(j,curry-1,curry+2)
 			{
 				if(i<0 or j<0 or i>n-1 or j>m-1)
 					continue;
@@ -70,12 +79,12 @@ int main()
 	while(t--)
 	{
 		cin>>n>>m;
-		rep(i,0,n)
-			rep(j,0,m)
+		f(i,0,n)
+			f(j,0,m)
 				cin>>pf[i][j];
 		
-		rep(i,0,n)
-			rep(j,0,m)
+		f(i,0,n)
+			f(j,0,m)
 				cin>>pt[i][j];
 		
 		bfs(0,0);

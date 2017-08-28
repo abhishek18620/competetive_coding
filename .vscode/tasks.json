@@ -5,5 +5,5 @@
     "command": "g++",
     "isShellCommand": true,
     "showOutput": "always",
-    "args": ["-g", "${workspaceRoot}/TSP(travelling_salesman_prob).cpp"]
+    "args": ["-g", "${workspaceRoot}/gss3.cpp"]
 }
