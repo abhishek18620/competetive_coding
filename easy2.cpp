@@ -1,70 +1,88 @@
-/******************************************
-*  Author : abhishek18620   
-*  Created On : Sun Aug 27 2017
-*  File : easy2.cpp
-*******************************************/
 #include <bits/stdc++.h>
-#define M 10000
-#define INF 999999
-#define fio ios::sync_with_stdio(false); cin.tie(NULL);
-typedef long long ll;
-#define f(i, j, k) for (int i = j; i < k; i++)
-#define fr(i, j, k) for (int i = j; i >= k; i--)
-#define gc() getchar_unlocked()
-#define test int t; scan(t); while(t--)
+#define SIZE 1000009
+#define fnf ios::sync_with_stdio(false); cin.tie(NULL);
+typedef unsigned long long ll;
+#define fuck(i, j, k) for (int i = j; i < k; i++)
+#define fuck_rev(i, j, k) for (int i = j; i >= k; i--)
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
 #define pb push_back
+#define eb emplace_back
+#define scan(x) scanf("%d",&x)
+#define scanl(x) scanf("%lld",&x)
+#define print(x) printf("%d\n",x)
+#define printl(x) printf("%lld\n",x)
 using namespace std;
-
-void writel(ll n)
+ 
+int n,m,u,v;
+vector<int> TR[SIZE];
+ll visited[SIZE],diff,r,arr[SIZE],ans[SIZE];
+ll days[SIZE];
+ 
+//WANT SOMETHING ITERATIVE !! STILL THINK IT NEEDS SOME MEMOISATION 
+//SENSED A BIT OF PATTERN BUT CAN'T BE ARSED SORTA..!!! ;)
+//DOING A LOTTA OF BLACKHAT STUFF THESE DAYS
+//LIVING BEST OF MY LIFE
+ll XOR(ll &x, ll &y)
 {
-	if(n<0){n=-n;putchar('-');}
-	ll i=10;
-	char output_buffer[11];output_buffer[10]='\n';
-	do{output_buffer[--i]=(n%10)+'0';n/=10;}
-	while(n);
-	do{putchar(output_buffer[i]);}while(++i<11);
+   return (x | y) & (~x | ~y);
 }
 
-void scan(int &x){
-    	register int c = gc();
-    	bool neg=0;
-		x=0;
-    	for(;c<48 || c>57;c=gc())
-			if(c=='-')
-			{
-				neg=1;
-				c=gc();
-				break;
-			}
-		for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-        x*=(neg)?-1:1;
+void DFS_REC(int st)
+{
+    visited[st]=diff;
+    int lim=TR[st].size();
+    fuck(i,0,lim)
+    {
+        int nei=TR[st][i];
+        if(visited[nei]!=diff)
+        {
+            DFS_REC(nei); 
+            arr[st]=XOR(arr[st],arr[nei]);
+        }
     }
-
-void scanl(ll &x){
-    	register ll c = gc();
-        bool neg=0;
-    	x = 0;
-    	for(;c<48 || c>57;c=gc())
-			if(c=='-')
-			{
-				neg=1;
-				c=gc();
-				break;
-			}
-		for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-        x*=(neg)?-1:1;
+}
+ 
+void solve()
+{
+    diff=0;
+    ans[0]=arr[0];
+    fuck(i,1,r+2)
+    {
+        diff++;
+        DFS_REC(0);
+        ans[i]=arr[0];
     }
+}
+ 
 int main()
 {
-	fio;
-	test
-	{
-
-	}
-	return 0;
+    freopen("INP.txt","rt",stdin);
+    scan(n); scan(m);
+    fuck(i,0,n-1)
+    {
+        scan(u); scan(v);
+        TR[u].push_back(v);
+        TR[v].push_back(u);
+    }
+    fuck(i,0,n)
+        scanl(arr[i]);
+    r=0;
+    ll te;
+    fuck(i,0,m)
+    {
+        scanl(te);
+        days[i]=te;
+        if(te>r)
+            r=te;
+    }
+    solve();
+    fuck(i,0,m)
+    {
+        int idx=days[i];
+        printl(ans[idx]);
+    }
+    cin>>m;
+    return 0;
 }

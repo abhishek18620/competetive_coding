@@ -14,8 +14,8 @@ typedef long long ll;
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
-#define pb push_back
 using namespace std;
+#define pb push_back
 
     
 vector< pair<ll,ll> > a[100006];
@@ -42,7 +42,7 @@ void scan(ll &x){
     
 int main()
 {
-    fio;
+    //fio;
     ll n,d,di,ti,si;
     ll tot;
     pair<ll ,ll> temp;
@@ -82,7 +82,7 @@ int main()
                 pq.push(temp);
             }
         }
-        writel(tot);
+        printf("%lld\n",tot);
         f(i,0,d+1)
             a[i].clear();
         pq=cl;

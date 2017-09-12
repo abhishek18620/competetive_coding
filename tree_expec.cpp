@@ -123,7 +123,7 @@ void scanl(ll &x){
 
 int main()
 {
-    fio;
+    //fio;
 	ll m1=1e9+7;
     ll m2=1e9+9;
     ll n,a,b,den,sol1,sol2,a1,a2,inv1,inv2;
@@ -181,7 +181,8 @@ int main()
 	        inv2=modInverse(den,m2);
             sol1=modmul(a1,inv1,m1);
             sol2=modmul(a2,inv2,m2);
-            cout<<sol1<<" "<<sol2<<endl;
+            printf("%lld %lld\n",sol1,sol2);
+            //cout<<sol1<<" "<<sol2<<endl;
         }
     }
     cin>>t;

@@ -1,143 +1,181 @@
-/******************************************
-*  Author : abhishek18620   
-*  Created On : Wed Aug 23 2017
-*  File : gss1.cpp
-*******************************************/
 #include <bits/stdc++.h>
-typedef long long ll;
-typedef unsigned long long llu;
-#define gc() getchar_unlocked()
-#define gc() getchar_unlocked()
-#define rep(i,x,y)  for(i=x;i<y;i++)
-#define rrep(i,x,y) for(i=x;i>=y;i--)
-#define trv(y,x)    for(typeof(x.begin())y=x.begin();y!=x.end();y++)
-#define MID(x,y)    (x+((y-x)/2))
+#define M 1000009
 using namespace std;
 
-
-#define M 70
-
-int A[M];
-struct node
+struct move
 {
-   int bestleftsum,bestrightsum,sum,bestsum;
-   void Merge(node &A,node &B)
-   {
-       sum=A.sum+B.sum;
-       bestleftsum=max(A.bestleftsum,A.sum+B.bestleftsum);
-       bestrightsum=max(A.bestrightsum+B.sum,B.bestrightsum);
-       bestsum=max(max(A.bestsum,B.bestsum),A.bestrightsum+B.bestleftsum);
-   }
-   void CreateLeaf(int val)
-   {
-       sum=bestleftsum=bestrightsum=bestsum=val;
-   }
-};
+    int l,r,val;
+}moves[M];
 
+int A[M],b[M],n,q,u,v,val,ctr;
 
-
-   node T[M+M+9];
-   void init(int index,int l,int r)
-   {
-       if(l==r)
-           {
-               T[index].CreateLeaf(A[l]);
-               return;
-           }
-       else
-       {
-           int mid=MID(l,r);
-           init(2*index,l,mid);
-           init(2*index+1,mid+1,r);
-           T[index].Merge(T[2*index],T[2*index+1]);
-       }
-
-   }
-   void query(node& result,int l,int r,int u,int v,int index)
-   {
-       if(u==l && v==r)
-           {
-               result=T[index];
-               return;
-           }
-       else
-       {
-          int mid=MID(l,r);
-          if(mid>=v)
-               query(result,l,mid,u,v,2*index);
-           else if(mid<u)
-               query(result,mid+1,r,u,v,2*index+1);
-           else
-           {
-               node left,right;
-               query(left,l,mid,u,mid,2*index);
-               query(right,mid+1,r,mid+1,v,2*index+1);
-               result.Merge(left,right);
-         
-            } 
+bool rec(int idx)
+{
+    if(idx==q)
+        return 1;
+    int prv1=-1,prv2=-1;
+    int u=moves[idx].l;
+    int v=moves[idx].r;
+    int diff=moves[idx].val;
+    bool sol1=0,sol2=0;
+    if(diff==1)
+    {
+        //(0,1) or (1,0)
+        prv1=A[u]; prv2=A[v];
+        //both are unset
+        if(b[u]!=ctr and b[v]!=ctr)
+        {
+            A[u]=0; A[v]=1;
+            b[u]=ctr; b[v]=ctr;
+            sol1=rec(idx+1);
+            if(!sol1)
+            {
+                //revert changes
+                //b[u]=b[v]=-1*ctr;
+                //A[u]=prv1; A[v]=prv2;
+                A[u]=1; A[v]=0;
+                sol2=rec(idx+1);
+                if(!sol2)
+                {
+                    //revert changes
+                    b[u]=b[v]=-1*ctr;
+                    A[u]=prv1; A[v]=prv2;
+                    return 0;
+                }
+            }
         }
-   } 
-
-
-   void writel(ll n)
-   {
-       if(n<0){n=-n;putchar('-');}
-       ll i=10;
-       char output_buffer[11];output_buffer[10]='\n';
-       do{output_buffer[--i]=(n%10)+'0';n/=10;}
-       while(n);
-       do{putchar(output_buffer[i]);}while(++i<11);
-   }
-   
-   void scan(int &x){
-           register int c = gc();
-           bool neg=0;
-           x=0;
-           for(;c<48 || c>57;c=gc())
-               if(c=='-')
-               {
-                   neg=1;
-                   c=gc();
-                   break;
-               }
-           for(;c>47 && c<58;c=gc())
-               x=(x<<1)+(x<<3)+c-48;
-           x*=(neg)?-1:1;
-       }
-   
-   void scanl(ll &x){
-           register ll c = gc();
-           bool neg=0;
-           x = 0;
-           for(;c<48 || c>57;c=gc())
-               if(c=='-')
-               {
-                   neg=1;
-                   c=gc();
-                   break;
-               }
-           for(;c>47 && c<58;c=gc())
-               x=(x<<1)+(x<<3)+c-48;
-           x*=(neg)?-1:1;
-       }
+        // if one of em is set
+        else if(b[u]==ctr and b[v]!=ctr)
+        {
+            if(A[u]==1)
+                A[v]=0;
+            else
+                A[v]=1;
+            b[v]=ctr;
+            sol1=rec(idx+1);
+            if(!sol1)
+            {
+                //revert changes
+                A[v]=prv2;
+                b[v]=-1*ctr;
+                return 0;
+            }
+        }
+        // if one of em is set
+        else if(b[u]!=ctr and b[v]==ctr)
+        {
+            if(A[v]==1)
+                A[u]=0;
+            else
+                A[u]=1;
+            b[u]=ctr;
+            sol1=rec(idx+1);
+            if(!sol1)
+            {
+                //revert changes
+                A[u]=prv2;
+                b[u]=-1*ctr;
+                return 0;
+            }
+        }
+        //if both are set
+        else
+        {
+            if(A[u]!=A[v])
+                return rec(idx+1);
+            return 0;
+        }
+    }
+    else
+    {
+        //(0,0) or (1,1)
+        prv1=A[u]; prv2=A[v];
+        //both are unset
+        if(b[u]!=ctr and b[v]!=ctr)
+        {
+            A[u]=1; A[v]=1;
+            b[u]=ctr; b[v]=ctr;
+            sol1=rec(idx+1);
+            if(!sol1)
+            {
+                //revert changes
+                //b[u]=b[v]=-1*ctr;
+                //A[u]=prv1; A[v]=prv2;
+                A[u]=0; A[v]=0;
+                sol2=rec(idx+1);
+                if(!sol2)
+                {
+                    //revert changes
+                    b[u]=b[v]=-1*ctr;
+                    A[u]=prv1; A[v]=prv2;
+                    return 0;
+                }
+            }
+        }
+        // if one of em is set
+        else if(b[u]==ctr and b[v]!=ctr)
+        {
+            if(A[u]==1)
+                A[v]=1;
+            else
+                A[v]=0;
+            b[v]=ctr;
+            sol1=rec(idx+1);
+            if(!sol1)
+            {
+                //revert changes
+                A[v]=prv2;
+                b[v]=-1*ctr;
+                return 0;
+            }
+        }
+        // if one of em is set
+        else if(b[u]!=ctr and b[v]==ctr)
+        {
+            if(A[v]==1)
+                A[u]=1;
+            else
+                A[u]=0;
+            b[u]=ctr;
+            sol1=rec(idx+1);
+            if(!sol1)
+            {
+                //revert changes
+                A[u]=prv2;
+                b[u]=-1*ctr;
+                return 0;
+            }
+        }
+        //if both are set
+        else
+        {
+            if(A[u]==A[v])
+                return rec(idx+1);
+            return 0;
+        }
+    }
+    return (sol1||sol2);
+}
 
 int main()
 {
-//   ios_base::sync_with_stdio(false);
-//   cin.tie(NULL);
-   int n,t,x,y;
-   scan(n);
-   for(int i=0;i<n;i++)
-       scan(A[i]);
-   init(1,0,n-1);
-   scan(t);
-   node Ans;
-   while(t--)
-   {
-       scan(x); scan(y);   
-       query(Ans,0,n-1,x-1,y-1,1);
-       printf("%d\n",Ans.bestsum);
-   }
-   cin>>n;
-   return 0;
+    ctr=0;
+    freopen("INP.txt","w",stdout);
+        long long n=152623;
+        long long re=0;
+        cout<<200000<<" "<<5<<endl;
+        for(int i=0;i<199999;i++)
+        {
+            cout<<i<<" "<<i+1;
+            cout<<endl;
+        }
+        srand(1);
+        for(int i=0;i<200000;i++)
+        {
+            cout<<rand()<<" ";
+        }
+    cout<<"\n0\n1\n2\n3\n50000\n";
+    int t;
+    cin>>t;
+	return 0;
 }

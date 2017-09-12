@@ -1,10 +1,11 @@
 /******************************************
 *  Author : abhishek18620   
-*  Created On : Mon Aug 28 2017
-*  File : gss3.cpp
+*  Created On : Tue Aug 29 2017
+*  File : lite(lazy_propagation).cpp
 *******************************************/
+//lazy propagation
 #include <bits/stdc++.h>
-#define M 70000
+#define M 300000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -21,27 +22,23 @@ using namespace std;
 //GLOBALS
 struct node
 {
-    int leftsum,rightsum,maxsum,sum;
+    int ele;
     void create_node(int x)
     {
-        leftsum=rightsum=maxsum=sum=x;
+        ele=x;
     }
     void merge(node &l , node &r)
     {
-        sum=l.sum+r.sum;
-        leftsum=max(l.leftsum,l.sum+r.leftsum);
-        rightsum=max(r.rightsum,r.sum+l.rightsum);
-        maxsum=max(max(l.maxsum,r.maxsum),l.rightsum+r.leftsum);
+        ele=l.ele+r.ele;
     }
-}seg[M+M+9];
-int a[M],n;
-
+}seg[M+M];
+bool lazy[M+M];
 void build(int ind,int l,int r)
 {
-    if(l==r) //leaf node
+    if(l==r)
     {
-        seg[ind].create_node(a[l]);
-        return;
+        seg[ind].create_node(0);
+        return ;
     }
     int mid=(l+r)>>1;
     build(ind<<1,l,mid);
@@ -49,26 +46,52 @@ void build(int ind,int l,int r)
     seg[ind].merge(seg[ind<<1],seg[ind<<1|1]);
 }
 
-void update(int ind,int l,int r,int pos,int val)
+void update(int ind,int l,int r,int u,int v)
 {
-    if(l==r and l==pos)
+    //changes needs to be propagated from this node
+    if(lazy[ind])
     {
-        seg[ind].create_node(val);
+        //total-already on
+        seg[ind].ele=(r-l+1)-seg[ind].ele;
+        if(l!=r)
+        {
+            lazy[ind<<1]=!lazy[ind<<1];
+            lazy[ind<<1|1]=!lazy[ind<<1|1];
+        }
+        lazy[ind]=0;
+    }
+    if(v<l or u>r)
+        return;
+    if(l>=u and r<=v)
+    {
+        seg[ind].ele=(r-l+1)-seg[ind].ele;
+        if(l!=r)
+        {
+            lazy[ind<<1]=!lazy[ind<<1];
+            lazy[ind<<1|1]=!lazy[ind<<1|1];
+        }
+        lazy[ind]=0;
         return;
     }
-    else
-    {
-        int mid=(l+r)>>1;
-        if(pos<=mid)
-            update(ind<<1,l,mid,pos,val);
-        else
-            update(ind<<1|1,mid+1,r,pos,val);
-        seg[ind].merge(seg[ind<<1],seg[ind<<1|1]);
-    }
+    int mid=(l+r)>>1;
+    update(ind<<1,l,mid,u,v);
+    update(ind<<1|1,mid+1,r,u,v);
+    seg[ind].merge(seg[ind<<1],seg[ind<<1|1]);
 }
 
-void query(int ind,node &ans,int l,int r, int u, int v)
+void query(node &ans,int ind,int l,int r,int u,int v)
 {
+    if(lazy[ind])
+    {
+        //total-already on
+        seg[ind].ele=(r-l+1)-seg[ind].ele;
+        if(l!=r)
+        {
+            lazy[ind<<1]=!lazy[ind<<1];
+            lazy[ind<<1|1]=!lazy[ind<<1|1];
+        }
+        lazy[ind]=0;
+    }
     if(l==u and r==v)
     {
         ans=seg[ind];
@@ -76,14 +99,14 @@ void query(int ind,node &ans,int l,int r, int u, int v)
     }
     int mid=(l+r)>>1;
     if(v<=mid)
-        query(ind<<1,ans,l,mid,u,v);
+        query(ans,ind<<1,l,mid,u,v);
     else if(u>mid)
-        query(ind<<1|1,ans,mid+1,r,u,v);
+        query(ans,ind<<1|1,mid+1,r,u,v);
     else
     {
         node left,right;
-        query(ind<<1,left,l,mid,u,mid);
-        query(ind<<1|1,right,mid+1,r,mid+1,v);
+        query(left,ind<<1,l,mid,u,mid);
+        query(right,ind<<1|1,mid+1,r,mid+1,v);
         ans.merge(left,right);
     }
 }
@@ -132,24 +155,22 @@ void scanl(ll &x){
 int main()
 {
     fio;
-    scan(n);
-    f(i,0,n)
-        scan(a[i]);
+    int n,m,u,v,c;
+    scan(n); scan(m);
     build(1,0,n-1);
-    int q,c,x,y;
-    scan(q);
-    f(i,0,q)
+    memset(lazy,0,sizeof(lazy));
+    node ans;
+    f(i,0,m)
     {
-        scan(c); scan(x); scan(y);
+        scan(c); scan(u); scan(v);
         if(c==0)
-            update(1,0,n-1,x-1,y);
+            update(1,0,n-1,u-1,v-1);
         else
         {
-            node ans;
-            query(1,ans,0,n-1,x-1,y-1);
-            printf("%d\n",ans.maxsum);
+            query(ans,1,0,n-1,u-1,v-1);
+            printf("%d\n",ans.ele);
         }
     }
     cin>>n;
-	return 0;
+    return 0;
 }
