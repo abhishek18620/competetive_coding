@@ -1,7 +1,7 @@
 /******************************************
 *  Author : wshek   
 *  Created On : Mon Sep 25 2017
-*  File : 436A.cpp
+*  File : 436B.cpp
 *******************************************/
 #include <bits/stdc++.h>
 #define M 10000
@@ -27,43 +27,55 @@ typedef long long ll;
 #define MOD 1000000007
 using namespace std;
 
-//GLOBALS
-int a[109],pr[109],n;
+bool check(int l , int r)
+{
+    int a[27];
+    f(i,l,r+1)
+    {
+        if(s[i]>=97 and s[i]<=122)
+        {
+            if(a[s[i]]>0)   //not distinct
+
+            a[s[i]-97]++;
+        }
+    }
+}
+
 int main()
 {
-	//fio;
+	fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    scan(n);
-    f(i,0,109)
-        pr[i]=0;
-    int dist=0;
-    f(i,0,n)
+    string s;
+    cin>>s;
+    int lim=s.length();
+    vector<int> v;
+    f(i,0,lim)
     {
-        scan(a[i]);
-        if(pr[a[i]]==0)
-            dist++;
-        pr[a[i]]++;
+        if((int(s[i]) >= int('A')) and (int(s[i])<= int('Z')))
+            v.eb(i);
     }
-    if(dist%2==0)
+    bool caps=0,dist=0;
+    int a[27]={};
+    f(i,0,lim)
     {
-        printf("YES\n");
-        f(i,0,109)
+        a[s[i]]++;
+        if(a[s[i]]>0)
         {
-            if(pr[i]>0)
-                printf("%d ",i);
+            
         }
-        printf("\n");     
     }
-    else
-        printf("NO\n");
+    f(i,0,v.size())
+    {
+        int l=v[i];
+        int r=v[i+1];
+        check();
+    }
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        int m;
         cin>>m;
     #endif
     return 0;
 }
-

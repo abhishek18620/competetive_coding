@@ -50,12 +50,12 @@ int main()
     if(dist%2==0)
     {
         printf("YES\n");
-        f(i,0,109)
+        f(i,0,108)
         {
             if(pr[i]>0)
                 printf("%d ",i);
         }
-        printf("\n");     
+        printf("\n"); 
     }
     else
         printf("NO\n");
@@ -66,4 +66,3 @@ int main()
     #endif
     return 0;
 }
-

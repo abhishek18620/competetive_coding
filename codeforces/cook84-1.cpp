@@ -1,21 +1,21 @@
 /******************************************
 *  Author : elliot   
-*  Created On : Thu Sep 07 2017
-*  File : xor_on_tree.cpp
+*  Created On : Sun Sep 17 2017
+*  File : cook84.cpp
 *******************************************/
 // TEMPLATE //
 //ELLIOT ALDERSON(NO I'M NOT Mr. ROBOT)
 //YES IAM AN ACTIVE BLACK HAT AIMING FOR 0.0 2M HERE
 //MY TEAM HAD ALREADY REPORTED 3 BUGS IN CODECHEF'S SITE BUT THEY NEVER ACKNOWLEDGED THEM.
 #include <bits/stdc++.h>
-#define M 200009
+#define M 10000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
-#define f(i, j, k) for (ll i = j; i < k; i++)
+#define f(i, j, k) for (int i = j; i < k; i++)
 #define fr(i, j, k) for (int i = j; i >= k; i--)
 #define gc() getchar_unlocked()
-#define test int t; scan(t); while(t--)
+#define test int t; scan(t); getline(cin,str); while(t--)
 #define mp(i,j) make_pair(i,j)
 #define F first
 #define S second
@@ -27,46 +27,7 @@ typedef long long ll;
 #define MOD 1000000007
 using namespace std;
 
-//GLOBALS
-vector<ll> tree[M];
-ll visited[M];
-ll n,m,u,v,l,r,ctr;
-ll a[M],sol[M];
-pair<ll,int> q[M];
-
-ll dfs(int st)
-{
-    visited[st]=ctr;
-    int lim=tree[st].size();
-    f(i,0,lim)
-    {
-        int nei=tree[st][i];
-        if(visited[nei]!=ctr)
-        {
-            visited[nei]=ctr;
-            a[st]^=dfs(nei);
-        }
-    }
-    return a[st];
-}
-
-void solve()
-{
-    int idx=0,l=q[0].F,r=q[m-1].F;
-    ctr=0;
-    ll te;
-    f(i,l,r+1)
-    {
-        ctr++;
-        if(i==q[idx].F)
-        {
-            sol[q[idx].S]=dfs(0);
-            idx++;
-            continue;
-        }
-        te=dfs(0);
-    }
-}
+map<char,int> mp;
 
 void writel(ll n)
 {
@@ -111,31 +72,39 @@ void scanl(ll &x){
     }
 int main()
 {
-    fio;
-#ifdef LOCAL_DEFINE
-    freopen("INP.txt","rt",stdin);
-#endif
-    scanf("%d %d",&n,&m);
-    vector<int> sec;
-    f(i,0,n-1)
+	//fio;
+    #ifdef LOCAL_DEFINE
+        clock_t tStart = clock();
+        freopen("INP.txt","rt",stdin);
+    #endif
+    string str;
+    int t; scan(t);
+    while(t--)
     {
-        scanf("%d %d",&u,&v);
-        tree[u].pb(v);
-    }
-    f(i,0,n)
-        scanf("%lld",&a[i]);
-    f(i,0,m)
-    {
-        scanf("%lld",&q[i].F);
-        q[i].S=i;
-    }
-    sort(a,a+m);
-    solve();
-    f(i,0,m)
-        printf("%lld\n",sol[i]);
-#ifdef LOCAL_DEFINE
-    cerr<<"Time elapsed: "<<1.0*clock()/CLOCKS_PER_SEC<<" s.\n";
-    cin>>n;    
-#endif
-	return 0;
+        cin>>str;
+        bool sol=0;
+        int lim=str.length();
+        f(i,0,26)
+        {
+            mp[char(97+i)]=0;
+        }
+        f(i,0,lim)
+        {
+            mp[str[i]]++;
+            if(mp[str[i]]==2)
+            {
+                ctr++;
+            }
+        }
+        if(sol)
+            printf("yes\n");
+        else
+            printf("no\n");
+	}
+    #ifdef LOCAL_DEFINE
+        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        int m;
+        cin>>m;
+    #endif
+    return 0;
 }

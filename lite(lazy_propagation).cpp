@@ -35,6 +35,7 @@ struct node
 bool lazy[M+M];
 void build(int ind,int l,int r)
 {
+    //leaf or last level
     if(l==r)
     {
         seg[ind].create_node(0);
@@ -45,7 +46,7 @@ void build(int ind,int l,int r)
     build(ind<<1|1,mid+1,r);
     seg[ind].merge(seg[ind<<1],seg[ind<<1|1]);
 }
-
+//needs to update range(u,v)
 void update(int ind,int l,int r,int u,int v)
 {
     //changes needs to be propagated from this node
