@@ -3,7 +3,7 @@
 //  Date : Sat Sep 16 2017               //
 ///////////////////////////////////////////
 #include <bits/stdc++.h>
-#define SZ 1000009
+#define SZ 100010
 #define INF 1e17
 #define fnf ios::sync_with_stdio(false); cin.tie(NULL);
 typedef unsigned long long ll;
@@ -20,10 +20,10 @@ typedef unsigned long long ll;
 #define printl(x) printf("%lld\n",x)
 using namespace std;
 
-//GLOBALS
-ll fac[22];
-int n,frq[30];
+const int mod=1000000007;
 char str[SZ];
+int last[30],dp[SZ];
+
 int main()
 {
     #ifdef LOCAL_DEFINE
@@ -31,46 +31,25 @@ int main()
     freopen("input.txt","rt",stdin);
     //freopen("output.txt","w",stdout);
     #endif
-    fac[0]=fac[1]=1;
-    //this is the only dp which is used ;)
-    f(i,2,22)
-        fac[i]=i*fac[i-1];
-        
-    while(gets(str))
+    int t; scan(t);
+    gets(str);
+    while(t--)
     {
-        n=strlen(str);
-        fill(frq,frq+27,0);
-        int tot=0;
-        f(i,0,n)
+        fill(last,last+27,-1);
+        gets(str+1);
+        int n=strlen(str+1);
+        char ch;
+        dp[0]=1;
+        f(i,1,n+1)
         {
-            if(str[i]>='a' and str[i]<='z')
-            {
-                frq[str[i]-'a']++;
-                tot++;
-            }
-            else if(str[i]>='A' and str[i]<='Z')
-            {
-                frq[str[i]-'A']++;
-                tot++;
-            }
+            int ch=str[i];
+            int prv_occ=last[ch-'A'];
+            dp[i]=(dp[i-1]*2)%mod;    
+            if(prv_occ!=-1)    //it has occured before
+                dp[i] = (dp[i] - dp[last[ch-'A'] - 1] + mod)%mod;
+            last[ch-'A']=i;
         }
-        ll ans=fac[tot>>1];
-        int diff=0;
-//        printf("\nstring is : %s and length is : %d ",str,n);
-        f(i,0,26)
-        {
-            if(frq[i]&1)    //odd frequency
-            {
-                diff++;
-                if(diff>1)
-                {
-                    ans=0;
-                    break;
-                }
-            }
-            ans/=fac[frq[i]>>1];
-        }
-        printl(ans);
+        print(dp[n]);
     }
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
