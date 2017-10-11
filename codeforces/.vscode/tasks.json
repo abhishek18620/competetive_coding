@@ -7,10 +7,10 @@
     "showOutput": "always",
     //"args": ["-g", "${workspaceRoot}/xor_on_tree.cpp"]
     //FOR CODEFORCES (i'll be a purple till february)
-    //"args": ["-g", "${workspaceRoot}/cook84-2.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
+    "args": ["-g", "${workspaceRoot}/438C.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
     
     //for KICKSTART(I'LL BE AN INTERN IN GOOGLE)
-    "args": ["-g", "${workspaceRoot}/kickstart/F_P-2.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
+    //"args": ["-g", "${workspaceRoot}/kickstart/F_P-2.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
     
     //for C++ 11
     //"args": ["-std=c++11", "${workspaceRoot}/xor_tree.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]

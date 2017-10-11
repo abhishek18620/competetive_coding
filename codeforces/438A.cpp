@@ -1,7 +1,7 @@
 /******************************************
-*  Author : wshek   
-*  Created On : Mon Sep 25 2017
-*  File : 436A.cpp
+*  Author : wshek
+*  Created On : Thu Oct 05 2017
+*  File : 438A.cpp
 *******************************************/
 #include <bits/stdc++.h>
 #define M 10000
@@ -17,45 +17,57 @@ typedef long long ll;
 #define S second
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
-#define viter(s) for (auto it: s) 
+#define viter(s) for (auto it: s)
 #define scan(t) scanf("%d",&t)
 #define scanl(t) scanf("%lld",&t)
-#define write(t) printf("%d",t)
-#define writel(t) printff("%lld",t)
+#define print(t) printf("%d\n",t)
+#define printl(t) printff("%lld\n",t)
 #define eb emplace_back
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
 using namespace std;
 
-//GLOBALS
-int n;
+char pass[2],str[109][2];
+
 int main()
 {
-	//fio;
+	fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
+    scanf("%s",pass);
+    int n;
     scan(n);
-    int a[n+1];
     f(i,0,n)
-        scan(a[i]);
-    sort(a,a+n);
-    if(n&1)
-        printf("NO\n");
-    else
+        scanf("%s",&str[i]);
+    char fir=pass[0],sec=pass[1];
+    bool ans=0;
+    f(i,0,n)
     {
-        int fir=a[0],sec=a[n-1];
-        if(fir!=sec)
+        if((str[i][0]==fir and str[i][1]==sec) or str[i][0]==sec and str[i][1]==fir)
         {
-            if(fir==a[n/2-1] and sec==a[n/2])
-                printf("YES\n%d %d\n",fir,sec);
-            else
-                printf("NO\n");
+            ans=1;
+            break;
         }
-        else
-            printf("NO\n");
+        else if(str[i][1]==fir)
+        {
+            f(j,0,n)
+            {
+                if(j!=i and str[j][0]==sec)
+                {
+                    ans=1;
+                    break;
+                }
+            }
+        }
+        if(ans)
+            break;
     }
+    if(ans)
+        printf("YES\n");
+    else
+        printf("NO\n");
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
         int m;
