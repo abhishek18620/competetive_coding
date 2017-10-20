@@ -40,18 +40,19 @@ int main()
         freopen("INP.txt","w",stdout);
     #endif
     long long l=1;
-    long long r=1000000;
+    long long r=10000;
     int t=2;
     cout<<t<<endl;
     while(t--)
     {
-        cout<<2<<endl;
-        f(j,1,3)
+        r/=(t+1);
+        cout<<4<<endl;
+        f(j,1,5)
         {
+            cout<<100000<<" ";
             f(i,0,100000)
             {
-
-                srand(j);
+                srand(i);
                 cout<<(rand()%(l-r+1))<<" ";
             }
             cout<<"\n";
