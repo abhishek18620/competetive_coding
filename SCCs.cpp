@@ -1,3 +1,4 @@
+//PRIM ALGO
 #include <bits/stdc++.h>
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
