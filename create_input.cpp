@@ -39,25 +39,29 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","w",stdout);
     #endif
-    long long l=1;
+    long long l=1;  
     long long r=10000;
-    int t=2;
-    cout<<t<<endl;
-    while(t--)
-    {
-        r/=(t+1);
-        cout<<4<<endl;
-        f(j,1,5)
-        {
-            cout<<100000<<" ";
-            f(i,0,100000)
-            {
-                srand(i);
-                cout<<(rand()%(l-r+1))<<" ";
-            }
+        //r/=(t+1);
+        // cout<<4<<endl;
+        // f(j,1,5)
+        // {
+            cout<<10000<<" "<<30000;
+            cout<<endl;
+            f(i,0,10000)
+                cout<<i+1<<" ";
+            cout<<endl;
+            f(i,0,9999)
+                cout<<i+1<<" ";
+            cout<<endl;
+            int te=1000000000;
+            f(i,0,30000)
+                cout<<"0 1 "<<(te--)<<endl;
+            // {
+            //     //srand(i);
+            //     cout<<(rand()%(l-r+1))<<" ";
+            // }
             cout<<"\n";
-        }
-    }
+        //}
 
     // #ifdef LOCAL_DEFINE
     //     cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
