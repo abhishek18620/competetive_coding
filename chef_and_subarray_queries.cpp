@@ -1,8 +1,6 @@
-// DYNAMIC PROGRAMMING ( DP with  BINARY SEARCH)
-// GRID
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Sat Nov 18 2017               //
+//  Date : Mon Nov 20 2017               //
 ///////////////////////////////////////////
 // It's my template. Don't steal it ;)
 #include <bits/stdc++.h>
@@ -53,12 +51,13 @@ const int MOD = 1000000007;
 #define MODNEGSET(d) if ((d) < 0) d = ((d % MOD) + MOD) % MOD;
 #define MODADDSET(d) if ((d) >= MOD) d -= MOD;
 #define MODADDWHILESET(d) while ((d) >= MOD) d -= MOD;
-const int M = 10;
+const int M = 6e5;
 const int SQRTN = 300;
 const int LOGN = 16;
 const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
+
 int readStr(char *str)
 {
     register char c = getchar();
@@ -74,34 +73,19 @@ int readStr(char *str)
     return 1;
 }
 
-//GLOABLS
-int n,m,l,r,dp[32][M];
-char str[32][M];
-
-int rec_Bsearch(int x, int y, int lim)
+int power(int x, unsigned int y)
 {
-    int tot=0;
-    f(i,1,n+1)
+    int res = 1;
+    while (y > 0)
     {
-        int lo=y,hi=m,mid,recs,sol=y-1;
-        while(hi>=lo)
-        {
-            recs=0;
-            mid=lo+((hi-lo)>>1);
-            //recs between (x,y,i,mid)
-            recs=dp[i][mid]-(dp[x-1][mid]+dp[i][y-1])+dp[x-1][y-1];
-            if(recs>lim)
-                hi=mid-1;
-            else
-            {
-                lo=mid+1;
-                sol=mid;
-            }
-        }
-        tot+=(sol-y+1);
+        if (y & 1)
+            res = res*x;
+
+        y = y>>1; x = x*x;
     }
-    return tot;
+    return res;
 }
+//-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
 int main()
 {
@@ -110,35 +94,11 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    scan2(n,m);
-    f(i,1,n+1)
-        readStr(&str[i][1]);
-    scan2(l,r);
-    //state(i,j) = numbers of ones in rectangle 0,0 to i,j
-    memset(dp,0,sizeof(int)*(m+2)*(n+2));
-    f(i,1,n+1)
+    int t; scan(t);
+    while(t--)
     {
-        f(j,1,m+1)
-        {
-            dp[i][j]=dp[i-1][j]+dp[i][j-1]-dp[i-1][j-1]+(str[i][j]=='1');
-        }
-    }
-    int sol=0;
-    f(i,1,n+1)
-    {
-        f(j,1,m+1)
-        {
-            sol+=rec_Bsearch(i,j,r);
-            sol-=(l>0)?rec_Bsearch(i,j,l-1):0;
-        }
-    }
-    print(sol);
-    //we can look for every subrectangle possible between 4 points
-    //which would take O(m^2*n^2) so a special optimisation
-    //look for rectangles having (l-1) 1s and (r) 1s
-    //solution would be recs(r)-recs(l-1)
-    //this does look like interval searching ,canbe done with bsearch apparently
 
+    }
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
         cin>>n;

@@ -109,15 +109,15 @@ void writel(ll n)
 	do{putchar(output_buffer[i]);}while(++i<11);
 }
 
-void scan(int &x){
-    	register int c = gc();
-    	bool neg=(c=='-')?1:0;
-        x = 0;
-    	for(;c<48 || c>57;c=gc());
-    	for(;c>47 && c<58;c=gc())
-    		x=(x<<1)+(x<<3)+c-48;
-        x*=(neg)?-1:1;
-    }
+    void scan(int &x){
+            register int c = gc();
+            bool neg=(c=='-')?1:0;
+            x = 0;
+            for(;c<48 || c>57;c=gc());
+            for(;c>47 && c<58;c=gc())
+                x=(x<<1)+(x<<3)+c-48;
+            x*=(neg)?-1:1;
+        }
 
 void scanl(ll &x){
     	register ll c = gc();
@@ -166,7 +166,7 @@ void scan(int &x){
     }
 
 void scanl(ll &x){
-    	register ll c = gc();
+c    	register ll c = gc();
     	x = 0;
     	for(;c<48 || c>57;c=gc());
     	for(;c>47 && c<58;c=gc())
