@@ -155,7 +155,7 @@ void scanl(ll &x){
     }
 int main()
 {
-    fio;
+    //fio;
     int n,m,u,v,c;
     scan(n); scan(m);
     build(1,0,n-1);
