@@ -1,12 +1,12 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Wed Nov 22 2017               //
+//  Date : Wed Nov 22 2017                       //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
 #define M 1000
-#define INF 1e9+2
+#define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
 #define f(i, j, k) for (int i = j; i < k; i++)
@@ -19,7 +19,7 @@ typedef long long ll;
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
 #define viter(s) for (auto it: s)
-//#define scan(d) scanf("%d", &d)
+#define scan(d) scanf("%d", &d)
 #define scan2(a, b) scanf("%d %d", &a, &b)
 #define scan3(a, b, c) scanf("%d %d %d", &a, &b, &c)
 #define scan4(a, b, c, d) scanf("%d %d %d %d", &a, &b, &c, &d)
@@ -58,14 +58,6 @@ const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
 
-void scan(int &x)
-{
-    register int c = getchar_unlocked();
-    x = 0;
-    for(;c<48 || c>57;c=getchar_unlocked());
-    for(;c>47 && c<58;c=getchar_unlocked())
-        x=(x<<1)+(x<<3)+c-48;
-}
 int readStr(char *str)
 {
     register char c = getchar();
@@ -102,28 +94,14 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    int n,q,max=-1*INF,min=INF,t;
-    scan(n); scan(q);
-    int a[n+1];
-    f(i,0,n)
+    int t; scan(t);
+    while(t--)
     {
-        scan(a[i]);
-        if(a[i]>max)
-            max=a[i];
-        if(a[i]<min)
-            min=a[i];
-    }
-    f(i,0,q)
-    {
-        scan(t);
-        if(t>=min and t<=max)
-            printf("Yes\n");
-        else
-            printf("No\n");
+
     }
     #ifdef LOCAL_DEFINE
-    cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-    cin>>n;
+        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        cin>>n;
     #endif
     return 0;
 }
