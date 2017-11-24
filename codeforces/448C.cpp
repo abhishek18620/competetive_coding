@@ -1,7 +1,8 @@
-///////////////////////////////////////////
-//  Author : abhishek18620               //
-//  Date : Wed Nov 22 2017               //
-///////////////////////////////////////////
+/******************************************
+*  Author : wshek
+*  Created On : Thu Nov 23 2017
+*  File : 448C.cpp
+*******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
@@ -72,35 +73,47 @@ int readStr(char *str)
     str[len] = '\0';
     return 1;
 }
-
-int power(int x, unsigned int y)
-{
-    int res = 1;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = res*x;
-
-        y = y>>1; x = x*x;
-    }
-    return res;
-}
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int a[M],b[M];
+
+
 int main()
 {
+	//fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
     #endif
     int n;
     scan(n);
-    while(n!=0)
+    int a[n+1];
+    f(i,0,n)
+        scan(a[i]);
+    if(a[0]==3)
     {
-        f(i,0,n)
-            scan(a[i]);
+        printf("NO\n");
+        return 0;
     }
+    int winner=a[0],sec=3,spec=3-a[0];
+    f(i,1,n)
+    {
+        if(a[i]==winner)    //prv winner ==winner
+        {
+            swap(spec,sec);
+        }
+        else if(a[i]==sec)
+        {
+            int temp=winner;
+            winner=a[i];
+            sec=spec;
+            spec=temp;
+        }
+        else
+        {
+            printf("NO\n");
+            return 0;
+        }
+    }
+    printf("YES\n");
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
         cin>>n;

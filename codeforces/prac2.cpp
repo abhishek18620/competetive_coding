@@ -1,7 +1,8 @@
-///////////////////////////////////////////
-//  Author : abhishek18620               //
-//  Date : Wed Nov 22 2017               //
-///////////////////////////////////////////
+/******************************************
+*  Author : wshek
+*  Created On : Thu Nov 23 2017
+*  File : prac2.cpp
+*******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
@@ -72,35 +73,28 @@ int readStr(char *str)
     str[len] = '\0';
     return 1;
 }
-
-int power(int x, unsigned int y)
-{
-    int res = 1;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = res*x;
-
-        y = y>>1; x = x*x;
-    }
-    return res;
-}
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int a[M],b[M];
+
+
 int main()
 {
+	//fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
     #endif
-    int n;
-    scan(n);
-    while(n!=0)
+    char str[109];
+    int n,Ds=0,Us=0,Ls=0,Rs=0; scan(n);
+    readStr(str);
+    f(i,0,n)
     {
-        f(i,0,n)
-            scan(a[i]);
+        if(str[i]=='D') Ds++;
+        else if(str[i]=='U') Us++;
+        else if(str[i]=='L') Ls++;
+        else if(str[i]=='R') Rs++;
     }
+    int sol=2*(min(Ds,Us)+min(Ls,Rs));
+    print(sol);
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
         cin>>n;

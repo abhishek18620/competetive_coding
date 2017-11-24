@@ -1,7 +1,8 @@
-///////////////////////////////////////////
-//  Author : abhishek18620               //
-//  Date : Wed Nov 22 2017               //
-///////////////////////////////////////////
+/******************************************
+*  Author : wshek
+*  Created On : Thu Nov 23 2017
+*  File : 448A.cpp
+*******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
@@ -72,38 +73,67 @@ int readStr(char *str)
     str[len] = '\0';
     return 1;
 }
-
-int power(int x, unsigned int y)
-{
-    int res = 1;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = res*x;
-
-        y = y>>1; x = x*x;
-    }
-    return res;
-}
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int a[M],b[M];
+vector<int> GR[M];
+bool vis[M];
+int c[M];
+stack<int> v;
+ 
+int dfs(int st)
+{
+    int ans=c[st];
+    v.push(st);
+    while(!v.empty())
+    {
+        int ver=v.top();
+        v.pop();
+        int sz=GR[ver].size();
+        f(i,0,sz)
+        {
+            int node=GR[ver][i];
+            if(!vis[node])
+            {    
+                ans=min(ans,c[node]);
+                v.push(node);
+                vis[node]=1;
+            }
+        }
+    }
+        //total ways to color nodes
+        //logic is rather than calculating powers each time 
+        //i should store exponents of 2(ans is exponent of 2)
+    return ans;
+}
+
 int main()
 {
+	//fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
     #endif
-    int n;
-    scan(n);
-    while(n!=0)
+    int n,m,u,v;
+    scan2(n,m);
+    f(i,0,n)
+        scan(c[i]);
+    f(i,0,m)
     {
-        f(i,0,n)
-            scan(a[i]);
+        scan2(u,v);
+        --u; --v;
+        GR[u].eb(v);
+        GR[v].eb(u);
     }
+    memset(vis,0,sizeof(vis));
+    ll sol=0;
+    f(i,0,n)
+    {
+        if(!vis[i])
+            sol+=1ll*dfs(i);
+    }
+    printl(sol);
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
+        cin>>m;
     #endif
     return 0;
 }

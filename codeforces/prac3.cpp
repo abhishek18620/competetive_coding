@@ -1,12 +1,13 @@
-///////////////////////////////////////////
-//  Author : abhishek18620               //
-//  Date : Wed Nov 22 2017               //
-///////////////////////////////////////////
+/******************************************
+*  Author : wshek
+*  Created On : Thu Nov 23 2017
+*  File : prac3.cpp
+*******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
-#define M 1000
-#define INF 999999
+#define M 100
+#define INF 1e9+9
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
 #define f(i, j, k) for (int i = j; i < k; i++)
@@ -72,37 +73,50 @@ int readStr(char *str)
     str[len] = '\0';
     return 1;
 }
-
-int power(int x, unsigned int y)
-{
-    int res = 1;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = res*x;
-
-        y = y>>1; x = x*x;
-    }
-    return res;
-}
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int a[M],b[M];
+
+
 int main()
 {
+	//fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
     #endif
-    int n;
-    scan(n);
-    while(n!=0)
+    char str[M];
+    readStr(str);
+    int len=strlen(str);
+    //vector<int> a[27];
+    map< char,vector<int> > mp;
+    f(i,0,len)
     {
-        f(i,0,n)
-            scan(a[i]);
+        mp[str[i]].eb(i);
     }
+    // viter(mp)
+    // {
+    //     it.S.eb(len);
+    // }
+    //int lim=mp.size();
+    int lst,sol=INF,ans;
+    viter(mp)
+    {
+        int lim=it.S.size();
+        ans=it.S[0]+1;
+        f(i,1,lim)
+        {
+            ans=max(ans,it.S[i]-it.S[i-1]);
+        }
+        lst=it.S[lim-1];
+        ans=max(ans,len-lst);
+        if(ans>0)
+            sol=min(sol,ans);
+    }
+    // if(sol==len or sol==INF)
+    //     sol=ceil(len/2.0);
+    print(sol);
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        int n;
         cin>>n;
     #endif
     return 0;

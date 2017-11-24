@@ -1,7 +1,8 @@
-///////////////////////////////////////////
-//  Author : abhishek18620               //
-//  Date : Wed Nov 22 2017               //
-///////////////////////////////////////////
+/******************************************
+*  Author : wshek
+*  Created On : Thu Nov 23 2017
+*  File : 448B.cpp
+*******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
@@ -72,35 +73,40 @@ int readStr(char *str)
     str[len] = '\0';
     return 1;
 }
-
-int power(int x, unsigned int y)
-{
-    int res = 1;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = res*x;
-
-        y = y>>1; x = x*x;
-    }
-    return res;
-}
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int a[M],b[M];
+
+
 int main()
 {
+	//fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
     #endif
+    vector<int> beu;
+    int x,sv;
+    f(i,0,50000)
+    {
+        sv=1<<i;
+        x=(sv-1)*(sv>>1);
+        if(x<=50000)
+            beu.eb(x);
+        else
+            break;       
+    }
     int n;
     scan(n);
-    while(n!=0)
+    int lim=beu.size();
+    int ans=1;
+    fr(i,lim-1,0)
     {
-        f(i,0,n)
-            scan(a[i]);
+        if(n%beu[i]==0)
+        {
+            ans=beu[i];
+            break;
+        }
     }
+    print(ans);
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
         cin>>n;
