@@ -1,11 +1,12 @@
-///////////////////////////////////////////
-//  Author : abhishek18620               //
-//  Date : Wed Nov 22 2017               //
-///////////////////////////////////////////
+/******************************************
+*  Author : wshek
+*  Created On : Fri Nov 24 2017
+*  File : string_question.cpp
+*******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
-#define M 10009
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -18,7 +19,6 @@ typedef long long ll;
 #define S second
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
-#define viter(s) for (auto it: s)
 #define scan(d) scanf("%d", &d)
 #define scan2(a, b) scanf("%d %d", &a, &b)
 #define scan3(a, b, c) scanf("%d %d %d", &a, &b, &c)
@@ -31,9 +31,9 @@ typedef long long ll;
 #define printl(t) printf("%lld\n",t)
 #define eb emplace_back
 #define PI 3.1415926535897932384626433832795
-
+#define viter(it,s) for (auto it: s)
 #define foreach(v, c) for(__typeof( (c).begin()) v = (c).begin();  v != (c).end(); ++v)
-#define revforeach(v, c) for(__typeof( (c).rbegin()) v = (c).rbegin();  v != (c).rend(); ++v)
+#define foreachr(v, c) for(__typeof( (c).rbegin()) v = (c).rbegin();  v != (c).rend(); ++v)
 #define ALL(v) (v).begin(), (v).end()
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
@@ -58,7 +58,7 @@ const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
 
-int readStr(char *str)
+int scanstr(char *str)
 {
     register char c = getchar();
     register int len = 0;
@@ -72,75 +72,48 @@ int readStr(char *str)
     str[len] = '\0';
     return 1;
 }
-
-int power(int x, unsigned int y)
-{
-    int res = 1;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = res*x;
-
-        y = y>>1; x = x*x;
-    }
-    return res;
-}
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int a[M],b[M];
+
+
 int main()
 {
+	//fio;
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
     #endif
-    int n,m;
-    scan(n);
-    while(n!=0)
+    char str[100];
+    int m,sol=0;
+    scanstr(str);
+    scan(m);
+    int n=strlen(str);
+    f(i,0,n)
     {
-        f(i,1,n+1)
-            scan(a[i]);
-        scan(m);
-        f(i,1,m+1)
-            scan(b[i]);
-        for(int i=0,j=0;i<=n or j<=m;)
+        int ans=1;
+        int change=0;
+        f(j,i+1,n)
         {
-            if(i<=n and j<=m and a[i]==b[j])
+            if(str[j]!=str[i])
             {
-                a[i]+=a[i-1];
-                b[j]+=b[j-1];
-                a[i]=b[j]=max(a[i],b[j]);
-                i++;
-                j++;
+                if(change<m)
+                {
+                    change++;
+                    ans++;
+                }
+                else
+                {
+                    break;
+                }
             }
-            else if(i>n)
-            {
-                b[j]+=b[j-1];
-                j++;
-            }
-            else if(j>m)
-            {
-                a[i]+=a[i-1];
-                i++;
-            }
-            else if(a[i]>b[j])
-            {
-                b[j]+=b[j-1];
-                j++;
-            }
-            else if(a[i]<b[j])
-            {
-                a[i]+=a[i-1];
-                i++;
-            }
+            else
+                ans++;
         }
-        int sol=max(a[n],b[m]);
-        print(sol);
-        scan(n);
+        sol=max(sol,ans);
     }
+    print(sol);
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
+        cin>>m;
     #endif
     return 0;
 }
