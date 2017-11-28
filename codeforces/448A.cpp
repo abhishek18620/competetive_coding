@@ -1,7 +1,7 @@
 /******************************************
 *  Author : wshek
-*  Created On : Thu Nov 23 2017
-*  File : 448A.cpp
+*  Created On : Sun Nov 26 2017
+*  File : 449A.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
@@ -19,7 +19,6 @@ typedef long long ll;
 #define S second
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
-#define viter(s) for (auto it: s)
 #define scan(d) scanf("%d", &d)
 #define scan2(a, b) scanf("%d %d", &a, &b)
 #define scan3(a, b, c) scanf("%d %d %d", &a, &b, &c)
@@ -32,9 +31,9 @@ typedef long long ll;
 #define printl(t) printf("%lld\n",t)
 #define eb emplace_back
 #define PI 3.1415926535897932384626433832795
-
+#define viter(it,s) for (auto it: s)
 #define foreach(v, c) for(__typeof( (c).begin()) v = (c).begin();  v != (c).end(); ++v)
-#define revforeach(v, c) for(__typeof( (c).rbegin()) v = (c).rbegin();  v != (c).rend(); ++v)
+#define foreachr(v, c) for(__typeof( (c).rbegin()) v = (c).rbegin();  v != (c).rend(); ++v)
 #define ALL(v) (v).begin(), (v).end()
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
@@ -59,7 +58,7 @@ const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
 
-int readStr(char *str)
+int scanstr(char *str)
 {
     register char c = getchar();
     register int len = 0;
@@ -74,36 +73,7 @@ int readStr(char *str)
     return 1;
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-vector<int> GR[M];
-bool vis[M];
-int c[M];
-stack<int> v;
- 
-int dfs(int st)
-{
-    int ans=c[st];
-    v.push(st);
-    while(!v.empty())
-    {
-        int ver=v.top();
-        v.pop();
-        int sz=GR[ver].size();
-        f(i,0,sz)
-        {
-            int node=GR[ver][i];
-            if(!vis[node])
-            {    
-                ans=min(ans,c[node]);
-                v.push(node);
-                vis[node]=1;
-            }
-        }
-    }
-        //total ways to color nodes
-        //logic is rather than calculating powers each time 
-        //i should store exponents of 2(ans is exponent of 2)
-    return ans;
-}
+
 
 int main()
 {
@@ -112,28 +82,30 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    int n,m,u,v;
-    scan2(n,m);
+    int n;
+    scan(n);
+    int a[n+1];
     f(i,0,n)
-        scan(c[i]);
-    f(i,0,m)
-    {
-        scan2(u,v);
-        --u; --v;
-        GR[u].eb(v);
-        GR[v].eb(u);
-    }
-    memset(vis,0,sizeof(vis));
-    ll sol=0;
+        scan(a[i]);
+    int sol=360;
     f(i,0,n)
     {
-        if(!vis[i])
-            sol+=1ll*dfs(i);
+        int diff=360;
+        int sum=0;
+        f(j,i,n)
+        {
+            sum+=a[j];
+            int te=abs(360-2*sum);
+            if(te>diff)
+                break;
+            diff=min(diff,te);
+        }
+        sol=min(sol,diff);
     }
-    printl(sol);
+    print(sol);
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>m;
+        cin>>n;
     #endif
     return 0;
 }
