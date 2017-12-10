@@ -43,7 +43,7 @@ void scan(int &x)
     	for(;c>47 && c<58;c=gc())
     		x=(x<<1)+(x<<3)+c-48;
 }
-
+//x^y
 int power(int x, unsigned int y)
 {
     int res = 1;
@@ -117,15 +117,6 @@ int main()
         printf("%d\n",dp[n][budget]);
     else
         printf("-1\n");
-    // map<int,int> mp;
-    // FOR(i,1,n+1)
-    // {
-    //     int cost=a[i];
-    //     FOR(j,1,budget+1)
-    //     {
-
-    //     }
-    // }
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
         cin>>n;
