@@ -1,12 +1,12 @@
 /******************************************
 *  Author : wshek
-*  Created On : Sat Dec 02 2017
-*  File : 449C.cpp
+*  Created On : Mon Dec 11 2017
+*  File : 450C.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
-#define M 200
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -74,10 +74,6 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-void solve()
-{
-
-}
 
 int main()
 {
@@ -86,23 +82,67 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    string a[M];
-    string st="What are you doing while sending";
-    string mid="Are you busy? Will you send";
-    a[0]="What are you doing at the end of the world? Are you busy? Will you save us?";
-    int len1=;
-    int len2=;
-    f(i,1,100)
+    int n;
+    scan(n);
+    int a[n+1],rec[n+1];
+    rec[0]=0;
+    scan(a[0]);
+    if(n==1)
     {
-        a[i]=min(st+" \""+a[i-1]+"\"? "+mid+" \""+a[i-1]+"\"?";
+        print(a[0]);
+        return 0;
     }
-    f(i,0,3)
-        cout<<a[i]<<endl;
-
+    else if(n==2)
+    {
+        scan(a[1]);
+        print(min(a[0],a[1]));
+        return 0;
+    }
+    f(i,1,n)
+    {
+        scan(a[i]);
+        if(a[i]>a[i-1])
+            rec[i]=rec[i-1]+1;
+        else
+            rec[i]=0;
+    }
+    int ind=n-1;
+    vector<int> l,r;
+    char side='l';
+    int barr=1000000;
+    f(i,0,n)
+    {
+        if(rec[i]==0)
+        {
+            if(side=='l')
+                l.eb(i);
+            else
+                r.eb(i);
+        }
+        else
+        {
+            barr=min(barr,a[i]);
+            side='r';
+        }
+    }
+    int ans1=-1,ans2=-1;
+    viter(it,l)
+        ans1=max(ans1,a[it]);
+    viter(it,r)
+        ans2=max(ans2,a[it]);
+    if(barr<=ans1)
+        print(ans1);
+    else
+    {
+        if(ans1!=-1 and ans2!=-1)
+            print(min(ans1,ans2));
+        else
+            print(ans1);
+    }
+    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
-    cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-    int m;
-    cin>>m;
+        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        cin>>n;
     #endif
     return 0;
 }

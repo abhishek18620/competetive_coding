@@ -1,12 +1,12 @@
 /******************************************
 *  Author : wshek
-*  Created On : Sat Dec 02 2017
-*  File : 449C.cpp
+*  Created On : Mon Dec 11 2017
+*  File : 450A.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
-#define M 200
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -74,10 +74,6 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-void solve()
-{
-
-}
 
 int main()
 {
@@ -86,23 +82,34 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    string a[M];
-    string st="What are you doing while sending";
-    string mid="Are you busy? Will you send";
-    a[0]="What are you doing at the end of the world? Are you busy? Will you save us?";
-    int len1=;
-    int len2=;
-    f(i,1,100)
+    int n;
+    scan(n);
+    int a[n+1][2];
+    f(i,0,n)
+        scan2(a[i][0],a[i][1]);
+    int negs=0,pos=0;
+    f(i,0,n)
     {
-        a[i]=min(st+" \""+a[i-1]+"\"? "+mid+" \""+a[i-1]+"\"?";
+        int x=a[i][0];
+        int y=a[i][1];
+        if(x<0)
+            negs++;
+        else
+            pos++;
     }
-    f(i,0,3)
-        cout<<a[i]<<endl;
-
+    bool ans=0;
+    if(negs==1 or negs==0)
+        ans=1;
+    else if(pos==1 or pos==0)
+        ans=1;
+    if(ans)
+        printf("Yes\n");
+    else
+        printf("No\n");
+    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
-    cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-    int m;
-    cin>>m;
+        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        cin>>n;
     #endif
     return 0;
 }

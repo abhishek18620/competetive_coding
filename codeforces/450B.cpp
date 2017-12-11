@@ -1,12 +1,12 @@
 /******************************************
 *  Author : wshek
-*  Created On : Sat Dec 02 2017
-*  File : 449C.cpp
+*  Created On : Mon Dec 11 2017
+*  File : 450B.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
-#define M 200
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -74,11 +74,42 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-void solve()
+int a,b,c;
+bool solve(int numr, int denr)
 {
-
+    string res; // Initialize result
+ 
+    map <int, int> mp;
+    mp.clear();
+ 
+    int rem = numr%denr;
+    int pos=1;
+    while ( (rem!=0) && (mp.find(rem) == mp.end()) )
+    {
+        // Store this remainder
+        mp[rem] = res.length();
+ 
+        rem = rem*10;
+ 
+        int res_part = rem / denr;
+        if(res_part==c)
+        {
+            print(pos);
+            return 1;
+        }
+        res += to_string(res_part);
+ 
+        rem = rem % denr;
+        pos++;
+    }
+    if(rem==0 and c==0)
+    {
+        print(pos);
+        return 1;
+    }
+    else
+        return 0;
 }
-
 int main()
 {
 	//fio;
@@ -86,23 +117,13 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    string a[M];
-    string st="What are you doing while sending";
-    string mid="Are you busy? Will you send";
-    a[0]="What are you doing at the end of the world? Are you busy? Will you save us?";
-    int len1=;
-    int len2=;
-    f(i,1,100)
-    {
-        a[i]=min(st+" \""+a[i-1]+"\"? "+mid+" \""+a[i-1]+"\"?";
-    }
-    f(i,0,3)
-        cout<<a[i]<<endl;
-
+    scan3(a,b,c);
+    if(!solve(a,b))
+        printf("-1\n");
+    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
-    cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-    int m;
-    cin>>m;
+        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        cin>>a;
     #endif
     return 0;
 }
