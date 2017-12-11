@@ -1,29 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define FOR(i, j, k) for (int i = j; i < k; i++)
-#define mp(i,j) make_pair(i,j)
-#define F first
-#define S second
-#define scan(d) scanf("%d", &d)
+typedef long long ll;
 
-const int M = 10;
-
-int n,a[M],b[M],frq[M+2][2];
-vector<int> loners;
-
-bool find(int ind)
+void ordering(int &f, int &g, int &h)   //f < g < h
 {
-    int ele=a[ind];
-    bool find=0;
-    FOR(i,0,n)
-    {
-        if(a[i]!=ele)
-        {
-            swap(a[i],a[ind]);
-            return 1;
-        }
-    }
-    return 0;
+    int temp=min(f,min(g,h));
+    if(temp==g)
+        swap(f,g);
+    else if(temp==h)
+        swap(f,h);
+    
+    if(g>h)
+        swap(g,h);
 }
 
 int main()
@@ -33,99 +21,110 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    int t; scan(t);
-    // FOR(i,0,M+2)
-    //     frq[i][0]=frq[i][1]=-1;
+    int x,y,z,a,b,c;
+    int t; scanf("%d",&t);
     while(t--)
     {
-        memset(frq,-1,sizeof(frq));
-        scan(n);
-        int dist=0,pairs=0;
-        int lim=0;
-        FOR(i,0,n)
+        scanf("%d %d %d %d %d %d",&x,&y,&z,&a,&b,&c);
+        ll sol=0;
+        char AB,AC,ABC;
+        if(2*a <= b)
+            AB='A';
+        else
+            AB='B';
+        if(3*a <= c)
+            AC='A';
+        else
+            AC='C';
+        if(b+a >= c)
+            ABC='C';
+        else
+            ABC='O';
+        ordering(x,y,z);
+        ll sol1=0;
+        if(AB=='A')
         {
-            scan(a[i]);
-            if(frq[a[i]][0]==-1)
-                frq[a[i]][0]=i;
-            else
-                frq[a[i]][1]=i;
-            lim=max(a[i],lim);
-        }
-        pair<int,int> lst=mp(-1,-1);
-        FOR(i,1,lim+1)
-        {
-            if(frq[i][0]!=-1)
+            // prefer a over b but can i use c ?
+            if(AC=='A')
             {
-                if(frq[i][1]!=-1)   //pairs
-                {
-                    if(lst.F!=-1)   //ready to swap
-                    {
-                        swap(a[lst.F],a[frq[i][0]]);
-                        swap(a[lst.S],a[frq[i][1]]);
-                        lst=mp(-1,-1);
-                    }
-                    else
-                    {
-                        lst=mp(frq[i][0],frq[i][1]);
-                    }
-                }
-                else    //singletons
-                    loners.emplace_back(frq[i][0]);
+                sol1=(x+y+z)*1ll*a;
             }
-        }
-        int sz=loners.size();
-        int score=n;
-        if(sz>=2)
-        {
-            int ini=0,end=sz-1;
-            if(lst.F!=-1)
+            else    //can use c over a
             {
-                swap(a[loners[0]],a[lst.F]);
-                swap(a[loners[1]],a[lst.S]);
-                ini=2;
+                //ordering(x,y,z);    // x < y < z
+                sol1=x*1ll*c;    // y=y-x < z=z-x
+                sol1+=(y-x+z-x)*1ll*a;
             }
-            if(sz%2!=0)
-                end=sz-2;
-            FOR(i,ini,end)
-            {
-                swap(a[loners[i]],a[loners[i+1]]);
-                i++;   
-            }
-            if(sz%2!=0) //odd loners
-            {
-                if(!find(loners[sz-1]))
-                    score--;
-            }
-        }
-        else if(sz==1)
-        {
-            if(lst.F!=-1)
-            {
-                swap(a[loners[0]],a[lst.F]);
-                if(!find(lst.S))
-                    score--;
-            }
-            else if(!find(loners[0]))
-                score--;
-            if(n==3)
-                score--;
         }
         else
         {
-            if(lst.F!=-1 and !find(lst.F))
-                    score--;
-            if(lst.S!=-1 and !find(lst.S))
-                    score--;
+            // prefer b over a but can i use c over b ?
+            ll te1=0,te2=0;
+            //ordering(x,y,z);
+            te1=x*1ll*c;
+            te1+=(y-x)*1ll*b+(z-y)*1ll*a;
+            
+            // prefer a and b over c
+            //ordering(x,y,z);
+            int sum=x+y+z;
+            te2=(sum/2)*1ll*b+(sum%2)*1ll*a;
+            sol1=min(te1,te2);
         }
-        printf("%d\n",score);
-        FOR(i,0,n)
-            printf("%d ",a[i]);
-        printf("\n");
-        loners.clear();
+
+
+        ll sol2=0;
+        if(AC=='A')
+        {
+            //prefer a over c but can i use b ?
+            if(AB=='A')// no you can't
+            {
+                sol2=(x+y+z)*1ll*a;
+            }
+            else    // yes you can use B
+            {
+                int sum=x+y+z;
+                sol2=(((sum/2)*1ll*b)+((sum%2)*1ll*a));
+            }
+        }
+        else
+        {
+            // prefer c over a but can i use b ?
+            if(ABC=='C')    // GOD's order : use c ;)
+            {
+                ll te1=0,te2=0;
+                te1=x*1ll*c;   // y=y-x < z=z-x
+                if(AB=='A')
+                {
+                    te1+=(y-x+z-x)*1ll*a;
+                }
+                else
+                {
+                    te1+=(y-x)*1ll*b + (z-y)*1ll*a;
+                }
+                int sum=x+y+z;
+                te2=(sum/2)*1ll*b+(sum%2)*1ll*a;
+                sol2=min(te1,te2);
+            }
+            else
+            {
+                // prefer a and b over c
+                if(AB=='A')
+                {
+                    sol2=(x+y+z)*1ll*a;
+                }
+                else
+                {
+                    int sum=x+y+z;
+                    sol2=(sum/2)*1ll*b+(sum%2)*1ll*a;
+                }
+            }
+        }
+        sol=min(sol1,sol2);
+        printf("%lld\n",sol);
     }
-    assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<3.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        int n;
         cin>>n;
     #endif
     return 0;

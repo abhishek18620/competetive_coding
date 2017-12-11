@@ -86,6 +86,18 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+void ordering(int &f, int &g, int &h)   //f < g < h
+{
+    int temp=min(f,min(g,h));
+    if(temp==g)
+        swap(f,g);
+    else if(temp==h)
+        swap(f,h);
+    
+    if(g>h)
+        swap(g,h);
+}
+
 int main()
 {
     #ifdef LOCAL_DEFINE
@@ -93,14 +105,75 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
+    int x,y,z,a,b,c;
     int t; scan(t);
     while(t--)
     {
-        
+        scan3(x,y,z);
+        scan3(a,b,c);
+        ll sol=0;
+        char AB,AC;
+        if(2*a <= b)
+            AB='A';
+        else
+            AB='B';
+        if(3*a <= c)
+            AC='A';
+        else
+            AC='C';
+        if(b+a >= c)
+        {
+            if(AC=='A')
+            {
+                sol+=(x+y+z)*1ll*a;
+            }
+            else    // need to choose btw b and c
+            {
+                ordering(x,y,z);    //x < y < z
+                if(AB=='A')
+                {
+                    sol=x*1ll*c + (y-x+z-x)*1ll*a;
+                }
+                else    // could be b or combination of b or c;
+                {
+                    //using b and c
+                    sol=x*1ll*c;
+                    int te=min(y-x,z-x);
+                    sol+=te*1ll*b;
+                    int nxt=(y-x-te!=0)?y-x-te:z-x-te;
+                    sol+=nxt*1ll*a;
+                    //using b only;
+                    ll sol1=y*1ll*b;
+                    te=min(x,z-y);
+                    sol1+=te*1ll*b;
+                    nxt=(x-te==0)?z-y-x:x-te;
+                    sol1+=nxt*1ll*a;
+                    sol=min(sol,sol1);     
+                }
+                
+            }
+        }
+        else    // prefer b and a over c
+        {
+            if(AB=='A')
+            {
+                sol+=(x+y+z)*1ll*a;
+            }
+            else
+            {
+                ordering(x,y,z);    //x < y < z
+                sol+=y*1ll*b;
+                z-=y; y=0;
+                ordering(x,y,z);    //0 < y < z
+                sol+=y*1ll*b + (z-y)*a;
+            }
+        }
+        printl(sol);
     }
-    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0)     // time limit to avoid infinite loops
+    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        int n;
         cin>>n;
     #endif
     return 0;

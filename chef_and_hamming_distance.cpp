@@ -5,7 +5,7 @@
 // It's my template. Don't you dare to select and copy it ;)
 #include <bits/stdc++.h>
 using namespace std;
-#define M 10
+#define M 100009
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -18,7 +18,7 @@ typedef long long ll;
 #define S second
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
-#define scan(d) scanf("%d", &d)
+//#define scan(d) scanf("%d", &d)
 #define scan2(a, b) scanf("%d %d", &a, &b)
 #define scan3(a, b, c) scanf("%d %d %d", &a, &b, &c)
 #define scan4(a, b, c, d) scanf("%d %d %d %d", &a, &b, &c, &d)
@@ -84,6 +84,18 @@ int power(int x, unsigned int y)
     }
     return res;
 }
+
+void scan(int &x)
+{
+    register int c = gc();
+    bool neg=(c=='-')?1:0;
+    x = 0;
+    for(;c<48 || c>57;c=gc());
+    for(;c>47 && c<58;c=gc())
+        x=(x<<1)+(x<<3)+c-48;
+    x*=(neg)?-1:1;
+}
+
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 int n,a[M],b[M],frq[M+2][2];
 vector<int> loners;
@@ -115,9 +127,10 @@ int main()
         frq[i][0]=frq[i][1]=-1;
     while(t--)
     {
-        //memset(frq,-1,sizeof(frq));
+        memset(frq,-1,sizeof(frq));
         scan(n);
         int dist=0,pairs=0;
+        int lim=0;
         f(i,0,n)
         {
             scan(a[i]);
@@ -125,9 +138,10 @@ int main()
                 frq[a[i]][0]=i;
             else
                 frq[a[i]][1]=i;
+            lim=max(a[i],lim);
         }
         pair<int,int> lst=mp(-1,-1);
-        f(i,0,M+1)
+        f(i,1,lim+1)
         {
             if(frq[i][0]!=-1)
             {
@@ -145,22 +159,23 @@ int main()
                     }
                 }
                 else    //singletons
-                    loners.eb(frq[i][0]);
+                    loners.emplace_back(frq[i][0]);
             }
-            frq[i][0]=frq[i][1]=-1;
         }
         int sz=loners.size();
         int score=n;
         if(sz>=2)
         {
-            int ini=0;
+            int ini=0,end=sz-1;
             if(lst.F!=-1)
             {
                 swap(a[loners[0]],a[lst.F]);
                 swap(a[loners[1]],a[lst.S]);
                 ini=2;
             }
-            f(i,ini,sz-1)
+            if(sz%2!=0)
+                end=sz-2;
+            f(i,ini,end)
             {
                 swap(a[loners[i]],a[loners[i+1]]);
                 i++;   
@@ -178,26 +193,26 @@ int main()
                 swap(a[loners[0]],a[lst.F]);
                 if(!find(lst.S))
                     score--;
-                if(n==3)
-                    score--;
             }
             else if(!find(loners[0]))
+                score--;
+            if(n==3)
                 score--;
         }
         else
         {
-            if(!find(lst.F));
-                score--;
-            if(!find(lst.S));
-                score--;
+            if(lst.F!=-1 and !find(lst.F))
+                    score--;
+            if(lst.S!=-1 and !find(lst.S))
+                    score--;
         }
-        print(score);
+        printf("%d\n",score);
         f(i,0,n)
             printf("%d ",a[i]);
         printf("\n");
         loners.clear();
     }
-    assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<3.0);     // time limit to avoid infinite loops
+    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<3.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
         cin>>n;
