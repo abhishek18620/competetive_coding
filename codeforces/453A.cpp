@@ -94,21 +94,25 @@ int main()
     }
     bool ans=1,found=0;
     if(tel[0].F!=0)
-        ans=0;
-    else
     {
-        f(i,1,n)
+        printf("NO\n");
+        return 0;
+    }
+    int reach[m+1];
+    memset(reach,-1,sizeof(reach));
+    reach[m]=m;
+    fr(i,n-1,0)
+    {
+        int st=tel[i].F;
+        int end=tel[i].S;
+        if(reach[end]==-1)
+            reach[end]=end;
+        f(j,st,end)
         {
-            if(tel[i-1].S < tel[i].F)
-            {
-                ans=0;
-                break;
-            }
-            if(tel[i].S==m and !found)
-                found=1;
+            reach[j]=reach[reach[end]];
         }
     }
-    if(ans and found)
+    if(reach[0]==m)
         printf("YES\n");
     else
         printf("NO\n");

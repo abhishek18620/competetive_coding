@@ -83,7 +83,53 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-
+    int h; scan(h);
+    int a[h+1],poiamb=-1;
+    bool amb=0;
+    scan(a[0]);
+    int n=a[0];
+    f(i,1,h+1)
+    {
+        scan(a[i]);
+        if(a[i-1]>1 and a[i]>1 and !amb)
+        {
+            amb=1;
+            poiamb=i;
+        }
+        n+=a[i];
+    }
+    if(!amb)
+    {
+        printf("perfect\n");
+        return 0;
+    }
+    int t1[n+2],t2[n+2];
+    int ctr=1;
+    t1[1]=t2[1]=0;
+    f(i,1,h+1)
+    {
+        int sz=a[i];
+        if(i==poiamb)
+        {
+            t1[ctr+1]=ctr-(a[i-1]-1);
+            t2[ctr+1]=ctr;
+            f(j,2,sz+1)
+            {
+                t1[ctr+j]=t2[ctr+j]=ctr;
+            }
+            ctr+=sz;
+            continue;
+        }
+        f(j,1,sz+1)
+            t1[ctr+j]=t2[ctr+j]=ctr;
+        ctr+=sz;
+    }
+    printf("ambiguous\n");
+    f(i,1,n+1)
+        printf("%d ",t1[i]);
+    printf("\n");
+    f(i,1,n+1)
+        printf("%d ",t2[i]);
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";

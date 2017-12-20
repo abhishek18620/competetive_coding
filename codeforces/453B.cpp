@@ -75,7 +75,6 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-
 int main()
 {
 	//fio;
@@ -83,7 +82,28 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-
+    vector<int> root,c,present;
+    int n;
+    scan(n);
+    root.resize(n+1);
+    root[1]=1;
+    f(i,2,n+1)
+        scan(root[i]);
+    c.resize(n+1);
+    present.resize(n+1,0);
+    f(i,1,n+1)
+        scan(c[i]);
+    int ans=1;
+    present[1]=c[1];
+    f(i,2,n+1)
+    {
+        if(c[root[i]]!=c[i])
+        {
+            ans++;
+            present[root[i]]=c[i];
+        }
+    }
+    print(ans);
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
