@@ -19,7 +19,7 @@ typedef long long ll;
 #define S second
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
-#define scan(d) scanf("%d", &d)
+//#define scan(d) scanf("%d", &d)
 #define scan2(a, b) scanf("%d %d", &a, &b)
 #define scan3(a, b, c) scanf("%d %d %d", &a, &b, &c)
 #define scan4(a, b, c, d) scanf("%d %d %d %d", &a, &b, &c, &d)
@@ -63,7 +63,19 @@ const int LOGN = 16;
 const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
- 
+
+void scan(int &x)
+{
+    register int c = gc();
+    bool neg=(c=='-')?1:0;
+    x = 0;
+    for(;c<48 || c>57;c=gc());
+    for(;c>47 && c<58;c=gc())
+        x=(x<<1)+(x<<3)+c-48;
+    x*=(neg)?-1:1;
+}
+
+
 int scanstr(char *str)
 {
     register char c = getchar();
