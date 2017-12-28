@@ -1,9 +1,10 @@
 /******************************************
 *  Author : wshek
-*  Created On : Sun Nov 26 2017
-*  File : prac5.cpp
+*  Created On : Wed Dec 27 2017
+*  File : prac11.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
+#pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
 #define M 1000
@@ -29,6 +30,10 @@ typedef long long ll;
 #define scanl4(a, b, c, d) scanf("%lld %lld %lld %lld", &a, &b, &c, &d)
 #define print(t) printf("%d\n",t)
 #define printl(t) printf("%lld\n",t)
+#define trace2(x, y)          cout <<#x<<": "<<x<<" | "<<#y<<": "<<y<< endl;
+#define trace3(x, y, z)       cout <<#x<<": "<<x<<" | "<<#y<<": "<<y<<" | "<<#z<<": "<<z<<endl;
+#define trace4(a, b, c, d)    cout <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<endl;
+#define trace5(a, b, c, d, e) cout <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<<": "<<e<<endl;
 #define eb emplace_back
 #define PI 3.1415926535897932384626433832795
 #define viter(it,s) for (auto it: s)
@@ -40,6 +45,9 @@ typedef pair<ll, ll> pll;
 typedef set<int>::iterator sit;
 typedef map<int,int>::iterator mit;
 typedef vector<int>::iterator vit;
+typedef vector<pii> vii;
+typedef vector<int> vi;
+typedef vector<ll> vll;
 
 #ifdef LOCAL_DEFINE
     #include<assert.h>
@@ -74,10 +82,6 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-bool comp(pii& l , pii& r)
-{
-    return((l.F-l.S)<(r.F-r.S)); 
-}
 
 int main()
 {
@@ -86,31 +90,59 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    int n,k;
-    vector<pii> v;
-    scan2(n,k);
-    v.resize(n+1);
-    f(i,0,n)
-        scan(v[i].F);
-    f(i,0,n)
-        scan(v[i].S);
-    sort(v.begin(),v.begin()+n,comp);
-    int sol=0;
-    viter(item,v)
+    int n,m;
+    scan2(n,m);
+    bool have[n+2];
+    vector<int> TR[n+2];
+    f(i,1,n+1)
+        cin>>have[i];
+    f(i,0,n-1)
     {
-        if(k>0) sol+=item.F,k--;
-        else
-        {
-            if(item.F>=item.S)
-                sol+=item.S;
-            else
-                sol+=item.F;
-        }
+        int u,v;
+        scan2(u,v);
+        if(v==1)
+            swap(u,v);
+        TR[u].eb(v);
     }
-    print(sol);
+    stack<int> st;
+    st.push(1);
+    bool vis[n+2];
+    int cats[n+2],res=0;
+    memset(vis,0,sizeof(vis));
+    if(have[1])
+        cats[1]=1;
+    while(!st.empty())
+    {
+        int u=st.top();
+        vis[u]=1;
+        st.pop();
+        int sz=TR[u].size();
+        f(i,0,sz)
+        {
+            int v=TR[u][i];
+            if(!vis[v])
+            {
+                if(have[v])
+                {
+                    cats[v]=cats[u]+1;
+                    if(cats[v]<=m)
+                        st.push(v);
+                }
+                else
+                {
+                    cats[v]=0;
+                    st.push(v);
+                }
+            }
+        }
+        if(sz==0 and cats[u]<=m)
+            res++;
+    }
+    print(res);
+    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>k;
+        cin>>n;
     #endif
     return 0;
 }

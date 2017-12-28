@@ -1,56 +1,64 @@
-#include<bits/stdc++.h>
-#define ft first
-#define sd second
+#include <bits/stdc++.h>
 using namespace std;
-int n,m;
-int visited[1001][1001];
-int a[1001][1001];
-void dfs(int i,int j)
-{
-    if(i<0 || i>=n || j<0 || j>=m)
-        return ;
-    visited[i][j]=1;
-    if(a[i][j] >= a[i+1][j] && !visited[i+1][j])
-        dfs(i+1,j);
-    if(a[i][j] >= a[i-1][j] && !visited[i-1][j])
-        dfs(i-1,j);
-    if(a[i][j] >= a[i][j+1] && !visited[i][j+1])
-        dfs(i,j+1);
-    if(a[i][j] >= a[i][j-1] && !visited[i][j-1])
-        dfs(i,j-1);
-}
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef vector<ii> vii;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+#define FOR(i,n) for (i = 0; i < n; ++i)
+#define FORK(i,k,n) for (i = k; i <= n; ++i)
+#define FORR(i,k,n) for (i = k; i >= n; --i)
+
+#define re(a,b)   memset(a,b,sizeof(a))
+#define sz(a)      (int)(a.size())
+#define MIN(a,b)     (a) = min((a),(b))
+#define MAX(a,b)     (a) = max((a),(b))
+#define input(in)    freopen(in,"r",stdin)
+#define output(out)  freopen(out,"w",stdout)
+#define ALL(a)       a.begin(),a.end()
+#define RALL(a)      a.rbegin(),a.rend()
+#define LEN(a)       (int)(a.length())
+
+#define FIN(x)       freopen(x,"r",stdin)
+#define FOUT(x)      freopen(x,"w",stdout)
+#define FCLOSE       {fclose(stdin); fclose(stdout);}
+
+#define fi           first
+#define se           second
+#define pb           push_back
+#define mp           make_pair
+#define  M           100001
+#define INF          1001001001
+#define MOD          1000000007
 int main()
 {
-    ios::sync_with_stdio(false);
-    int t;
-    cin>>t;
-    while(t--)
+    int n,i,j;
+    cin >> n;
+    char a[n];
+    FOR(i,n)
+    cin >>a[i];
+    int k=0;
+    vi lol;
+    bool f=false;
+    for(i=n-1;i>-1;i--)
     {
-        //int n,m;
-        cin>>n>>m;
- 
-        memset(visited,0,sizeof(visited));
- 
-        vector< pair<int,int> > v;
-        for(int i=0;i<n;i++)
-            for(int j=0;j<m;j++){
-                cin>>a[i][j];
-                v.push_back({a[i][j],i*m+j})  ; // linear indexing
-            }
-        sort(v.begin(),v.end());
-        reverse(v.begin(),v.end());
-        int ans=0;
-        for(int i=0;i<v.size();i++)
-        {
-            int x = v[i].sd/m;
-            int y = v[i].sd%m;
-            if(!visited[x][y])
-            {
-                dfs(x,y);
-                ans++;
-            }
-        }
-        cout<<ans<<endl;
+
+       if(a[i]=='s')
+       k++;
+       if(a[i]=='s' && a[i-1]=='f' && i!=0)
+       {
+           if(f==true)
+               k++;
+           f=true;
+           lol.pb(k);
+           k=0;
+       }
     }
+    ll ans=1;
+    FOR(i,sz(lol))
+    {
+        ans=((ans%MOD)*(lol[i]%MOD))%MOD;
+    }
+    cout << ans;
+   return 0;
 }
- 
