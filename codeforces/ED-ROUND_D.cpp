@@ -1,13 +1,13 @@
 /******************************************
 *  Author : wshek
-*  Created On : Wed Dec 27 2017
-*  File : 455B.cpp
+*  Created On : Thu Dec 28 2017
+*  File : ED-ROUND_D.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 100
+#define M 1510
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -82,6 +82,57 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+int bit[M],arr[M];
+
+int getSum(int index)
+{
+	int sum = 0; // Initialize result
+
+	// Traverse ancestors of bit[index]
+	while (index > 0)
+	{
+		// Add current element of bit to sum
+		sum += bit[index];
+
+		// Move index to parent node in getSum View
+		index -= index & (-index);
+	}
+	return sum;
+}
+
+void updateBIT(int n, int index, int val)
+{
+	// Traverse all ancestors and add 'val'
+	while (index <= n)
+	{
+	// Add 'val' to current node of BI Tree
+	bit[index] += val;
+
+	// Update index to that of parent in update View
+	index += index & (-index);
+	}
+}
+
+// Returns inversion count arr[0..n-1]
+int invcount(int maxElement,int n)
+{
+	int invcount = 0; // Initialize result
+
+	for (int i=1; i<=maxElement; i++)
+		bit[i] = 0;
+
+	// Traverse all elements from right.
+	for (int i=n-1; i>=0; i--)
+	{
+		// Get count of elements smaller than arr[i]
+		invcount += getSum(arr[i]-1);
+
+		// Add current element to BIT
+		updateBIT(maxElement, arr[i], 1);
+	}
+	return invcount;
+}
+
 int main()
 {
 	//fio;
@@ -89,15 +140,36 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    int N;
-    scan(N);
-    N++;
-    int ans=((N+1)/2)*(N/2);
-    print(ans);
+    int n,m;
+    scan(n);
+    int maxELE=0;
+    f(i,0,n)
+    {
+        scan(arr[i]);
+        maxELE=max(arr[i],maxELE);
+    }
+    scan(m);
+    f(i,0,m)
+    {
+        int l,r;
+        scan2(l,r);
+        l--,r--;
+        while(l<=r)
+        {
+            swap(arr[l],arr[r]);
+            l++,r--;
+        }
+        int ans=invcount(maxELE,n);
+        if(ans&1)
+            printf("odd\n");
+        else
+            printf("even\n");
+    }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>N;
+        cin>>n;
     #endif
     return 0;
 }
+

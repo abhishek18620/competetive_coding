@@ -1,13 +1,13 @@
 /******************************************
 *  Author : wshek
-*  Created On : Wed Dec 27 2017
-*  File : 455B.cpp
+*  Created On : Fri Dec 29 2017
+*  File : GOODBYE2017_B.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 100
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -81,6 +81,93 @@ int scanstr(char *str)
     return 1;
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
+int n,m,xst,yst,xdes,ydes;
+char maze[101][101];
+vector<string > v;
+vector<string> perm({"LRUD", "LRDU", "LURD", "LUDR", "LDUR", "LDRU", "RLUD", "RLDU", "RULD", "RUDL", "RDUL", "RDLU", "URLD", "URDL", "ULRD", "ULDR", "UDLR", "UDRL", "DRUL", "DRLU", "DURL", "DULR", "DLUR", "DLRU"});
+string route;
+bool check(int x,int y)
+{
+    if(x>=0 and y>=0 and x<n and y<m)
+    {
+        if(maze[x][y]!='#')        
+            return 1;
+    }
+    else
+        return 0;
+}
+bool solve()
+{
+    int sol=0;
+    viter(p,perm)
+    {
+        bool ans=1;
+        int xcurr=xst,ycurr=yst;
+        viter(ch,route)
+        {
+            char dir=p[ch-48];
+            if(dir=='L')
+            {
+                if(check(xcurr,ycurr-1))
+                {
+                    ycurr--;
+                    if(xcurr==xdes and ycurr==ydes)
+                        break;
+                }
+                else
+                {
+                    ans=0;
+                    break;
+                }
+            }
+            else if(dir=='R')
+            {
+                if(check(xcurr,ycurr+1))
+                {
+                    ycurr++;
+                    if(xcurr==xdes and ycurr==ydes)
+                        break;
+                }
+                else
+                {
+                    ans=0;
+                    break;
+                }
+            }
+            else if(dir=='U')
+            {
+                if(check(xcurr-1,ycurr))
+                { 
+                    xcurr--;
+                    if(xcurr==xdes and ycurr==ydes)
+                        break;
+                }    
+                else
+                {
+                    ans=0;
+                    break;
+                }
+            }
+            else if(dir=='D')
+            {
+                if(check(xcurr+1,ycurr))
+                {    
+                    xcurr++;
+                    if(xcurr==xdes and ycurr==ydes)
+                        break;
+                }
+                else
+                {
+                    ans=0;
+                    break;
+                }
+            }
+        }
+        if(ans and xcurr==xdes and ycurr==ydes)
+            sol++;
+    }
+    print(sol);
+}
 
 int main()
 {
@@ -89,15 +176,33 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    int N;
-    scan(N);
-    N++;
-    int ans=((N+1)/2)*(N/2);
-    print(ans);
+    scan2(n,m);
+    v.resize(n);
+    f(i,0,n)
+    {
+        cin>>v[i];
+        string str=v[i];
+        f(j,0,m)
+        {
+            maze[i][j]=v[i][j];
+            if(v[i][j]=='S')
+            {
+                xst=i;
+                yst=j;
+            }
+            if(v[i][j]=='E')
+            {
+                xdes=i;
+                ydes=j;
+            }
+        }
+    }
+    cin>>route;
+    solve();
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>N;
+        cin>>n;
     #endif
     return 0;
 }

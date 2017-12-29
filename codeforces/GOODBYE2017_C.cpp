@@ -1,13 +1,13 @@
 /******************************************
 *  Author : wshek
-*  Created On : Wed Dec 27 2017
-*  File : 455B.cpp
+*  Created On : Fri Dec 29 2017
+*  File : GOODBYE2017_C.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 100
+#define M 3009
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -81,7 +81,6 @@ int scanstr(char *str)
     return 1;
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-
 int main()
 {
 	//fio;
@@ -89,15 +88,69 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    int N;
-    scan(N);
-    N++;
-    int ans=((N+1)/2)*(N/2);
-    print(ans);
+    int n,r;
+    scan2(n,r);
+    vector<int> xi;
+    vector<int> near[M];
+    xi.resize(n);
+    f(i,0,n)
+    {
+        scan(xi[i]);
+        near[xi[i]].eb(i);
+    }
+    vector< pair<int,double> > coor;
+    f(i,0,n)
+    {
+        pair<int, double> nearest;
+        bool hassome=0;
+        int st=-1;
+        int x=xi[i];
+        while((++st)<=2*r)
+        {
+            if(near[x+st].size()!=0)
+            {
+                viter(ind,near[x+st])
+                {
+                    if(ind<i and nearest.S<coor[ind].S)
+                    {
+                        nearest=coor[ind];
+                        hassome=1;
+                    }
+                }
+            }
+            if(near[x-st].size()!=0)
+            {
+                viter(ind,near[x-st])
+                {
+                    if(ind<i and nearest.S<coor[ind].S)
+                    {
+                        nearest=coor[ind];
+                        hassome=1;
+                    }
+                }
+            }
+        }
+        if(hassome)
+        {
+            double c1c2=4*r*r;
+            double x1=xi[i];
+            double x2=nearest.F;
+            double y2=nearest.S;
+            double diff1=nearest.F-xi[i];
+            double y1=sqrt(c1c2-(diff1*diff1))+y2;
+            coor.eb(mp(int(x1),y1));
+        }
+        else
+            coor.eb(mp(xi[i],r));
+    }
+    cout<<setprecision(15);
+    viter(cir,coor)
+        cout<<cir.S<<" ";
+    cout<<endl;
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>N;
+        cin>>n;
     #endif
     return 0;
 }

@@ -1,13 +1,13 @@
 /******************************************
 *  Author : wshek
-*  Created On : Wed Dec 27 2017
-*  File : 455B.cpp
+*  Created On : Fri Dec 29 2017
+*  File : GOODBYE2017_A.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 100
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -82,6 +82,11 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+bool check( char ch)
+{
+    return(ch=='a' or ch=='e' or ch=='i' or ch=='o' or ch=='u');
+}
+
 int main()
 {
 	//fio;
@@ -89,15 +94,28 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    int N;
-    scan(N);
-    N++;
-    int ans=((N+1)/2)*(N/2);
+    int n;
+    char s[100];
+    scanstr(s);
+    int len=strlen(s);
+    int ans=0;
+    f(i,0,len)
+    {
+        if(check(s[i]))
+        {
+            ans++;
+        }
+        else if(s[i]>=48 and s[i]<=57)
+        {
+            if((s[i]-48)%2!=0)
+                ans++;
+        }
+    }
     print(ans);
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>N;
+        cin>>n;
     #endif
     return 0;
 }

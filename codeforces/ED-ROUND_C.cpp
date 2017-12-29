@@ -1,13 +1,13 @@
 /******************************************
 *  Author : wshek
-*  Created On : Wed Dec 27 2017
-*  File : 455B.cpp
+*  Created On : Thu Dec 28 2017
+*  File : ED-ROUND_C.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 100
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -82,6 +82,7 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+
 int main()
 {
 	//fio;
@@ -89,15 +90,37 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
     #endif
-    int N;
-    scan(N);
-    N++;
-    int ans=((N+1)/2)*(N/2);
-    print(ans);
+    int k1,k2,k3;
+    scan3(k1,k2,k3);
+    int a[3]={k1,k2,k3};
+    bool ans=0;
+    if(k1==1 or k2==1 or k3==1)
+    {
+        ans=1;
+    }
+    else
+    {
+        int cnt=0;
+        f(i,0,3)
+        {
+            if(a[i]==2)
+                cnt++;
+        }
+        if(cnt>=2)
+            ans=1;
+        if(k1==3 and k2==3 and k3==3)
+            ans=1;
+    }
+    sort(a,a+3);
+    if(a[0]<=2 and a[1]==4 and a[2==4]) ans=1;
+    if(ans)
+        printf("YES\n");
+    else
+        printf("NO\n");
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>N;
+        cin>>k1;
     #endif
     return 0;
 }
