@@ -92,6 +92,8 @@ bool check(int x,int y)
     {
         if(maze[x][y]!='#')        
             return 1;
+        else
+            return 0;
     }
     else
         return 0;
@@ -164,7 +166,10 @@ bool solve()
             }
         }
         if(ans and xcurr==xdes and ycurr==ydes)
+        {
+            cout<<"perm is : "<<p<<endl;
             sol++;
+        }
     }
     print(sol);
 }

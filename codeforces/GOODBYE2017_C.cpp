@@ -1,5 +1,5 @@
 /******************************************
-*  Author : wshek
+*  Author : Terminal_Kido
 *  Created On : Fri Dec 29 2017
 *  File : GOODBYE2017_C.cpp
 *******************************************/
@@ -7,7 +7,7 @@
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 3009
+#define M 30009
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -64,7 +64,7 @@ const int SQRTN = 300;
 const int LOGN = 16;
 const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
-const double EPS = 1e-6;
+const float EPS = 1e-6;
 
 int scanstr(char *str)
 {
@@ -91,61 +91,38 @@ int main()
     int n,r;
     scan2(n,r);
     vector<int> xi;
-    vector<int> near[M];
-    xi.resize(n);
+    //vector<int> near[M];
+    xi.resize(n+1);
     f(i,0,n)
     {
         scan(xi[i]);
-        near[xi[i]].eb(i);
+        //near[xi[i]].eb(i);
     }
-    vector< pair<int,double> > coor;
+    vector< pair<float,float> > coor;
     f(i,0,n)
     {
-        pair<int, double> nearest;
-        bool hassome=0;
-        int st=-1;
         int x=xi[i];
-        while((++st)<=2*r)
+        pair<float,float> nearest=mp(x,r);
+        if(i==0)
         {
-            if(near[x+st].size()!=0)
+            coor.eb(mp(x,r));
+            continue;;
+        }
+        viter(circle,coor)
+        {
+            if(abs(circle.F-x)<=2*r)
             {
-                viter(ind,near[x+st])
-                {
-                    if(ind<i and nearest.S<coor[ind].S)
-                    {
-                        nearest=coor[ind];
-                        hassome=1;
-                    }
-                }
-            }
-            if(near[x-st].size()!=0)
-            {
-                viter(ind,near[x-st])
-                {
-                    if(ind<i and nearest.S<coor[ind].S)
-                    {
-                        nearest=coor[ind];
-                        hassome=1;
-                    }
-                }
+                float diff1=abs(circle.F-xi[i]);
+                float y1=sqrt((4*r*r)-(diff1*diff1))+circle.S;
+                nearest=mp(x,max(nearest.S,y1));
             }
         }
-        if(hassome)
-        {
-            double c1c2=4*r*r;
-            double x1=xi[i];
-            double x2=nearest.F;
-            double y2=nearest.S;
-            double diff1=nearest.F-xi[i];
-            double y1=sqrt(c1c2-(diff1*diff1))+y2;
-            coor.eb(mp(int(x1),y1));
-        }
-        else
-            coor.eb(mp(xi[i],r));
+        coor.eb(nearest);
     }
-    cout<<setprecision(15);
-    viter(cir,coor)
-        cout<<cir.S<<" ";
+    cout<<setprecision(10);
+    viter(circle,coor)
+        cout<<circle.S<<" ";
+        //printf("%.15lf ",circle.S);
     cout<<endl;
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
