@@ -1,12 +1,12 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Tue Jan 02 2018               //
+//  Date : Sat Dec 30 2017               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 1000
+#define M 10
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -64,34 +64,73 @@ const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
 
-int scanstr(char *str)
-{
-    register char c = getchar();
-    register int len = 0;
-    if(!(~c)) return -1;
-    while(c < 33 && ~c) c = getchar();
-    while(c != 10 && c != 32 && ~c){
-        str[len] = c;
-        c = getchar();
-        len++;
-    }
-    str[len] = '\0';
-    return 1;
-}
-
-int power(int x, unsigned int y)
-{
-    int res = 1;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = res*x;
-
-        y = y>>1; x = x*x;
-    }
-    return res;
-}
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
+
+vector<pii> gr[M];
+int dis[M];
+bool visited[M];
+int n,src,des,X1,Y1,X2,Y2,X3,Y3;
+
+int bfs()
+{
+    int tot=0;
+    if(src>n or des>n or src<1 or des<1)
+        return 0;
+    queue<int> q;
+    memset(visited,0,sizeof(visited));
+    //memset(dis,0,sizeof(dis));
+	q.push(src);
+    visited[src]=1;
+	while(!q.empty())
+	{
+		int z = q.front();
+        q.pop();
+		int sz= gr[z].size();
+        for(int i=0;i<sz;i++)
+        {
+            int v=gr[z][i].F;
+            int w=gr[z][i].S;
+            bool poss=0;
+            if(visited[v])
+            {
+                continue;
+            }
+            else
+            {
+                q.push(v);
+                visited[v]=1;
+            }
+            if(w%2==0) 
+            {
+                if( w>=X1 and w<=Y1)
+                    poss=1;
+                else poss=0;
+            }
+            if(w%3==0)
+            {
+                if(w>=X2 and w<=Y2)
+                    poss=1;
+                else poss=0;
+            }
+            if(w%5==0)
+            {
+                if(w>=X3 and w<=Y3)
+                    poss=1;
+                else poss=0;
+            }
+            if(poss)
+            {
+                tot+=w;
+            }
+            if(v==des)
+            {
+                return tot;
+            }
+        }
+	}
+    return tot;
+ }
+
 
 int main()
 {
@@ -100,10 +139,30 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    int t; scan(t);
-    while(t--)
+    int q,u,v,c;
+    scan2(n,q);
+    f(i,0,n-1)
     {
-            
+        scan3(u,v,c);
+        gr[u].eb(mp(v,c));
+        gr[v].eb(mp(u,c));
+    }
+    int last=0;
+    int in[8];
+    f(i,0,q)
+    {
+        f(j,0,8)
+            scan(in[j]);
+        src=in[0]+last;
+        des=in[1]+last;
+        X1=in[2]+last;
+        Y1=in[3]+last;
+        X2=in[4]+last;
+        Y2=in[5]+last;
+        X3=in[6]+last;
+        Y3=in[7]+last;
+        last=bfs();
+        print(last);
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE

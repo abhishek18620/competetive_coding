@@ -1,6 +1,6 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Tue Jan 02 2018               //
+//  Date : Fri Jan 05 2018               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -103,7 +103,7 @@ int main()
     int t; scan(t);
     while(t--)
     {
-            
+
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE

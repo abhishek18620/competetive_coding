@@ -1,6 +1,6 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Tue Jan 02 2018               //
+//  Date : Fri Jan 05 2018               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -92,6 +92,14 @@ int power(int x, unsigned int y)
     return res;
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
+int dp[50][50];
+
+// bool valid(int x, int y)
+// {
+//     if(x<=m and y<=n)
+//         return 1;
+//     return 0;
+// }
 
 int main()
 {
@@ -103,12 +111,24 @@ int main()
     int t; scan(t);
     while(t--)
     {
-            
+        memset(dp,0,sizeof(dp));
+        int m,n;
+        scan2(m,n);
+        f(i,0,m)
+            dp[i][n]=1;
+        f(i,0,n)
+            dp[m][i]=1;
+        for(int x=m-1;x>0;x--)
+        {
+            for(int y=n-1;y>0;y--)
+                dp[x][y]=dp[x+1][y]+dp[x][y+1];
+        }
+        print(dp[1][1]);
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
+        cin>>t;
     #endif
     return 0;
 }

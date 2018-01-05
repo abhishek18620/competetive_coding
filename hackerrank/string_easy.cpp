@@ -1,6 +1,6 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Tue Jan 02 2018               //
+//  Date : Fri Jan 05 2018               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -100,15 +100,51 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    int t; scan(t);
-    while(t--)
+    char s[101];
+    scanstr(s);
+    stack<char> st;
+    int len=strlen(s);
+    for(int i=0;i<len;)
     {
-            
+        if(s[i]==s[i+1])
+        {
+            s[i]=s[i+1]='0';
+            i+=2;
+            while(!st.empty())
+            {
+                if(s[i]==st.top())
+                {
+                    st.pop();
+                    i++;
+                }
+                else
+                    break;
+            }
+        }
+        else
+        {
+            st.push(s[i]);
+            i++;
+        }
+    }
+    if(st.empty())
+        cout<<"Empty String"<<endl;
+    else
+    {
+        char ans[101];
+        int ind=st.size()-1;
+        while(!st.empty())
+        {
+            ans[ind]=st.top();
+            st.pop();
+            ind--;
+        }
+        printf("%s\n",ans);
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
+        cin>>len;
     #endif
     return 0;
 }

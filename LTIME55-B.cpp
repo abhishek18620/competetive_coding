@@ -1,3 +1,5 @@
+// some MOD an dpower concepts logn power computation
+// some adhoc skill too
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
 //  Date : Sat Dec 30 2017               //

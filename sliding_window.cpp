@@ -1,6 +1,6 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Tue Jan 02 2018               //
+//  Date : Fri Jan 05 2018               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -101,14 +101,54 @@ int main()
         //freopen("output.txt","w",stdout);
     #endif
     int t; scan(t);
+    int a[100],sum[100];
     while(t--)
     {
-            
+        int n,k;
+        scan2(n,k);
+        sum[0]=0;
+        f(i,1,n+1)
+        {
+            scan(a[i]);
+            sum[i]=sum[i-1]+a[i];
+        }
+        int maxL,maxSum=0;
+        f(i,1,n+1)
+        {
+            if(sum[i]<=k and sum[i+1]>k)
+            {
+                maxL=i;
+                maxSum=sum[i];
+                break;
+            }
+            if(i==n)
+            {
+                print(n);
+                return 0;
+            }
+        }
+        for(int i=1;i+maxL<=n;i++)
+        {
+            if(sum[i+maxL]-sum[i-1]<=k)
+            {
+                maxL++;
+                int currsum=sum[i+maxL]-sum[i-1];
+                int end=i+maxL;
+                while(currsum<=k and currsum>maxSum and end<=n)
+                {
+                    maxL++;
+                    maxSum=currsum;
+                    currsum+=a[++end];
+                }
+            }
+        }
+        trace2(maxL,maxSum);
+        //print(maxSum);
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
+        cin>>t;
     #endif
     return 0;
 }
