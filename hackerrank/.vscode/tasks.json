@@ -6,8 +6,8 @@
     "isShellCommand": true,
     "showOutput": "always",
     //"args": ["-g", "${workspaceRoot}/xor_on_tree.cpp"]
-    //FOR CODEFORCES (i'll be a purple till february end)
-    "args": ["-g", "${workspaceRoot}/GOODBYE2017_C.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
+    //FOR CODEFORCES (i'll be a purple till february)
+    "args": ["-g", "${workspaceRoot}/kingdom_division.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
     
     //for KICKSTART(I'LL BE AN INTERN IN GOOGLE)
     //"args": ["-g", "${workspaceRoot}/kickstart/G_P-2.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
