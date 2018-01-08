@@ -93,6 +93,54 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+
+    SELECT SUM(TA1.TIV_2012)
+    FROM Insurance TA1
+    INNER JOIN
+    (
+        SELECT TIV_2011
+        FROM Insurance
+        GROUP BY TIV_2011
+        HAVING COUNT(*) > 1
+    ) TA2
+        ON TA1.TIV_2011 = TA2.TIV_2011
+    INNER JOIN
+    (
+        SELECT lat, lon
+        FROM Insurance
+        GROUP BY lat, lon
+        HAVING COUNT(*) = 1
+    ) TA3
+        ON TA1.lat = TA3.lat AND
+        TA1.lon = TA3.lon
+
+
+    def minMutation(start, end, bank):
+        searchdict = []
+        for b in bank:
+            searchdict[b] = False
+
+        qe = deque([(start, 0)])
+        while qe:
+            cur, level = qe.popleft()
+            if cur == end:
+                return level
+
+            for i in xrange(len(cur)):
+                for c in ['A', 'T', 'C', 'G']:
+                    if cur[i] == c:
+                        continue
+
+                    nxt_seq = cur[:i] + c + cur[i+1:]
+                    if nxt_seq in searchdict and searchdict[nxt_seq] == False:
+                        qe.append((nxt_seq, level+1))
+                        searchdict[nxt_seq] = True
+
+        return -1
+
+
+    return maxcnt;
+
 int main()
 {
     #ifdef LOCAL_DEFINE
@@ -108,7 +156,7 @@ int main()
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
+        cin>>t;
     #endif
     return 0;
 }

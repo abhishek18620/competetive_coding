@@ -60,13 +60,9 @@ int main()
                             continue;
                     }
                     sol[sum-currsum]=1;
-            //        trace2(sum,currsum);
                     break;
                 }
-                //trace4(n,i,sum,sum-currsum);
             }
-            //trace2(sum,currsum);
-            //assert(currsum+i>sum);
         }
         if(!poss)
         {
