@@ -1,12 +1,12 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Fri Jan 05 2018               //
+//  Date : Sun Jan 07 2018               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 1000
+#define M 1000009
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -93,6 +93,42 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+void checker_util()
+{
+    f(x,10,1000001)
+    {
+        ll sum=(1ll*x*(x+1))>>1;
+        if(sum&1)
+            sum--;
+        sum>>=1;
+        //cout<<sum<<endl;
+        ll currsum=0;
+        int used=0;
+        fr(i,x,0)
+        {
+            if(currsum+i<=sum)
+            {
+                currsum+=i;
+                used++;
+            }
+            else
+            {
+                if(i>sum-currsum)
+                    used++;
+                //trace4(n,i,sum,sum-currsum);
+                break;
+            }
+            //trace2(sum,currsum);
+            //assert(currsum+i>sum);
+        }
+        int left=x-used;
+        //trace3(n,used,left);            
+        assert(left>x/2);  //case of failure
+    }
+}
+
+int check[M];
+
 int main()
 {
     #ifdef LOCAL_DEFINE
@@ -103,12 +139,80 @@ int main()
     int t; scan(t);
     while(t--)
     {
-        
+        int x,n; scan2(x,n);
+        memset(check,0,sizeof(int)*(n+2));
+        check[x]=2;
+        ll sum=(1ll*n*(n+1))>>1;
+        sum-=x;
+        if(sum&1)
+        {
+            printf("impossible\n");
+            continue;
+        }
+        sum>>=1;
+        //cout<<sum<<endl;
+        ll currsum=0;
+        int used=0;
+        bool poss=1;
+        fr(i,n,1)
+        {
+            if(currsum+i<=sum)
+            {
+                if(i==x) continue;
+                check[i]=1;
+                currsum+=i;
+                used++;
+            }
+            else
+            {
+                if(i>sum-currsum)
+                {
+                    if(sum-currsum==x)
+                    {
+                        if(x==1)
+                        {
+                            if(i<=2)
+                                poss=0;
+                            check[i+1]=0;
+                            check[i]=check[2]=1;
+                            break;
+                        }
+                        else if(x==2)
+                        {
+                            if(i<=3)
+                                poss=0;
+                            check[i+1]=0;
+                            check[i]=check[3]=1;
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                    check[sum-currsum]=1;
+                    used++;
+            //        trace2(sum,currsum);
+                    break;
+                }
+                //trace4(n,i,sum,sum-currsum);
+            }
+            //trace2(sum,currsum);
+            //assert(currsum+i>sum);
+        }
+        if(!poss)
+        {
+            printf("impossible\n");
+            continue;
+        }
+        f(i,1,n+1)
+        {
+            printf("%d",check[i]);
+        }
+        cout<<endl;
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
+        cin>>t;
     #endif
     return 0;
 }

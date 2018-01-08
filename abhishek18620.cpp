@@ -1,47 +1,88 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
 using namespace std;
-long long totalDiamonds[100];
-int main(){
-  #ifdef LOCAL_DEFINE
+typedef long long ll;
+int sol[1000009];
+
+int main()
+{
+    #ifdef LOCAL_DEFINE
+        clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-  int tc;
-  int n;
-  int diamonds[201];
-  totalDiamonds[1]=2;
-  int indiPos[7]={0,0,0,0,0,0,9};
-  int oddSum=9,evenSum=0;
-  for(int i=0;i<10;i++)
-    diamonds[i]=i;
-  int k;
-  int lastPos=6;
-  int j;
-  for(int i=10;i<=200;i++){
-    j=lastPos;
-    while(indiPos[j]==9){
-      indiPos[j]=0;
-      oddSum-=9;
-      j--;
+    int t; scanf("%d",&t);
+    while(t--)
+    {
+        int x,n; scanf("%d %d",&x,&n);
+        memset(sol,0,sizeof(int)*(n+2));
+        sol[x]=2;
+        ll sum=(1ll*n*(n+1))>>1;
+        sum-=x;
+        if(sum&1)
+        {
+            printf("impossible\n");
+            continue;
+        }
+        sum>>=1;
+        ll currsum=0;
+        bool poss=1;
+        for(int i=n;i>=1;i--)
+        {
+            if(currsum+i<=sum)
+            {
+                if(i==x) continue;
+                sol[i]=1;
+                currsum+=i;
+            }
+            else
+            {
+                if(i>sum-currsum)
+                {
+                    if(sum-currsum==x)
+                    {
+                        if(x==1)
+                        {
+                            if(i<=2)
+                                poss=0;
+                            sol[i+1]=0;
+                            sol[i]=sol[2]=1;
+                            break;
+                        }
+                        else if(x==2)
+                        {
+                            if(i<=3)
+                                poss=0;
+                            sol[i+1]=0;
+                            sol[i]=sol[3]=1;
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                    sol[sum-currsum]=1;
+            //        trace2(sum,currsum);
+                    break;
+                }
+                //trace4(n,i,sum,sum-currsum);
+            }
+            //trace2(sum,currsum);
+            //assert(currsum+i>sum);
+        }
+        if(!poss)
+        {
+            printf("impossible\n");
+            continue;
+        }
+        for(int i=1;i<=n;i++)
+        {
+            printf("%d",sol[i]);
+        }
+        printf("\n");
     }
-    if(indiPos[j]&1){
-      oddSum-=indiPos[j];
-      evenSum+=(++indiPos[j]);
-    }else{
-      evenSum-=indiPos[j];
-      oddSum+=(++indiPos[j]);
-    }
-    diamonds[i]=abs(evenSum-oddSum);
-  }
-  for(int j=2;j<=100;j++){
-    totalDiamonds[j]=2*totalDiamonds[j-1]-totalDiamonds[j-2]-2*diamonds[j]+
-                diamonds[2*(j-1)]+2*diamonds[2*j-1]+diamonds[2*j];
-  }
-  scanf("%d",&tc);
-  while(tc--){
-    scanf("%d",&n);
-    printf("%lld\n",totalDiamonds[n]);
-  }
-  return 0;
-} 
+    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
+    #ifdef LOCAL_DEFINE
+        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
+        cin>>t;
+    #endif
+    return 0;
+}
