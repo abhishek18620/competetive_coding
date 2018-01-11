@@ -1,7 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-int sol[1000009];
+
+int m,n;
+pair<int,char> dp[5009][5009];
+char str1[5009],str2[5009];
 
 int main()
 {
@@ -10,75 +13,67 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    int t; scanf("%d",&t);
+    int t; 
+    scanf("%d",&t);
     while(t--)
     {
-        int x,n; scanf("%d %d",&x,&n);
-        memset(sol,0,sizeof(int)*(n+2));
-        sol[x]=2;
-        ll sum=(1ll*n*(n+1))>>1;
-        sum-=x;
-        if(sum&1)
+        scanf("%d %d",&m,&n);
+        scanf("%s %s",str1,str2);
+        dp[0][0]=make_pair(0,'\0');
+        dp[1][0]=make_pair(0,str1[0]);
+        dp[0][1]=make_pair(0,str2[0]);
+        for(int i=2;i<=m;i++)
         {
-            printf("impossible\n");
-            continue;
-        }
-        sum>>=1;
-        ll currsum=0;
-        bool poss=1;
-        for(int i=n;i>=1;i--)
-        {
-            if(currsum+i<=sum)
-            {
-                if(i==x) continue;
-                sol[i]=1;
-                currsum+=i;
-            }
+            if(str1[i-2]==str1[i-1])
+                dp[i][0]=make_pair(dp[i-1][0].first,str1[i-1]);
             else
+                dp[i][0]=make_pair(dp[i-1][0].first+1,str1[i-1]);
+        }
+        for(int i=2;i<=n;i++)
+        {
+            if(str2[i-2]==str2[i-1])
+                dp[0][i]=make_pair(dp[0][i-1].first,str2[i-1]);
+            else
+                dp[0][i]=make_pair(dp[0][i-1].first+1,str2[i-1]);
+        }
+
+        for(int i=1;i<=m;i++)
+        {
+            int min1,min2;
+            char lst1,lst2;
+            for(int j=1;j<=n;j++)
             {
-                if(i>sum-currsum)
+                if(dp[i-1][j].second == str1[i-1])
                 {
-                    if(sum-currsum==x)
-                    {
-                        if(x==1)
-                        {
-                            if(i<=2)
-                                poss=0;
-                            sol[i+1]=0;
-                            sol[i]=sol[2]=1;
-                            break;
-                        }
-                        else if(x==2)
-                        {
-                            if(i<=3)
-                                poss=0;
-                            sol[i+1]=0;
-                            sol[i]=sol[3]=1;
-                            break;
-                        }
-                        else
-                            continue;
-                    }
-                    sol[sum-currsum]=1;
-                    break;
+                    min1=dp[i-1][j].first;
+                    lst1=str1[i-1];
                 }
+                else
+                {
+                    min1=dp[i-1][j].first+1;
+                    lst1=str1[i-1];
+                }
+
+                if(dp[i][j-1].second == str2[j-1])
+                {
+                    min2=dp[i][j-1].first;
+                    lst2=str2[j-1];
+                }
+                else
+                {
+                    min2=dp[i][j-1].first+1;
+                    lst2=str2[j-1];
+                }
+
+                if(min1>=min2)
+                {
+                    dp[i][j]=make_pair(min2,lst2);
+                }
+                else
+                    dp[i][j]=make_pair(min1,lst1);
             }
         }
-        if(!poss)
-        {
-            printf("impossible\n");
-            continue;
-        }
-        for(int i=1;i<=n;i++)
-        {
-            printf("%d",sol[i]);
-        }
-        printf("\n");
+        printf("%d\n",dp[m][n].first+1);
     }
-    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
-    #ifdef LOCAL_DEFINE
-        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>t;
-    #endif
     return 0;
 }
