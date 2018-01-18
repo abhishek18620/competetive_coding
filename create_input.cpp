@@ -40,22 +40,23 @@ int main()
         freopen("INP.txt","w",stdout);
     #endif
     long long l=1;  
-    long long r=10000;
+    long long r=1000000000;
         //r/=(t+1);
         // cout<<4<<endl;
         // f(j,1,5)
         // {
-            cout<<10000<<" "<<30000;
+            cout<<100009;
             cout<<endl;
-            f(i,0,10000)
-                cout<<i+1<<" ";
+            f(i,0,100009)
+                cout<<(rand()%(l-r+1))<<" ";
             cout<<endl;
-            f(i,0,9999)
-                cout<<i+1<<" ";
-            cout<<endl;
-            int te=1000000000;
-            f(i,0,30000)
-                cout<<"0 1 "<<(te--)<<endl;
+            cout<<100000<<endl;
+            fr(i,100000,1)
+                cout<<(rand()%(l-r+1))<<" "<<1<<endl;
+            // cout<<endl;
+            // int te=1000000000;
+            // f(i,0,30000)
+            //     cout<<"0 1 "<<(te--)<<endl;
             // {
             //     //srand(i);
             //     cout<<(rand()%(l-r+1))<<" ";

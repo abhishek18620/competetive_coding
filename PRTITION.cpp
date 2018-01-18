@@ -1,6 +1,6 @@
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Sun Jan 07 2018               //
+//  Date : Sun Jan 15 2018               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -19,7 +19,6 @@ typedef long long ll;
 #define S second
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
-#define scan(d) scanf("%d", &d)
 #define scan2(a, b) scanf("%d %d", &a, &b)
 #define scan3(a, b, c) scanf("%d %d %d", &a, &b, &c)
 #define scan4(a, b, c, d) scanf("%d %d %d %d", &a, &b, &c, &d)
@@ -64,6 +63,14 @@ const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
 
+void scan(int &x){
+    	register int c = gc();
+    	x = 0;
+    	for(;c<48 || c>57;c=gc());
+    	for(;c>47 && c<58;c=gc())
+    		x=(x<<1)+(x<<3)+c-48;
+    }
+
 int scanstr(char *str)
 {
     register char c = getchar();
@@ -97,29 +104,29 @@ void checker_util()
 {
     f(x,10,1000001)
     {
-        ll sum=(1ll*x*(x+1))>>1;
-        if(sum&1)
-            sum--;
-        sum>>=1;
-        //cout<<sum<<endl;
-        ll currsum=0;
+        ll Sum=(1ll*x*(x+1))>>1;
+        if(Sum&1)
+            Sum--;
+        Sum>>=1;
+        //cout<<Sum<<endl;
+        ll CurrSum=0;
         int used=0;
         fr(i,x,0)
         {
-            if(currsum+i<=sum)
+            if(CurrSum+i<=Sum)
             {
-                currsum+=i;
+                CurrSum+=i;
                 used++;
             }
             else
             {
-                if(i>sum-currsum)
+                if(i>Sum-CurrSum)
                     used++;
-                //trace4(n,i,sum,sum-currsum);
+                //trace4(n,i,Sum,Sum-CurrSum);
                 break;
             }
-            //trace2(sum,currsum);
-            //assert(currsum+i>sum);
+            //trace2(Sum,CurrSum);
+            //assert(CurrSum+i>Sum);
         }
         int left=x-used;
         //trace3(n,used,left);            
@@ -135,39 +142,39 @@ int main()
         clock_t tStart = clock();
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
-    #endif
+    #endif  
     int t; scan(t);
     while(t--)
     {
-        int x,n; scan2(x,n);
+        int x,n; scan(x); scan(n);
         memset(check,0,sizeof(int)*(n+2));
         check[x]=2;
-        ll sum=(1ll*n*(n+1))>>1;
-        sum-=x;
-        if(sum&1)
+        ll Sum=(1ll*n*(n+1))>>1;
+        Sum-=x;
+        if(Sum&1)
         {
             printf("impossible\n");
             continue;
         }
-        sum>>=1;
-        //cout<<sum<<endl;
-        ll currsum=0;
+        Sum>>=1;
+        //cout<<Sum<<endl;
+        ll CurrSum=0;
         int used=0;
         bool poss=1;
         fr(i,n,1)
         {
-            if(currsum+i<=sum)
+            if(CurrSum+i<=Sum)
             {
                 if(i==x) continue;
                 check[i]=1;
-                currsum+=i;
+                CurrSum+=i;
                 used++;
             }
             else
             {
-                if(i>sum-currsum)
+                if(i>Sum-CurrSum)
                 {
-                    if(sum-currsum==x)
+                    if(Sum-CurrSum==x)
                     {
                         if(x==1)
                         {
@@ -188,15 +195,15 @@ int main()
                         else
                             continue;
                     }
-                    check[sum-currsum]=1;
+                    check[Sum-CurrSum]=1;
                     used++;
-            //        trace2(sum,currsum);
+            //        trace2(Sum,CurrSum);
                     break;
                 }
-                //trace4(n,i,sum,sum-currsum);
+                //trace4(n,i,Sum,Sum-CurrSum);
             }
-            //trace2(sum,currsum);
-            //assert(currsum+i>sum);
+            //trace2(Sum,CurrSum);
+            //assert(CurrSum+i>Sum);
         }
         if(!poss)
         {

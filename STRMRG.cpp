@@ -1,13 +1,13 @@
-//DP take it if you want
+//DP take it if you can
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
-//  Date : Mon Jan 08 2018               //
+//  Date : Mon Jan 15 2018               //
 ///////////////////////////////////////////
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 50
+#define M 5009
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -20,13 +20,12 @@ typedef long long ll;
 #define S second
 #define pb push_back
 #define error(args...) { vector<string> _v = split(#args, ','); err(_v.begin(), args); }
-#define scan(d) scanf("%d", &d)
 #define scan2(a, b) scanf("%d %d", &a, &b)
 #define scan3(a, b, c) scanf("%d %d %d", &a, &b, &c)
 #define scan4(a, b, c, d) scanf("%d %d %d %d", &a, &b, &c, &d)
 #define scanl(d) scanf("%lld", &d)
 #define scanl2(a, b) scanf("%lld %lld", &a, &b)
-#define scanl3(a, b, c) scanf("%lld %lld %lld", &a, &b, &c)
+#define scanl3(a, b, c) scanf("%lld %lld %lld", &a, &b, &c) 
 #define scanl4(a, b, c, d) scanf("%lld %lld %lld %lld", &a, &b, &c, &d)
 #define print(t) printf("%d\n",t)
 #define printl(t) printf("%lld\n",t)
@@ -64,6 +63,14 @@ const int LOGN = 16;
 const int INT_INFINITY = 1001001001;
 const ll LONG_INFINITY = 2001001001001001001ll;
 const double EPS = 1e-6;
+
+void scan(int &x){
+    	register int c = gc();
+    	x = 0;
+    	for(;c<48 || c>57;c=gc());
+    	for(;c>47 && c<58;c=gc())
+    		x=(x<<1)+(x<<3)+c-48;
+    }
 
 int scanstr(char *str)
 {
@@ -109,7 +116,7 @@ int main()
     while(t--)
     {
         //memset(dp,0,sizeof(dp));
-        int m,n; scan2(m,n);
+        int m,n; scan(m); scan(n);
         scanstr(strA); scanstr(strB);
         dp[0][0]=mp(0,'\0');
         dp[1][0]=mp(0,strA[0]);
@@ -132,7 +139,7 @@ int main()
         f(indA,1,m+1)
         {
             int min1,min2;
-            char lst1,lst2;
+            char ch1,ch2;
             f(indB,1,n+1)
             {
                 //come from (indA-1,indB)
@@ -140,12 +147,12 @@ int main()
                 if(dp[indA-1][indB].S == strA[indA-1])
                 {
                     min1=dp[indA-1][indB].F;
-                    lst1=strA[indA-1];
+                    ch1=strA[indA-1];
                 }
                 else
                 {
                     min1=dp[indA-1][indB].F+1;
-                    lst1=strA[indA-1];
+                    ch1=strA[indA-1];
                 }
 
                 //come from (indA,indB-1)
@@ -153,43 +160,23 @@ int main()
                 if(dp[indA][indB-1].S == strB[indB-1])
                 {
                     min2=dp[indA][indB-1].F;
-                    lst2=strB[indB-1];
+                    ch2=strB[indB-1];
                 }
                 else
                 {
                     min2=dp[indA][indB-1].F+1;
-                    lst2=strB[indB-1];
+                    ch2=strB[indB-1];
                 }
 
                 if(min1>=min2)
                 {
-                    dp[indA][indB]=mp(min2,lst2);
+                    dp[indA][indB]=mp(min2,ch2);
                 }
                 else
-                    dp[indA][indB]=mp(min1,lst1);
+                    dp[indA][indB]=mp(min1,ch1);
             }
         }
-        print(dp[m][n].F);
-        char res[m+n];
-        int resind=m+n;
-        res[resind]='\0';
-        int i=m,j=n;
-        res[i+j-1]=dp[m][n].S;
-        while(i+j-2>=0)
-        {
-            int ind=i+j-1;
-            if(dp[i-1][j].F <= dp[i][j-1].F)
-            {
-                res[i+j-2]=dp[i-1][j].S;
-                i--;
-            }
-            else
-            {
-                res[i+j-2]=dp[i][j-1].S;
-                j--;
-            }
-        }
-        trace2(dp[m][n].F,res);
+        print(dp[m][n].F+1);
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
