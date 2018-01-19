@@ -142,28 +142,39 @@ int main()
     #endif
     int n,m;
     scan(n);
-    int maxELE=0;
+    vi a(n);
     f(i,0,n)
+        scan(a[i]);
+    int inv=0;
+    f(i,0,n-1)
+        f(j,i+1,n) if(a[i]>a[j]) inv++;
+    bool odd=(inv&1);
+    int q,l,r;
+    scan(q);
+    f(i,0,q)
     {
-        scan(arr[i]);
-        maxELE=max(arr[i],maxELE);
-    }
-    scan(m);
-    f(i,0,m)
-    {
-        int l,r;
         scan2(l,r);
-        l--,r--;
-        while(l<=r)
+        int num=r-l+1;
+        //possible pairs
+        ll pairs=(1ll*num*(num-1))>>1;
+        bool solodd=0;
+        if(odd)
         {
-            swap(arr[l],arr[r]);
-            l++,r--;
+            if(pairs&1) //pairs are odd
+                solodd=0;
+            else
+                solodd=1;
         }
-        int ans=invcount(maxELE,n);
-        if(ans&1)
-            printf("odd\n");
         else
-            printf("even\n");
+        {
+            if(pairs&1)
+                solodd=1;
+            else
+                solodd=0;
+        }
+        odd=solodd;
+        if(solodd) printf("odd\n");
+        else printf("even\n");
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE

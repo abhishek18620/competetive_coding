@@ -1,13 +1,13 @@
 /******************************************
-*  Author : wshek
-*  Created On : Wed Dec 27 2017
-*  File : prac11.cpp
+*  Author : Terminal_Kido
+*  Created On : Fri Jan 19 2018
+*  File : prac12.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 1000
+#define M 50
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -30,10 +30,10 @@ typedef long long ll;
 #define scanl4(a, b, c, d) scanf("%lld %lld %lld %lld", &a, &b, &c, &d)
 #define print(t) printf("%d\n",t)
 #define printl(t) printf("%lld\n",t)
-#define trace2(x, y)          cout <<#x<<": "<<x<<" | "<<#y<<": "<<y<< endl;
-#define trace3(x, y, z)       cout <<#x<<": "<<x<<" | "<<#y<<": "<<y<<" | "<<#z<<": "<<z<<endl;
-#define trace4(a, b, c, d)    cout <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<endl;
-#define trace5(a, b, c, d, e) cout <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<<": "<<e<<endl;
+#define trace2(x, y)          cerr <<#x<<": "<<x<<" | "<<#y<<": "<<y<< endl;
+#define trace3(x, y, z)       cerr <<#x<<": "<<x<<" | "<<#y<<": "<<y<<" | "<<#z<<": "<<z<<endl;
+#define trace4(a, b, c, d)    cerr <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<endl;
+#define trace5(a, b, c, d, e) cerr <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<<": "<<e<<endl;
 #define eb emplace_back
 #define PI 3.1415926535897932384626433832795
 #define viter(it,s) for (auto it: s)
@@ -103,6 +103,7 @@ int main()
         if(v==1)
             swap(u,v);
         TR[u].eb(v);
+        TR[v].eb(u);
     }
     stack<int> st;
     st.push(1);
@@ -131,11 +132,13 @@ int main()
                 else
                 {
                     cats[v]=0;
-                    st.push(v);
+                    if(cats[v]<=m)
+                        st.push(v);
                 }
             }
         }
-        if(sz==0 and cats[u]<=m)
+        //if(sz==1)   trace2(u,cats[u]);
+        if(sz==1 and cats[u]<=m and u!=1)
             res++;
     }
     print(res);

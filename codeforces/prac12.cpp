@@ -1,6 +1,6 @@
 /******************************************
-*  Author : wshek
-*  Created On : Wed Dec 27 2017
+*  Author : Terminal_Kido
+*  Created On : Fri Jan 19 2018
 *  File : prac12.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
@@ -30,10 +30,10 @@ typedef long long ll;
 #define scanl4(a, b, c, d) scanf("%lld %lld %lld %lld", &a, &b, &c, &d)
 #define print(t) printf("%d\n",t)
 #define printl(t) printf("%lld\n",t)
-#define trace2(x, y)          cout <<#x<<": "<<x<<" | "<<#y<<": "<<y<< endl;
-#define trace3(x, y, z)       cout <<#x<<": "<<x<<" | "<<#y<<": "<<y<<" | "<<#z<<": "<<z<<endl;
-#define trace4(a, b, c, d)    cout <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<endl;
-#define trace5(a, b, c, d, e) cout <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<<": "<<e<<endl;
+#define trace2(x, y)          cerr <<#x<<": "<<x<<" | "<<#y<<": "<<y<< endl;
+#define trace3(x, y, z)       cerr <<#x<<": "<<x<<" | "<<#y<<": "<<y<<" | "<<#z<<": "<<z<<endl;
+#define trace4(a, b, c, d)    cerr <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<endl;
+#define trace5(a, b, c, d, e) cerr <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<<": "<<e<<endl;
 #define eb emplace_back
 #define PI 3.1415926535897932384626433832795
 #define viter(it,s) for (auto it: s)

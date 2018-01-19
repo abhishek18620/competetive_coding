@@ -131,7 +131,8 @@ int main()
     #endif
     ll n;
     //scanl(n);
-    n=10000
+    n=10000;    
+
     ll cnt=0;
     ll st=4;
     cout<<"{ ";
