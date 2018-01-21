@@ -1,7 +1,8 @@
+// Segment Tree
 /******************************************
 *  Author : Terminal_Kido
-*  Created On : Sat Jan 20 2018
-*  File : 458D.cpp
+*  Created On : Sun Jan 21 2018
+*  File : prac12.cpp
 *******************************************/
 // It's my template. Don't you dare to select and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -81,80 +82,80 @@ int scanstr(char *str)
     return 1;
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int BSIZE,n;
-vi a,agcd;
-int getBlock(int ind)
+vi a;
+int changes;
+
+struct node
 {
-    return ind/BSIZE;
-}
-int gcdarr(int l , int r)
+    int gcd;
+    void init(int x)
+    {
+        gcd=x;
+    }
+    void merge(node &l , node&r)
+    {
+        gcd=__gcd(l.gcd , r.gcd);
+    }
+};
+vector<node> seg;
+
+void build(int idx, int l ,int r)
 {
-    int res = a[l];
-    f(i,l+1,r+1)
-        res = __gcd(a[i], res);
-    return res;
+    if(l==r)
+    {
+        seg[idx].gcd=a[l];
+        return;
+    }
+    int mid=(l+r)>>1;
+    build(idx<<1,l,mid);
+    build(idx<<1|1,mid+1,r);
+    seg[idx].merge(seg[idx<<1],seg[idx<<1|1]);
 }
 
-bool changeable(int l, int r, int x)
+void update(int idx,int l,int r,int updidx,int updval)
 {
-    bool found=0;
-    f(ind,l,r+1)
+    if(l==r)
     {
-        if(a[ind]%x!=0)
-        {
-            if(found) return 0;
-            else found=1;
-        }
+        seg[idx].gcd=updval;
+        return;
     }
-    return 1;
+    int mid=(l+r)>>1;
+    if(updidx >= l and updidx <=mid)
+    {
+        update(idx<<1,l,mid,updidx,updval);
+    }
+    else
+    {
+        update(idx<<1|1,mid+1,r,updidx,updval);
+    }
+    seg[idx].merge(seg[idx<<1],seg[idx<<1|1]);
 }
 
-bool type1(int l , int r , int x)
+bool query(int idx,int l,int r,int Ql,int Qr,int x)
 {
-    int leftblock=getBlock(l);
-    int rightblock=getBlock(r);
-    int defycnt=0;
-    bool found=0;
-    int blockgcd=1;
-    f(block,leftblock+1,rightblock)
+    if(changes>1) return 0;
+    if(seg[idx].gcd %x ==0) return 1;
+
+    //seg[idx].gcd is not a multiple of x 
+    if(l==r)    //can't process the whole segment at once if not a multiple
     {
-        int currgcd=agcd[block];
-        blockgcd=__gcd(blockgcd,currgcd);
-        if(currgcd%x!=0)
-        {
-            if(found) return 0;
-            int left=block*BSIZE;
-            int right=left+BSIZE-1;
-            if(!changeable(left,right,x)) return 0;
-            found=1;
-            // if(currgcd%x!=0) //divisible so just need to decrement smallest element
-            // {
-            //     if(!changeable(left,right,x)) return 0; 
-            //     //else found=1;
-            // }
-        }
+        changes++;
+        if(changes>1) return 0;
+        else return 1;
     }
-    //solve boundaries
-    int leftgcd=gcdarr(l,BSIZE*(leftblock+1)-1);
-    int rightgcd=gcdarr(BSIZE*(rightblock),r);
-    if(found)   // one element already changed
+    int mid=(l+r)>>1;
+    bool resL=1,resR=1;
+    if(Qr<=mid)  //query range lies in left subtree
+        resL=query(idx<<1,l,mid,Ql,Qr,x);
+    else if(Ql>mid)    //query range lies in right tree
+        resR=query(idx<<1|1,mid+1,r,Ql,Qr,x);
+    else    //query range lies in both trees 
     {
-        if(leftgcd==x and rightgcd==x) return 1;
+        resL=query(idx<<1,l,mid,Ql,mid,x);
+        resR=query(idx<<1|1,mid+1,r,mid+1,Qr,x);
     }
-    else    // no element has been changed yet
-    {
-        if(leftgcd%x!=0 and rightgcd%x!=0) return 0;
-        else
-        {
-            if(leftgcd%x==0 and rightgcd%x==0) return 1;
-            else if(leftgcd%x!=0)
-            {
-                return changeable(l,BSIZE*(leftblock+1)-1,x);
-            }
-            else
-                return changeable(BSIZE*(rightblock),r,x);
-        }
-    }
+    if(resL and resR) return 1;
+    return 0;
 }
 
 int main()
@@ -166,40 +167,30 @@ int main()
     #endif
     int n;
     scan(n);
-    a.resize(n);
-    f(i,0,n) scan(a[i]);
-    BSIZE=sqrt(n);
-    int sqrtn=sqrt(n);
-    int l=0;
-    int r=sqrtn-1;
-    //gcd calcultor for blocks
-    f(i,0,sqrtn)
-    {
-        agcd.eb(gcdarr(l,r));
-        l=r+1;
-        r=r+sqrtn;
-    }
-    if(l<n)
-    {
-        agcd.eb(gcdarr(l,n-1));
-    }
-    int q,type,x; scan(q);
+    a.resize(n+1);
+    f(i,1,n+1)
+        scan(a[i]);
+    seg.resize(n<<2);
+    build(1,1,n);
+    int q,type,l,r,x; scan(q);
     f(i,0,q)
     {
         scan(type);
         if(type==1)
         {
+            changes=0;
             scan3(l,r,x);
-            l--; r--;
-            if(type1(l,r,x)) printf("YES\n");
+            if(query(1,1,n,l,r,x))
+            {
+                if(changes>1) printf("NO\n");
+                else printf("YES\n");
+            }
             else printf("NO\n");
         }
         else
         {
             scan2(l,x);
-            l--; a[l]=x;
-            int block=getBlock(l);
-            agcd[block]=gcdarr(block*BSIZE,block*BSIZE+BSIZE-1);
+            update(1,1,n,l,x);
         }
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
