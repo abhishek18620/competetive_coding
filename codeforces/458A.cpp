@@ -1,10 +1,3 @@
-/******************************************
-*  Author : Terminal_Kido
-*  Created On : Fri Jan 19 2018
-*  File : prac12.cpp
-*******************************************/
-// It's my template. Don't you dare to select and copy it ;)
-#pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
 #define M 1000
@@ -82,19 +75,29 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+bool fun(int n)
+{
+   if (n < 0)
+       return false;
+   int root(round(sqrt(n)));
+   return n == root * root;
+}
 
 int main()
 {
-	//fio;
-    #ifdef LOCAL_DEFINE
-        clock_t tStart = clock();
-        freopen("INP.txt","rt",stdin);
-    #endif
-
-    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
-    #ifdef LOCAL_DEFINE
-        cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>n;
-    #endif
-    return 0;
+   int n,i,j;
+   cin >> n;
+   int a[n];
+   f(i,0,n)
+   cin >> a[i];
+   sort(a,a+n);
+   fr(i,n-1,0)
+   {
+       if(float(sqrt(a[i]))!=sqrt(a[i]))
+       {
+           print(a[i]);
+           break;
+       }
+   }
+   return 0;
 }
