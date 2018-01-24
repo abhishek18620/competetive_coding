@@ -82,7 +82,6 @@ int scanstr(char *str)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-
 int solve(vector <int> a, int k)
 {
     int n=a.size();
@@ -97,7 +96,7 @@ int solve(vector <int> a, int k)
         if (k+a[i] == a[i])
             count--;
     }
-    return count/2;
+    return count;
 }
 
 int main()
