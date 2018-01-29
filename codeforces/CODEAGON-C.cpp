@@ -1,3 +1,4 @@
+// Confused it with a dp approach could get 10 points only. Darn
 ///////////////////////////////////////////
 //  Author : abhishek18620               //
 //  Date : Mon Jan 29 2018               //
@@ -7,7 +8,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define M 1000
-#define INF 999999
+#define INF 1e17+9
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
 #define f(i, j, k) for (int i = j; i < k; i++)
@@ -93,12 +94,6 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-inline pii minpair(pii l ,pii r)
-{
-    if(l.F<r.F) return l;
-    return r;
-}
-
 int main()
 {
     #ifdef LOCAL_DEFINE
@@ -106,48 +101,39 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    int n,m,k;
+    int n,m,k,te;
     scan3(n,m,k);
-    pii dp[m+1][n+1];        //state [items purachsed][current_shop]
-    int a[n];
-    int till[n];
-    f(i,0,n) scan(a[i]);
-    
-    till[n-1]=a[n-1];
-    fr(i,n-2,0)
-    {
-        if(a[i]) till[i]=till[i+1]+1;
-        else till[i]=till[i+1];
-    }
+    vi a;
+    ll ans=0;
     f(i,0,n)
-        dp[0][i]=mp(INF,0);
-    for(int shop=1;shop<n;shop++)
     {
-        // has to buy minimum m-cnt items till this shop
-        for(int items=m-till[shop]+1;items<=m;items++)
-        {
-            if(!a[shop])    //not selling any item
-            {
-                dp[items][shop]=mp(dp[items][shop-1].F+ items*k, shop);
-                continue;
-            }
-            pii buying=mp(INF,0);
-            pii not_buying=mp(INF,0);
-            for(int tillind=1 ; tillind<shop;tillind++)
-            {
-                buying=minpair(buying,dp[items-1][tillind]);
-                not_buying=minpair(not_buying , dp[items][tillind]);
-            }
-                        //previous  //time for curr item
-            buying=mp(buying.F + (items-1)*abs(shop-buying.S)*k , shop);
-            not_buying=mp(not_buying.F + (items)*abs(shop-not_buying.S)*k , shop);
-            dp[items][shop]=minpair(not_buying , buying);
-        }
+        scan(te);
+        if(te) a.eb(i);
     }
-    ll ans=INF;
-    f(i,1,n)
-        ans=min(ans,1ll*dp[m][i].F);
-    printl(ans);
+    if(a.size()<m)
+    {
+        printf("-1\n");
+        return 0;
+    }
+    f(i,0,m)
+    {
+        if(i == 0)
+            ans += a[i];
+        else 
+            ans += 1ll*(a[i] - a[i-1])*k*(i);
+    }
+    ll sol=ans;
+    int sz=a.size();
+    for(int i = m; i < sz;i++)
+    {        
+        ll l, dec, linc, rinc;
+        dec = 1ll*(a[i-1]-a[i-m])*k;
+        linc = a[i-m+1]-a[i-m];
+        rinc = 1ll*(a[i]-a[i-1])*(m-1)*k;
+        ans = ans - dec + linc + rinc;
+        sol = min(sol, ans);
+    }
+    printl(sol);
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
