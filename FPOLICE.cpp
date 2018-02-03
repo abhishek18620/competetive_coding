@@ -1,12 +1,12 @@
-///////////////////////////////////////////
-//  Author : abhishek18620               //
-//  Date : Mon Jan 29 2018                       //
-///////////////////////////////////////////
-// It's my template. Don't you dare to select and copy it ;)
+/******************************************
+*  Author : abhishek18620
+*  Created On : 2018-02-02
+*  File : FPOLICE
+*******************************************/
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 1000
+#define M 100
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -47,6 +47,7 @@ typedef vector<int>::iterator vit;
 typedef vector<pii> vii;
 typedef vector<int> vi;
 typedef vector<ll> vll;
+
 #ifdef LOCAL_DEFINE
     #include<assert.h>
 #else
@@ -78,7 +79,15 @@ int scanstr(char *str)
     str[len] = '\0';
     return 1;
 }
-
+void writel(ll n)
+{
+	if(n<0){n=-n;putchar('-');}
+	ll i=10;
+	char output_buffer[11];output_buffer[10]='\n';
+	do{output_buffer[--i]=(n%10)+'0';n/=10;}
+	while(n);
+	do{putchar(output_buffer[i]);}while(++i<11);
+}
 int power(int x, unsigned int y)
 {
     int res = 1;
@@ -92,6 +101,13 @@ int power(int x, unsigned int y)
     return res;
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
+int dp[103][253];
+struct edge
+{
+    int TI,RI;
+};
+
+edge adj[102][102];
 
 int main()
 {
@@ -103,7 +119,66 @@ int main()
     int t; scan(t);
     while(t--)
     {
+        int n,T,te;
+        scan2(n,T);
+        f(u,0,n)
+        {
+            f(v,0,n)
+            {
+                scan(te);
+                adj[u][v].TI =te; //reversing edges for simplicity
+            }
+        }
+        f(u,0,n)
+        {
+            f(v,0,n)
+            {
+                scan(te);
+                adj[u][v].RI =te; //reversing edges for simplicity
+            }
+        }
+        //dp begins
+        f(i,0,n+1)
+            f(j,0,T+1)
+            dp[i][j]=INT_INFINITY;
+        f(i,0,t+1)
+            dp[0][t]=0;
 
+        f(t,0,T+1)
+        {
+            f(u,0,n)
+            {
+                int te1=INT_INFINITY;
+                f(v,0,n)    //edges incoming to u
+                {
+                    if(t-adj[v][u].TI<0 or u==v) continue;
+                    dp[u][t] = min(dp[u][t] , dp[v][t-adj[u][v].TI]+adj[u][v].RI);
+                }
+                //trace3(u,t,dp[u][t]);
+            }
+        }
+
+        /*f(i,0,n)*/
+        //{
+            //cout<<endl;
+            //f(t,0,T+1)
+                //cout<<dp[i][t]<<" ";
+        /*}*/
+        if(dp[n-1][T]==INT_INFINITY)
+        {
+            printf("-1\n");
+            continue;
+        }
+        int ans=0;
+        f(t,0,T+1)
+        {
+            if(dp[n-1][T]==dp[n-1][t])
+            {
+                ans=t;
+                break;
+            }
+        }
+        printf("%d %d\n" , dp[n-1][T] , ans);
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
@@ -112,3 +187,4 @@ int main()
     #endif
     return 0;
 }
+
