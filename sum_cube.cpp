@@ -43,7 +43,6 @@ long long subsets()
     long long max_sz = 1<<n;
     int ctr;
     unsigned long long sol=0;
-    //bitmasking
     f(i,0,max_sz)
     {
         f(j,0,n)
