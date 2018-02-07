@@ -119,7 +119,7 @@ ll pre(int m,int n, int k)
         f(cnt,2,n+1)
         {
             if(cnt>num) continue;
-            f(st,1,num)
+            for(int st=1;st*cnt<=num;st++)
             {
                 if(cnt==2)
                 {
@@ -131,7 +131,7 @@ ll pre(int m,int n, int k)
                 else
                 {
                     // till what value of i needs to be fixed
-                    for(int i=st;i*(cnt-1)+st<=num-st;i++)
+                    for(int i=st;i*(cnt-1)+st<=num;i++)
                         dp[num][cnt][st]+=dp[num-st][cnt-1][i];
                 }
                 trace4(num,cnt,st,dp[num][cnt][st]);
@@ -163,7 +163,7 @@ int main()
 	ll n,m,k,st,v;
     while(t--)
     {
-        m=14,n=10,k=1;
+        m=30,n=10,k=1;
         trace4(m,n,k,pre(m,n,k));
        /* scanl3(m,n,k);*/
         //cout<<"INPUT : ";
