@@ -1,7 +1,7 @@
 /******************************************
 *  Author : abhishek18620
-*  Created On : 2018-02-19
-*  File : A_P-3
+*  Created On : 2018-02-24
+*  File : prac_P-1
 *******************************************/
 // It's my template. Don't you dare to selct and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -95,52 +95,34 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-int maxx=0,minx=INF,maxy=0,miny=INF;
-bool valid(int &ans , int x, int y)
-{
-    int box1x=maxx-ans;
-    int box1y=maxy-ans;
-    int box2x=minx+ans;
-    int box2y=miny+ans;
-    if(x>=box1x and y>=box1y) return 1;
-    if(x<=box2x and y<=box2y) return 1;
-    return 0; //not fitting
-}
-void maxmin(int x , int y, int r , int &ans)
-{
-    if(!valid(ans,x,y)) //if new star fits the current cubes
-    {
-
-    }
-    else
-    {
-
-    }
-    maxx=max(maxx , x+r);
-    minx=min(minx , x-r);
-    maxy=max(maxy , y+r);
-    miny=min(miny , y-r);
-}
-
+int n;
+vi start(510) , lst(510) , buses(5010);
 int main()
 {
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("input.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
+        freopen("output.txt","w",stdout);
     #endif
     int t; scan(t);
     f(tt,1,t+1)
     {
-        int n; scan(n);
-        int x,y,r;
+        scan(n);
+        fill(buses.begin() , buses.end() , 0);
         f(i,0,n)
         {
-            scan3(x,y,r);
-            maxmin(x,y,r);
+            scan2(start[i] , lst[i]);
+            f(st , start[i],lst[i]+1)
+                buses[st]++;
         }
-        int ans=0;
-        printf("Case #%d: %d\n",tt,ans);
+        int q,x; scan(q);
+        printf("Case #%d: ",tt);
+        f(que,0,q)
+        {
+            scan(x);
+            printf("%d ",buses[x]);
+        }
+        cout<<endl;
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE

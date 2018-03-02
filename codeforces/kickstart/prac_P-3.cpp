@@ -1,7 +1,7 @@
 /******************************************
 *  Author : abhishek18620
-*  Created On : 2018-02-19
-*  File : A_P-3
+*  Created On : 2018-02-24
+*  File : prac_P-3
 *******************************************/
 // It's my template. Don't you dare to selct and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
@@ -95,52 +95,62 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-int maxx=0,minx=INF,maxy=0,miny=INF;
-bool valid(int &ans , int x, int y)
-{
-    int box1x=maxx-ans;
-    int box1y=maxy-ans;
-    int box2x=minx+ans;
-    int box2y=miny+ans;
-    if(x>=box1x and y>=box1y) return 1;
-    if(x<=box2x and y<=box2y) return 1;
-    return 0; //not fitting
-}
-void maxmin(int x , int y, int r , int &ans)
-{
-    if(!valid(ans,x,y)) //if new star fits the current cubes
-    {
-
-    }
-    else
-    {
-
-    }
-    maxx=max(maxx , x+r);
-    minx=min(minx , x-r);
-    maxy=max(maxy , y+r);
-    miny=min(miny , y-r);
-}
-
 int main()
 {
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
         freopen("input.txt","rt",stdin);
-        //freopen("output.txt","w",stdout);
+        freopen("output.txt","w",stdout);
     #endif
     int t; scan(t);
+    map<string , string> mp,ans;
+    set <string> cities;
     f(tt,1,t+1)
     {
         int n; scan(n);
-        int x,y,r;
+        string src,des;
         f(i,0,n)
         {
-            scan3(x,y,r);
-            maxmin(x,y,r);
+            cin>>src>>des;
+            mp.insert(mp(src,des));
+            cities.insert(src);
+            cities.insert(des);
         }
-        int ans=0;
-        printf("Case #%d: %d\n",tt,ans);
+        pair<string , string> fin;
+        viter(it,mp)
+        {
+            src=it.F;
+            des=it.S;
+            if(cities.find(des)!=cities.end())
+            {
+                if(mp.find(des)!=mp.end()) //there's a flight originationg from des
+                {
+                    ans.insert(mp(src,des));
+                    cities.erase(des);
+                }
+                else //this is final des
+                    fin=mp(src,des);
+            }
+        }
+        cerr<<"n = "<<n<<endl;
+		int sz=cities.size();
+        printf("Case #%d: ",tt);
+        string curr_city=*(cities.begin());
+        viter(c,cities)
+        {
+            if(c!=fin.S)
+            {
+                curr_city=c;
+                break;
+            }
+        }
+        while(ans.find(curr_city)!=ans.end())
+        {
+            cout<<curr_city<<"-"<<ans[curr_city]<<" ";
+            curr_city=ans[curr_city];
+        }
+        cout<<fin.F<<"-"<<fin.S<<"\n";
+        mp.clear(); ans.clear(); cities.clear();
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
