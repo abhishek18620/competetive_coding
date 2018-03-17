@@ -1,12 +1,13 @@
 /******************************************
 *  Author : abhishek18620
-*  Created On : 2018-03-11
-*  File : SSHUFFLE
+*  Created On : 2018-03-16
+*  File : D_P-1
 *******************************************/
+// It's my template. Don't you dare to selct and copy it ;)
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 65
+#define M 1000
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -35,7 +36,7 @@ typedef long long ll;
 #define trace5(a, b, c, d, e) cerr <<#a<<": "<<a<<" | "<<#b<<": "<<b<<" | "<<#c<<": "<<c<<" | "<<#d<<": "<<d<<" | "<<#e<<": "<<e<<endl;
 #define eb emplace_back
 #define PI 3.1415926535897932384626433832795
-#define viter(it,s) for(auto it: s)
+#define viter(it,s) for (auto it: s)
 #define foreach(v, c) for(__typeof( (c).begin()) v = (c).begin();  v != (c).end(); ++v)
 #define foreachr(v, c) for(__typeof( (c).rbegin()) v = (c).rbegin();  v != (c).rend(); ++v)
 #define ALL(v) (v).begin(), (v).end()
@@ -79,15 +80,7 @@ int scanstr(char *str)
     str[len] = '\0';
     return 1;
 }
-void writel(ll n)
-{
-	if(n<0){n=-n;putchar('-');}
-	ll i=10;
-	char output_buffer[11];output_buffer[10]='\n';
-	do{output_buffer[--i]=(n%10)+'0';n/=10;}
-	while(n);
-	do{putchar(output_buffer[i]);}while(++i<11);
-}
+
 int power(int x, unsigned int y)
 {
     int res = 1;
@@ -101,68 +94,57 @@ int power(int x, unsigned int y)
     return res;
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
-int dp[M][M][M];
+int dp[2010][2010];
+struct bus
+{
+    int si,fi,di;
+}a[2010];
+
+
+//Visited src and needs to reach des without visiting anything else
+int Reach(int des , int wait)
+{
+    int T=max(wait,a[des-1].si);
+    int ans = T + a[des-1].di -((T-a[des-1].si)%a[des-1].fi);
+    trace3(des,wait,ans);
+    return ans;
+}
 
 int main()
 {
     #ifdef LOCAL_DEFINE
         clock_t tStart = clock();
-        freopen("INP.txt","rt",stdin);
+        freopen("input.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
     int t; scan(t);
-    char s1[M] , s2[M] , target[M];
-    while(t--)
+    f(tt,1,t+1)
     {
-        scanstr(s1); scanstr(s2); scanstr(target);
-        trace3(s1,s2,target);
-		int len1=strlen(s1);
-        int len2=strlen(s2);
-        int tarlen=strlen(target);
-        memset(dp,0,sizeof(dp));
+        int n,ts,tf;
+        scan3(n,ts,tf);
+        trace3(n,ts,tf);
+        f(i,1,n) scan3(a[i].si , a[i].fi ,a[i].di);
+
         //dp begins
-       /* f(x1,1,len1+1)*/
-        //{
-            //if(target[0]==s1[x1-1])
-                //dp[1][x1][0]=dp[1][x1-1][0]+1;
-            //else
-                //dp[1][x1][0]=dp[1][x1-1][0];
-        //}
-
-        //f(x2,1,len2+1)
-        //{
-            //if(target[0]==s2[x2-1])
-                //dp[1][0][x2]=dp[1][0][x2-1]+1;
-            //else
-                //dp[1][0][x2]=dp[1][0][x2-1];
-        /*}*/
-
-        f(xtar,1,tarlen+1)
+        // state(curr , cities_sightseed_already)
+        memset(dp,0,INF);
+        dp[1][0]=0;
+        f(curr,2,n+1) // no cities visited till ith one
+            dp[curr][0]=Reach(curr,dp[curr-1][0]);
+        dp[1][1]=ts;
+        f(curr,2,n)
         {
-            f(x1,1,len1+1)
+            f(visited,1,curr+1)
             {
-                bool check=0;
-                if(target[xtar-1]==s1[x1-1])
-                    check=1;
-                f(x2,1,len2+1)
-                {
-                    if(target[xtar-1]==s2[x2-1])
-                    {
-                        if(check) dp[xtar][x1][x2]=(xtar==1)? 2:dp[xtar-1][x1-1][x2-1]*2;
-                        else
-                            dp[xtar][x1][x2]=(xtar==1)?1:dp[xtar-1][x1][x2-1];
-                    }
-                    else
-                    {
-                        if(check) dp[xtar][x1][x2]=(xtar==1)? 1:dp[xtar-1][x1-1][x2];
-                        else
-                            dp[xtar][x1][x2]=(xtar==0)? 0:dp[xtar][x1-1][x2-1];
-                    }
-                    trace4(xtar,x1,x2,dp[xtar][x1][x2]);
-                }
+                trace2(curr,visited);
+                dp[curr][visited]=min(Reach(curr,dp[curr-1][visited]) , Reach(curr,dp[curr-1][visited-1]+ts));
             }
         }
-        print(dp[tarlen][len1][len2]);
+        int ans=0;
+        f(i,0,n)
+            if(dp[n][i]<=tf) ans=i;
+        if(ans>0) ans--;
+        printf("Case #%d: %d\n",tt,ans);
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
@@ -171,4 +153,3 @@ int main()
     #endif
     return 0;
 }
-
