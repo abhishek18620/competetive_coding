@@ -1,4 +1,12 @@
-3
-abc abc abc
-aa aa aa
-abbcd bccde abcde
+1
+7
+3 2 3 4
+0
+3 5 6 7
+0
+0
+0
+0
+2
+5 7
+2 7
