@@ -1,12 +1,13 @@
+//Tried every ounce but couldn't get an iterative version correct
 /******************************************
 *  Author : abhishek18620
-*  Created On : 2018-03-31
-*  File : LCAtoRMQ
+*  Created On : 2018-04-11
+*  File : MREPLBRC.cpp
 *******************************************/
 #pragma comment (linker, "/ STACK: 100000000")
 #include <bits/stdc++.h>
 using namespace std;
-#define M 1000
+#define M 100
 #define INF 999999
 #define fio ios::sync_with_stdio(false); cin.tie(NULL);
 typedef long long ll;
@@ -54,7 +55,7 @@ typedef vector<ll> vll;
     #define debug(args...)                  // Just strip off all debug tokens
 #endif
 
-const int MOD = 1000000007;
+const int MOD = 100000;
 #define MODSET(d) if ((d) >= MOD) d %= MOD;
 #define MODNEGSET(d) if ((d) < 0) d = ((d % MOD) + MOD) % MOD;
 #define MODADDSET(d) if ((d) >= MOD) d -= MOD;
@@ -102,106 +103,50 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
+ll dp[M][M];
+char s[210];
+bool modused=0;
 
-/*
-Euler: Euler Tour
-Levels of nodes in Euler Tour( lev[Euler[i]] ) : level(i)
-1st occur. of node i in Euler Tour : H[1,n]-H[i]
-*/
-int n,check=1;
-vector< vector<int> > graph;
-vector<int> Euler,level,visited,firstocc;
-vii a;
-int edgedel[M][M];
-
-//WARNING : EULER TOUR NEEDS TO BE FIXED
-
-
-// Euler Tour
-void EulerTour()
+inline ll modmul(int a,int b)
 {
-    int oddst=-1;
-    f(i,0,n)
-    {
-        if(graph[i].size()&1)
-        {
-            oddst=i;
-            break;
-        }
-    }
-    stack<int> st;
-    st.push(oddst);
-    level[oddst]=0;
-    while(!st.empty())
-    {
-        int u=st.top();
-        int ind=0;
-        st.pop();
-        Euler.eb(u);
-        if(visited[u]!=check)
-        {
-            visited[u]=check;
-            firstocc[u]=Euler.size()-1;
-        }
-        viter(v,graph[u])
-        {
-            if(edgedel[u][v]!=check and edgedel[v][u]!=check)
-            {
-                st.push(v);
-                level[v]=level[u]+1;
-                edgedel[u][v]=edgedel[v][u]=check;
-            }
-        }
-        trace4(ind,u,st.size(),!st.empty());
-    }
-    return;
+    return ((a%MOD) * (b%MOD))%MOD;
 }
 
-// RMQ(Segment Tree)
-struct node
+ll solve(int st , int end)
 {
-    pii ele;
-    void init(pii x)
+    if(st>end)
+        return 1;
+    if(dp[st][end]!=-1)
+        return dp[st][end];
+    ll ret=0;
+    for(int mid=st+1; mid<=end;mid+=2)
     {
-        ele=x;
-    }
-    void merge(node &l , node&r)
-    {
-        ele=min(l.ele , r.ele);
-    }
-};
-vector<node> seg;
+        int mulfac=0;
+        if(s[st]==')' or s[st]=='}' or s[st]==']')
+            continue;
+        if(s[st]!='?')
+        {
+            if( s[mid]=='?' or (s[st]=='(' and s[mid]==')' ) or (s[st]=='{' and s[mid]=='}') or (s[st]=='[' and s[mid]==']') )
+                mulfac=1;
 
-void build(int idx, int l ,int r)
-{
-    if(l==r)
-    {
-        seg[idx].ele=a[l];
-        return;
+        }
+        else // s[i]==?
+        {
+            if(s[mid]=='?')
+                mulfac=3;
+            else if(s[mid]==')' or s[mid]=='}' or s[mid]==']')
+                mulfac=1;
+        }
+        //ret+=modmul(mulfac*solve(st+1,mid),solve(mid+1,end));
+        ret+=mulfac*solve(st+1,mid-1)*solve(mid+1,end);
+        if(ret>MOD)
+        {
+            modused=1;
+            ret%=MOD;
+        }
     }
-    int mid=(l+r)>>1;
-    build(idx<<1,l,mid);
-    build(idx<<1|1,mid+1,r);
-    seg[idx].merge(seg[idx<<1],seg[idx<<1|1]);
-}
-
-pii query(int idx,int l,int r,int Ql,int Qr)
-{
-    if(l==r or (Ql==l and Qr==r))    //can't process the whole segment at once if not a multiple
-        return seg[idx].ele;
-    int mid=(l+r)>>1;
-    pii resL,resR;
-    if(Qr<=mid)  //query range lies in left subtree
-        return query(idx<<1,l,mid,Ql,Qr);
-    else if(Ql>mid)    //query range lies in right tree
-        return query(idx<<1|1,mid+1,r,Ql,Qr);
-    else    //query range lies in both trees
-    {
-        resL=query(idx<<1,l,mid,Ql,mid);
-        resR=query(idx<<1|1,mid+1,r,mid+1,Qr);
-        trace5(l,r,mid,resL,resR);
-        return min(resL,resR);
-    }
+    //trace3(st,end,ret);
+    return dp[st][end]=ret;
 }
 
 int main()
@@ -211,47 +156,69 @@ int main()
         freopen("INP.txt","rt",stdin);
         //freopen("output.txt","w",stdout);
     #endif
-    int t; scan(t);
-    while(t--)
+    int n;
+    while(cin>>n)
     {
-        check++;
-        scan(n);
-        graph.resize(n+1);
-        f(i,1,n+1)
-        {
-            int m,child; scan(m);
-            f(j,0,m)
-            {
-                scan(child);
-                graph[i].eb(child);
-            }
-        }
-        level.resize(n+1);
-        visited.resize(n+1);
-        firstocc.resize(n+1);
-        a.resize(n+1);
-        //preprocessing
-        EulerTour();
-        viter(v,Euler)
-        {
-            cout<<v<<endl;
-            a[v]={level[v],v};
-        }
-        seg.resize(n<<2);
-        build(1,1,n);
-        int Q,l,r; scan(Q);
-        f(i,0,Q)
-        {
-            scan2(l,r);
-            pii sol=query(1,1,n,l,r);
-            trace5(l,r,i,sol.F,sol.S);
-            //print(sol);
-        }
+        scanstr(s);
+        //trace3(t,n,s);
+        memset(dp,-1,sizeof(dp));
+        //base cases
+       /* f(i,0,n-1)*/
+        //{
+            //if(s[i]!='?')
+            //{
+                //if((s[i]=='(' and s[i+1]==')' ) or (s[i]=='{' and s[i+1]=='}') or (s[i]=='[' and s[i+1]==']'))
+                    //dp[i][i+1]=1;
+            //}
+            //else // s[i]=='?'
+            //{
+                //if(s[i+1]=='?')
+                    //dp[i][i+1]=3;
+                //else
+                    //if(s[i+1]==')' or s[i+1]=='}' or s[i+1]==']')
+                        //dp[i][i+1]=1;
+            //}
+        /*}*/
+        /*// Dp begins*/
+        //fr(i,n-3,0)
+        //{
+            //if(s[i]==')' or s[i]=='}' or s[i]==']')
+                //continue;
+            //for(int j=i+3;j<n;j+=2)
+            //{
+                //for(int mid=i+1;mid<j;mid+=2)
+                //{
+                    //if(s[i]!='?')
+                    //{
+                        //if( s[mid]=='?' or (s[i]=='(' and s[mid]==')' ) or (s[i]=='{' and s[mid]=='}') or (s[i]=='[' and s[mid]==']') )
+                            //dp[i][j]+=dp[i+1][mid]*dp[mid+1][j];
+
+                    //}
+                    //else // s[i]==?
+                    //{
+                        //if(s[mid]=='?')
+                            //dp[i][j]+=3*dp[i+1][mid]*dp[mid+1][j];
+                        //else
+                            //dp[i][j]+=dp[i+1][mid]*dp[mid+1][j];
+                    //}
+                //}
+                //trace3(i,j,dp[i][j]);
+            //}
+        //}
+        //cout<<"follows : "<<endl;
+        //f(i,0,n)
+            //f(j,0,n)
+                /*trace3(i,j,dp[i][j]);*/
+        ll sol=solve(0,n-1);
+        if(!modused)
+            printf("%lld\n",sol);
+        else
+        	printf("%05lld\n",sol);
     }
-    //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
+    assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
         cerr<<"Time elapsed: "<<1.0*(clock()-tStart)/CLOCKS_PER_SEC<<" s.\n";
-        cin>>t;
+        cin>>n;
     #endif
     return 0;
 }
