@@ -6,7 +6,7 @@
     "isShellCommand": true,
     "showOutput": "always",
     //"args": ["-g", "${workspaceRoot}/xor_on_tree.cpp"]
-    "args": ["-g", "${workspaceRoot}/codenation-A.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
+    "args": ["-g", "${workspaceRoot}/ab_seq.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
     //"args": ["-g", "${workspaceRoot}/create_input.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
     //"args": ["-std=c++11", "${workspaceRoot}/xor_tree.cpp" ,"-std=gnu++0x" ,"-DLOCAL_DEFINE" , "-fmax-errors=5"]
     //"args": ["-std=c++11", "${workspaceRoot}/sereja_and_commands.cpp"]
