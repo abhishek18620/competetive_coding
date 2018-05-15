@@ -102,7 +102,7 @@ int power(int x, unsigned int y)
 }
 //-------------------------------------------------------END OF TEMPLATE---------------------------------------------------------------------------
 
-int n;
+int n,m;
 char morse[M];
 string pattern[26] = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
 vi possibleWords[M];
@@ -168,6 +168,21 @@ void buildTrie(node *root)
     }
 }
 
+ll solve(int till ,int st ,node *curr)
+{
+    if(till==m)
+        return curr->cnt;
+    if(till==st) if(dp[st]!=-1) return dp[st];
+    ll sol=0;
+    viter(chnum,possibleWords[i])
+    {
+        if(curr->child[chnum]!=NULL)    //whole word could pe present here
+        {
+            sol+=solve(st+pattern[chnum].size(),st,curr->child[chnum]);
+        }
+    }
+}
+
 int main()
 {
     #ifdef LOCAL_DEFINE
@@ -180,7 +195,7 @@ int main()
     while(t--)
     {
         scanstr(morse);
-        int m=strlen(morse);
+        m=strlen(morse);
         root=new node;
         buildTrie(root);
         //dp begins
@@ -197,17 +212,7 @@ int main()
                 if(matched) possibleWords[i].eb(j);
             }
         }
-        f(i,0,m)
-        {
-            node *curr=root;
-            viter(chnum,possibleWords[i])
-            {
-                if(curr->child[chnum]!=NULL)    //whole word could pe present here
-                {
-                    curr=curr->chil[chnum];
-                }
-            }
-        }
+        solve();
     }
     //assert((1.0*(clock()-tStart)/CLOCKS_PER_SEC)<1.0);     // time limit to avoid infinite loops
     #ifdef LOCAL_DEFINE
