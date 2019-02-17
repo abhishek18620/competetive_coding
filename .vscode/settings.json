@@ -50,5 +50,6 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "workbench.sideBar.location": "right"
 }
