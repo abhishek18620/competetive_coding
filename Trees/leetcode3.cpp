@@ -95,11 +95,11 @@ int partition(std::vector<int> &arr, int l, int r, int m) {
     if (pivot_index - l == m - 1) {
       return arr[pivot_index];
     }
-    // Kth order statistic lies in the right subarray
+    // Mth order statistic lies in the right subarray
     else if (pivot_index - l <= m - 1) {
       return partition(arr, pivot_index + 1, r, m - pivot_index + l - 1);
     }
-    // Kth order statistic lies in left subarray
+    // Mth order statistic lies in left subarray
     return partition(arr, l, pivot_index - 1, m);
   }
   return INF;
