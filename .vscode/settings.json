@@ -73,5 +73,10 @@
                 }
             }
         ]
-    }
+    },
+    "gtest-adapter.debugConfig": [
+        "C++ Launch",
+        "C++ Attach"
+    ],
+    "gtest-adapter.supportLocation": false
 }
