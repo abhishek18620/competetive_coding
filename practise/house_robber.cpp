@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-int SolveOptimised(std::vector<int> &arr) {
+int SolveOptimised(std::vector<int>& arr) {
   int n = arr.size();
   // base cases
   if (n == 0) {
@@ -28,7 +28,7 @@ int SolveOptimised(std::vector<int> &arr) {
   return dp[1];
 }
 
-int Solve(std::vector<int> &arr) {
+int Solve(std::vector<int>& arr) {
   int n = arr.size();
   // base cases
   if (n == 0) {
@@ -46,6 +46,7 @@ int Solve(std::vector<int> &arr) {
   dp[1] = std::max(arr[0], arr[1]);
   for (int i = 2; i < n; i++) {
     dp[i] = std::max(dp[i - 1], dp[i - 2] + arr[i]);
+    printf("%s: dp[%d] = %d\n", __func__, i, dp[i]);
   }
   return dp[n - 1];
 }
@@ -60,7 +61,7 @@ int main() {
     scanf("%d", &arr[i]);
   }
   for (int i = 0; i < n; i++) {
-    printf("%s: Input = %d ", __func__, arr[0]);
+    printf("%d ", arr[i]);
   }
 
   printf("\n%s: solution = %d\n", __func__, Solve(arr));
