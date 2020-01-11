@@ -10,10 +10,6 @@ inline static int AddModulo(const int& a, const int& b) {
   return ((a % MOD) + (b % MOD)) % MOD;
 }
 
-inline static int SubModulo(const int& a, const int& b) {
-  return ((a % MOD) - (b % MOD)) % MOD;
-}
-
 struct State {
   std::vector<int> occurence;
   int              total_occ_j = 0;
@@ -23,11 +19,9 @@ static int GetNonOccOfJOnIthState(const int& i, const int& j,
                                   std::vector<std::vector<State>>& dp) {
   int sol = 0;
   for (int outcome = 1; outcome <= 6; ++outcome) {
-    sol = AddModulo(sol, dp[i][outcome].total_occ_j);
-    // sol %= MOD;
+    sol = (outcome != j) ? AddModulo(sol, dp[i][outcome].total_occ_j) : sol;
   }
-  // printf("%s: State(%d, %d) = %d\n", __func__, i, j, sol);
-  return SubModulo(sol, dp[i][j].total_occ_j);
+  return sol;
 }
 
 int Solve(const int& n, std::vector<int>& roll_max) {
@@ -58,15 +52,14 @@ int Solve(const int& n, std::vector<int>& roll_max) {
     for (int j = 1; j <= 6; ++j) {
       if (arr[j] >= 1) {
         total_occ = dp[i][j].occurence[1] = GetNonOccOfJOnIthState(i - 1, j, dp);
-        printf("%s: State(%d, %d, 1) = %d\n", __func__, i, j, dp[i][j].occurence[1]);
+        // printf("%s: State(%d, %d, 1) = %d\n", __func__, i, j, dp[i][j].occurence[1]);
       }
       max_consec_allowed_occs = std::min(arr[j], i);
       for (int consec_occs = 2; consec_occs <= max_consec_allowed_occs; consec_occs++) {
-        dp[i][j].occurence[consec_occs] = dp[i - 1][j].occurence[consec_occs - 1];
+        dp[i][j].occurence[consec_occs] = dp[i - 1][j].occurence[consec_occs - 1] % MOD;
         total_occ = AddModulo(total_occ, dp[i][j].occurence[consec_occs]);
-        // total_occ %= MOD;
-        printf("%s: State(%d, %d, %d) = %d\n", __func__, i, j, consec_occs,
-               dp[i][j].occurence[consec_occs]);
+        // printf("%s: State(%d, %d, %d) = %d\n", __func__, i, j, consec_occs,
+        // dp[i][j].occurence[consec_occs]);
       }
       dp[i][j].total_occ_j = total_occ;
     }
