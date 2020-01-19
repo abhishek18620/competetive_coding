@@ -1,5 +1,6 @@
 // https://www.spoj.com/problems/ACTIV/
 #include <algorithm> // for sort
+#include <iomanip>
 #include <iostream>
 #include <numeric>
 #include <vector>
@@ -33,14 +34,12 @@ int LowerBound(const std::vector<std::pair<int, int>>& intervals, const int& tar
 
 int Solve(std::vector<std::pair<int, int>>& intervals,
           std::vector<std::pair<int, int>>& dp, const int& n) {
-  std::sort(intervals.begin(), intervals.begin() + n,
-            [](const std::pair<int, int>& left, const std::pair<int, int>& right) {
-              return left.first < right.first;
-            });
-  // for (int i = 0; i < n; ++i) {
-  //  printf("(%d, %d)  ", intervals[i].first, intervals[i].second);
-  //}
-  // printf("\n");
+  // sort the array
+  // std::sort(intervals.begin(), intervals.begin() + n,
+  //[](const std::pair<int, int>& left, const std::pair<int, int>& right) {
+  //  return left.first < right.first;
+  //});
+  std::sort(intervals.begin(), intervals.begin() + n);
 
   int lower_bound;
   dp[n - 1] = {1, 1};
@@ -49,19 +48,19 @@ int Solve(std::vector<std::pair<int, int>>& intervals,
     lower_bound = LowerBound(intervals, intervals[i].second, i + 1, n - 1);
     dp[i].first = 1;
     if (lower_bound == -1) {
-      dp[i].second = dp[i + 1].second + 1;
+      dp[i].second = AddModulo(dp[i + 1].second, 1);
       // printf("%s: target = %d  lb = %d dp[%d]= (%d, %d) \n", __func__,
       // intervals[i].second, lower_bound, i, dp[i].first, dp[i].second);
       continue;
     }
-    dp[i].first  = dp[lower_bound].second + 1;
-    dp[i].second = dp[i + 1].second + dp[i].first;
+    dp[i].first  = AddModulo(dp[lower_bound].second, 1);
+    dp[i].second = AddModulo(dp[i + 1].second, dp[i].first);
     // printf("%s: target = %d  lb = %d dp[%d]= (%d, %d) \n", __func__,
     // intervals[i].second, lower_bound, i, dp[i].first, dp[i].second);
   }
   int sol = 0;
-  for (auto& pai : dp) {
-    sol = AddModulo(sol, pai.first);
+  for (int i = 0; i < n; ++i) {
+    sol = AddModulo(sol, dp[i].first);
   }
   return sol;
 }
