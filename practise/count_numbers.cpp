@@ -7,7 +7,7 @@ int Solve(const int& n) {
   dp[0] = 1;
   dp[1] = 9;
   dp[2] = 81;
-  for (int i = 3; i <= 10; ++i) {
+  for (int i = 3; i <= std::min(10, n); ++i) {
     dp[i] = dp[i - 1] * (10 - i + 1);
   }
 
