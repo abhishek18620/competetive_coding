@@ -4,10 +4,13 @@
  * -lcurl
  */
 
+#include <cerrno>
 #include <chrono>
+#include <cstring>
 #include <iostream>
 #include <string>
 #include <thread>
+#include <unordered_map>
 #include <vector>
 
 // linux includes
@@ -26,8 +29,19 @@
   std::cerr << __func__ << " : " << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | "   \
             << #d << ": " << d << " | " << #e << ": " << e << std::endl;
 
+void GetThreadStats() {
+  struct rusage thread_usage;
+  if (getrusage(RUSAGE_THREAD, &thread_usage) == -1) {
+    printf("%s: Failed to getusage stats Error: %s", __func__, std::strerror(errno));
+    return;
+  }
+  printf("cpu-time = %d\nsystem-time = %d\nresident_size = %ld\npage-faults = %ld\n",
+         (int)thread_usage.ru_utime.tv_usec, (int)thread_usage.ru_stime.tv_usec, thread_usage.ru_maxrss,
+         thread_usage.ru_majflt);
+}
+
 void testConnection(std::vector<std::string>& url_list, int start, int end) {
-  trace3(__func__, start, end);
+  trace2(start, end);
   CURL* curl;
   int   res = 0;
   curl_global_init(CURL_GLOBAL_ALL);
@@ -37,23 +51,51 @@ void testConnection(std::vector<std::string>& url_list, int start, int end) {
   std::string url;
   for (int i = start; i <= end; i++) {
     url = url_list[i];
-    if (url.length() == 0)
+    printf("testing %s\n", url.c_str());
+    if (url.length() == 0) {
       return;
+    }
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     res = curl_easy_perform(curl);
-    if (!res)
-      std::cout << " URL : " << url << " is working" << std::endl;
-    else
-      std::cout << " URL : " << url << " is not working" << std::endl;
+    if (!res) {
+      std::cout << " URL : " << url << " is working"
+                << " thread id = " << std::this_thread::get_id() << std::endl;
+      GetThreadStats();
+    } else
+      std::cout << " URL : " << url << " is not working"
+                << " thread id = " << std::this_thread::get_id() << std::endl;
   }
   curl_easy_cleanup(curl);
   curl_global_cleanup();
 }
 
+void Solve(std::vector<std::string> url_list) {
+  std::vector<std::thread> threadpool;
+  int                      partition = url_list.size() / 1;
+  int                      ind1      = 0;
+  int                      ind2      = partition - 1;
+  for (int i = 0; i < 1; i++) {
+    trace2(ind1, ind2);
+    threadpool.emplace_back(std::thread(testConnection, std::ref(url_list), ind1, ind2));
+    ind1 = ind2 + 1;
+    ind2 = (i == 6) ? url_list.size() - 1 : ind1 + partition - 1;
+  }
+  for (auto& thread : threadpool) {
+    thread.join();
+  }
+}
+
 int main() {
   freopen("websites.txt", "rt", stdin);
-  std::thread t1;
-  std::cout << "here" << std::endl;
+  std::string              url;
+  std::vector<std::string> url_list;
+  while (std::getline(std::cin, url)) {
+    // printf("'%s  '", url.c_str());
+    url_list.emplace_back(url);
+  }
+  printf("\n");
+  printf("%s: url list size = %d\n", __func__, (int)url_list.size());
+  Solve(url_list);
   return 0;
 }
 
