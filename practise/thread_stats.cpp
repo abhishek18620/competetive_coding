@@ -2,6 +2,7 @@
  * compilation
  * g++ -O2 -std=c++14 -Wall -Wextra -Wfatal-errors -w -o stats thread_stats.cpp
  * -lcurl
+ *  ./stats <num_of_thread>
  */
 
 #include <cerrno>
@@ -40,7 +41,7 @@ void GetThreadStats() {
          thread_usage.ru_majflt);
 }
 
-void testConnection(std::vector<std::string>& url_list, int start, int end) {
+void TestConnection(std::vector<std::string>& url_list, int start, int end) {
   trace2(start, end);
   CURL* curl;
   int   res = 0;
@@ -69,14 +70,15 @@ void testConnection(std::vector<std::string>& url_list, int start, int end) {
   curl_global_cleanup();
 }
 
-void Solve(std::vector<std::string> url_list) {
+void Solve(std::vector<std::string> url_list, const int& num_of_threads) {
+  printf("%s: num_of_threads = %d\n", __func__, num_of_threads);
   std::vector<std::thread> threadpool;
-  int                      partition = url_list.size() / 1;
+  int                      partition = url_list.size() / num_of_threads;
   int                      ind1      = 0;
   int                      ind2      = partition - 1;
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < num_of_threads; i++) {
     trace2(ind1, ind2);
-    threadpool.emplace_back(std::thread(testConnection, std::ref(url_list), ind1, ind2));
+    threadpool.emplace_back(std::thread(TestConnection, std::ref(url_list), ind1, ind2));
     ind1 = ind2 + 1;
     ind2 = (i == 6) ? url_list.size() - 1 : ind1 + partition - 1;
   }
@@ -85,7 +87,7 @@ void Solve(std::vector<std::string> url_list) {
   }
 }
 
-int main() {
+int main(int argc, char** argv) {
   freopen("websites.txt", "rt", stdin);
   std::string              url;
   std::vector<std::string> url_list;
@@ -93,9 +95,16 @@ int main() {
     // printf("'%s  '", url.c_str());
     url_list.emplace_back(url);
   }
+  int num_of_threads;
+  if (argc > 1) {
+    num_of_threads = *argv[1] - 48;
+  } else {
+    printf("Error: number of threads is missing ../stats <num_of_threads>\n");
+    return 0;
+  }
   printf("\n");
   printf("%s: url list size = %d\n", __func__, (int)url_list.size());
-  Solve(url_list);
+  Solve(url_list, num_of_threads);
   return 0;
 }
 
