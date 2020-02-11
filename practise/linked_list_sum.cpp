@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/add-two-numbers/
+#include <cassert>
 #include <iostream>
 #include <vector>
 
@@ -12,9 +14,9 @@ static auto get_retainer = [](const int& sum) -> int { return sum % 10; };
 
 // clang-format off
 int GetLLlength(ListNode* head) { // returns the length of linked list
-  ListNode*curr = head;
+  ListNode* curr = head;
   int len  = 0;
-  while (curr->next != nullptr) {
+  while (curr != nullptr) {
     printf("%d  ", curr->val);
     len++;
     curr = curr->next;
@@ -23,43 +25,80 @@ int GetLLlength(ListNode* head) { // returns the length of linked list
   return len;
 }
 // clang-format on
+// Push operation on Linked list
+void PushLL(ListNode* head, const int& val) {
+  ListNode* curr = head;
+  while (curr->next != nullptr) {
+    curr = curr->next;
+  }
+  curr->next = new ListNode(val);
+}
 
 void PrintLL(ListNode* start) {
-  while (start->next != nullptr) {
-    printf("%d", start->val);
+  ListNode* curr = start;
+  while (curr->next != nullptr) {
+    printf("%d  ", curr->val);
+    curr = curr->next;
   }
+  printf("%d  ", curr->val);
   printf("\n");
   return;
 }
 
-void RecursiveSum(ListNode* L1, ListNode* L2, ListNode* till, ListNode* sum_tail_p, int& carry) {
-  sum_tail_p->next = new ListNode(0);
-  if (L1->next == till && L2->next == nullptr) {
-    // reached end of both start summing
-    carry           = get_carry(L1->val + L2->val);
-    sum_tail_p->val = get_retainer(L1->val + L2->val);
-    return;
-  } else if (L2->next != nullptr) {
-    RecursiveSum(L1->next, L2->next, nullptr, sum_tail_p->next, carry);
-    carry           = get_carry(L1->val + L2->val + carry);
-    sum_tail_p->val = get_retainer(L1->val + L2->val + carry);
-    return;
-  } else {
-    RecursiveSum(L1->next, nullptr, nullptr, sum_tail_p->next, carry);
-    carry           = get_carry(L1->val + carry);
-    sum_tail_p->val = get_retainer(L1->val + carry);
+ListNode* GetTail(ListNode* head) {
+  ListNode* tmp = head;
+  while (tmp->next != nullptr) {
+    tmp = tmp->next;
   }
+  return tmp;
+}
+
+ListNode* RecursiveSumWithCarry(ListNode* node_p, const ListNode* till, int& carry) {
+  if (node_p->next == till) {
+    int retainer  = get_retainer(node_p->val + carry);
+    carry         = get_carry(node_p->val + carry);
+    ListNode* tmp = new ListNode(retainer);
+    return tmp;
+  }
+  ListNode* tmp1     = RecursiveSumWithCarry(node_p->next, till, carry);
+  int       retainer = get_retainer(node_p->val + carry);
+  carry              = get_carry(node_p->val + carry);
+  ListNode* tmp2     = new ListNode(retainer);
+  tmp2->next         = tmp1;
+  printf("%s carry = %d\n", __func__, carry);
+  return tmp2;
+}
+
+ListNode* RecursiveSum(ListNode* L1, ListNode* L2, int& carry) {
+  printf("%s: L1_val = %d  L2_val = %d\n", __func__, L1->val, L2->val);
+  if (L1->next == nullptr && L2->next == nullptr) {
+    // reached end of both start summing
+    printf("hit the end\n");
+    int retainer = get_retainer(L1->val + L2->val);
+    carry        = get_carry(L1->val + L2->val);
+    printf("%s: %d %d\n", __func__, carry, retainer);
+    ListNode* tmp = new ListNode(retainer);
+    return tmp;
+  }
+  ListNode* tmp1 = RecursiveSum(L1->next, L2->next, carry);
+  printf("%s: %d\n", __func__, tmp1->val);
+  assert(tmp1 != nullptr);
+  int retainer   = get_retainer(L1->val + L2->val + carry);
+  carry          = get_carry(L1->val + L2->val + carry);
+  ListNode* tmp2 = new ListNode(retainer);
+  tmp2->next     = tmp1;
+  return tmp2;
 }
 
 int Solve(ListNode* L1, ListNode* L2) {
   int len1 = GetLLlength(L1);
   int len2 = GetLLlength(L2);
   printf("%s: len1 = %d   len2 = %d\n", __func__, len1, len2);
-  int len1_tmp = len1;
-  if (len1 < len2) {
+  if (len1 < len2) { // len1 should always be greater that len2
     std::swap(len1, len2);
     std::swap(L1, L2);
   }
+  int       len1_tmp = len1;
   ListNode* L1_start = L1;
   while (len1_tmp != len2) {
     len1_tmp--;
@@ -67,17 +106,24 @@ int Solve(ListNode* L1, ListNode* L2) {
   }
   /* Eg (4, 5, 6, 7) and (2, 3)
    */
-  ListNode* sum_list_p = new ListNode(0);
-  int       carry      = 0;
-  RecursiveSum(L1_start, L2, nullptr, sum_list_p, carry); // (6, 7) + (2, 3)
-  ListNode* sum_list_start_p = new ListNode(0);
-  RecursiveSum(L1, L2, L1_start, sum_list_p, carry); //
-  ListNode* curr_sum_p = sum_list_start_p;
-  while (curr_sum_p->next != nullptr) {
-    curr_sum_p = curr_sum_p->next;
+  int       carry = 0;
+  ListNode* sum_head_p;
+  ListNode* sum_head_p1 = RecursiveSum(L1_start, L2, carry); // (6, 7) + (2, 3)
+  sum_head_p            = sum_head_p1;
+  PrintLL(sum_head_p1);
+  if (L1_start != L1) {
+    ListNode* sum_head_p2      = RecursiveSumWithCarry(L1, L1_start, carry);
+    ListNode* sum_head2_tail_p = GetTail(sum_head_p2);
+    sum_head2_tail_p->next     = sum_head_p1;
+    sum_head_p                 = sum_head_p2;
   }
-  curr_sum_p->next = sum_list_p;
-  PrintLL(curr_sum_p);
+  if (carry != 0) {
+    // very first digit, insert it in the begining
+    ListNode* save   = sum_head_p;
+    sum_head_p       = new ListNode(carry);
+    sum_head_p->next = save;
+  }
+  PrintLL(sum_head_p);
   return 0;
 }
 
@@ -86,26 +132,22 @@ int main() {
   int m, n;
   scanf("%d %d", &m, &n);
   printf("%s: m = %d  n = %d\n", __func__, m, n);
-  ListNode* L1      = new ListNode(0);
-  ListNode* l1_curr = L1;
-  ListNode* L2      = new ListNode(0);
-  ListNode* l2_curr = L2;
+  ListNode* L1 = new ListNode(0);
   int       tmp;
-  for (int i = 0; i < m; ++i) {
-    l1_curr->next = new ListNode(0);
+  scanf("%d", &tmp);
+  L1->val = tmp;
+  for (int i = 0; i < m - 1; ++i) {
     scanf("%d", &tmp);
-    l1_curr->val = tmp;
-    l1_curr      = l1_curr->next;
+    PushLL(L1, tmp);
   }
-  l1_curr = nullptr;
   // second linked list
-  for (int i = 0; i < n; ++i) {
-    l2_curr->next = new ListNode(0);
+  ListNode* L2 = new ListNode(0);
+  scanf("%d", &tmp);
+  L2->val = tmp;
+  for (int i = 0; i < n - 1; ++i) {
     scanf("%d", &tmp);
-    l2_curr->val = tmp;
-    l2_curr      = l2_curr->next;
+    PushLL(L2, tmp);
   }
-  l2_curr = nullptr;
   Solve(L1, L2);
   return 0;
 }
