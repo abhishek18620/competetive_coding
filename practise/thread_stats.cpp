@@ -1,7 +1,7 @@
 /*
  * compilation
  * g++ -O2 -std=c++14 -Wall -Wextra -Wfatal-errors -w -o stats thread_stats.cpp
- * -lcurl
+ * -lcurl -lpthread
  *  ./stats <num_of_thread>
  */
 
@@ -11,13 +11,17 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <unistd.h>
 #include <unordered_map>
 #include <vector>
 
 // linux includes
 #include <curl/curl.h>
+#include <experimental/filesystem>
 #include <sys/resource.h>
+#include <sys/syscall.h>
 #include <sys/time.h>
+#include <sys/types.h>
 
 #define trace2(x, y) std::cerr << __func__ << " : " << #x << ": " << x << " | " << #y << ": " << y << std::endl;
 #define trace3(x, y, z)                                                                                                \
@@ -30,13 +34,33 @@
   std::cerr << __func__ << " : " << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | "   \
             << #d << ": " << d << " | " << #e << ": " << e << std::endl;
 
+namespace fs = std::experimental::filesystem;
+
+void CheckIfExist(const std::string& path) {
+  printf("%s: %s %s\n", __func__, path.c_str(), fs::exists(path) ? "exists" : "does not exist");
+}
+
+void ListThreads(pid_t pid) {
+  std::string pid_str = std::to_string(pid);
+  std::string path    = "/proc/" + pid_str + "/task";
+  printf("%s: path = %s\n", __func__, path.c_str());
+  for (const auto& entry : fs::directory_iterator(path)) {
+    printf("%s  ", entry.path().c_str());
+  }
+  printf("\n");
+  return;
+}
+
 void GetThreadStats() {
   struct rusage thread_usage;
   if (getrusage(RUSAGE_THREAD, &thread_usage) == -1) {
     printf("%s: Failed to getusage stats Error: %s", __func__, std::strerror(errno));
     return;
   }
-  printf("cpu-time = %d\nsystem-time = %d\nresident_size = %ld\npage-faults = %ld\n",
+  ListThreads(getpid());
+  pid_t tid = syscall(SYS_gettid);
+  CheckIfExist("/proc/" + std::to_string(tid) + "/");
+  printf("tid = %d\ncpu-time = %d\nsystem-time = %d\nresident_size = %ld\npage-faults = %ld\n", (int)tid,
          (int)thread_usage.ru_utime.tv_usec, (int)thread_usage.ru_stime.tv_usec, thread_usage.ru_maxrss,
          thread_usage.ru_majflt);
 }
@@ -96,15 +120,21 @@ int main(int argc, char** argv) {
     url_list.emplace_back(url);
   }
   int num_of_threads;
-  if (argc > 1) {
+  int num_of_times;
+  if (argc > 2) {
     num_of_threads = *argv[1] - 48;
+    num_of_times   = *argv[2] - 48;
   } else {
-    printf("Error: number of threads is missing ../stats <num_of_threads>\n");
+    printf("Error: number of threads is missing ../stats <num_of_threads> <number_of_times>\n");
     return 0;
   }
   printf("\n");
   printf("%s: url list size = %d\n", __func__, (int)url_list.size());
-  Solve(url_list, num_of_threads);
+  int iteration = 0;
+  while (++iteration <= num_of_times) {
+    printf("iteration %d\n", iteration);
+    Solve(url_list, num_of_threads);
+  }
   return 0;
 }
 
