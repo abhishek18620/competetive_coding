@@ -1,53 +1,53 @@
 #include <algorithm>
+#include <cmath>
 #include <iostream>
+#include <string>
+#include <vector>
+constexpr int INT_MAX = 1e9 + 9;
+static int    FindMiddle(const int i, const int j) { return std::ceil((i + j) >> 1); }
 
-constexpr int INF = 1e9 + 9;
-int N;
-int dp[100][100];
-int arr[100];
-int popu[100];
-int pre_sum[100];
-
-float calc_avg_from_new_j(int new_po, int last_po) {
-  // when last po is at j then nearest po changes for mid_j_i to N
-  int mid_i_j = (last_po + new_po) >> 1;
-  int ret = (pre_sum[N] - pre_sum[mid_i_j]) * (new_po - last_po);
-  return (float)ret / N;
-}
-
-int solve(int i, int po_to_be_built) {
-  if (i == N || po_to_be_built == 0) {
-    return 0;
+int Solve(std::vector<int>& arr, const int k) {
+  const int n = arr.size();
+  std::sort(arr.begin(), arr.end());
+  // Cost btw. 2 houses i-j with 1 post-office - built in the mid
+  std::vector<std::vector<int>> wij(n + 1, std::vector<int>(n + 1));
+  for (int i = 1; i <= n; i++) {
+    wij[i][i] = 0;
+    for (int j = i + 1; j <= n; j++) {
+      // Check both odd\even. It holds.
+      wij[i][j] = wij[i][j - 1] + arr[j - 1] - arr[(i + j) / 2 - 1];
+    }
   }
 
-  if (dp[i][po_to_be_built] != -1) {
-    return dp[i][po_to_be_built];
+  // main DP
+  std::vector<std::vector<int>> dp(n + 1, std::vector<int>(k + 1));
+  for (int i = 1; i <= n; i++) {
+    dp[i][1] = wij[1][i];
+  }
+  for (int i = 2; i <= k; i++) // post-offices
+  {
+    for (int j = n; j > i; j--) // houses. Low j sets high j
+    {
+      dp[j][i] = INT_MAX;
+      for (int x = i - 1; x < j; x++) {
+        dp[j][i] = std::min(dp[j][i], dp[x][i - 1] + wij[x + 1][j]);
+      }
+    }
   }
 
-  // dp begins
-  // built a PO at ith village
-  int sol1 = INF;
-  for (int j = 0; j < i; j++) {
-    sol1 = std::min<float>((float)sol1, solve(j, po_to_be_built - 1) +
-                                            calc_avg_from_new_j(i, j));
-  }
-  // don't build a PO here
-  int sol2 = INF;
-  int villages_left = N - i + 1;
-  if (po_to_be_built < villages_left) {
-    sol2 = solve(i - 1, po_to_be_built - 1);
-  }
-
-  return std::min<float>(sol1, sol2);
+  return dp[n][k];
 }
 
 int main() {
-  std::cin >> N;
-  // pre compute sum
-  for (int i = 0; i < N; i++) {
-    std::cin >> arr[i];
-    std::cin >> popu[i];
-    pre_sum[i] = (i > 0) ? pre_sum[i - 1] + popu[i] : pre_sum[i];
+#ifdef DEBUG
+  freopen("../input.txt", "rt", stdin);
+#endif
+  int n, k;
+  scanf("%d %d", &n, &k);
+  std::vector<int> arr(n);
+  for (auto& ele : arr) {
+    scanf("%d", &ele);
   }
+  printf("%s: sol = %d\n", __func__, Solve(arr, k));
   return 0;
 }
