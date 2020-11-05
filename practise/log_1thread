@@ -1,0 +1,936 @@
+
+main: url list size = 158
+Solve : ind1: 0 | ind2: 157
+testConnection : start: 0 | end: 157
+testing google.com
+ URL : google.com is working thread id = 139910184101632
+cpu-time = 1382
+system-time = 0
+resident_size = 9812
+page-faults = 0
+testing youtube.com
+ URL : youtube.com is working thread id = 139910184101632
+cpu-time = 2175
+system-time = 0
+resident_size = 9812
+page-faults = 0
+testing facebook.com
+ URL : facebook.com is working thread id = 139910184101632
+cpu-time = 3271
+system-time = 0
+resident_size = 9812
+page-faults = 0
+testing baidu.com
+ URL : baidu.com is not working thread id = 139910184101632
+testing wikipedia.org
+ URL : wikipedia.org is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 1337
+resident_size = 9812
+page-faults = 0
+testing qq.com
+ URL : qq.com is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 2206
+resident_size = 9812
+page-faults = 0
+testing yahoo.com
+ URL : yahoo.com is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 3555
+resident_size = 9812
+page-faults = 0
+testing taobao.com
+ URL : taobao.com is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 4768
+resident_size = 9812
+page-faults = 0
+testing tmall.com
+ URL : tmall.com is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 5793
+resident_size = 9812
+page-faults = 0
+testing amazon.com
+ URL : amazon.com is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 6850
+resident_size = 9812
+page-faults = 0
+testing instagram.com
+ URL : instagram.com is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 7781
+resident_size = 9812
+page-faults = 0
+testing google.co.in
+ URL : google.co.in is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 8118
+resident_size = 9812
+page-faults = 0
+testing twitter.com
+ URL : twitter.com is working thread id = 139910184101632
+cpu-time = 3787
+system-time = 9286
+resident_size = 9812
+page-faults = 0
+testing live.com
+ URL : live.com is working thread id = 139910184101632
+cpu-time = 4834
+system-time = 9286
+resident_size = 9812
+page-faults = 0
+testing sohu.com
+ URL : sohu.com is working thread id = 139910184101632
+cpu-time = 5779
+system-time = 9286
+resident_size = 9812
+page-faults = 0
+testing jd.com
+ URL : jd.com is working thread id = 139910184101632
+cpu-time = 5779
+system-time = 10215
+resident_size = 9812
+page-faults = 0
+testing sina.com.cn
+ URL : sina.com.cn is working thread id = 139910184101632
+cpu-time = 5779
+system-time = 11366
+resident_size = 9812
+page-faults = 0
+testing weibo.com
+ URL : weibo.com is working thread id = 139910184101632
+cpu-time = 6032
+system-time = 12064
+resident_size = 9812
+page-faults = 0
+testing google.co.jp
+ URL : google.co.jp is working thread id = 139910184101632
+cpu-time = 6258
+system-time = 12516
+resident_size = 9812
+page-faults = 0
+testing reddit.com
+ URL : reddit.com is working thread id = 139910184101632
+cpu-time = 6428
+system-time = 12857
+resident_size = 9812
+page-faults = 0
+testing login.tmall.com
+ URL : login.tmall.com is working thread id = 139910184101632
+cpu-time = 6595
+system-time = 13191
+resident_size = 9816
+page-faults = 0
+testing blogspot.com
+ URL : blogspot.com is working thread id = 139910184101632
+cpu-time = 6898
+system-time = 13796
+resident_size = 9816
+page-faults = 0
+testing linkedin.com
+ URL : linkedin.com is working thread id = 139910184101632
+cpu-time = 7408
+system-time = 14817
+resident_size = 9816
+page-faults = 0
+testing google.com.hk
+ URL : google.com.hk is working thread id = 139910184101632
+cpu-time = 7793
+system-time = 15587
+resident_size = 9816
+page-faults = 0
+testing netflix.com
+ URL : netflix.com is working thread id = 139910184101632
+cpu-time = 8096
+system-time = 16192
+resident_size = 9816
+page-faults = 0
+testing google.com.br
+ URL : google.com.br is working thread id = 139910184101632
+cpu-time = 8344
+system-time = 16688
+resident_size = 9816
+page-faults = 0
+testing pornhub.com
+ URL : pornhub.com is working thread id = 139910184101632
+cpu-time = 8651
+system-time = 17303
+resident_size = 9816
+page-faults = 0
+testing yandex.ru
+ URL : yandex.ru is working thread id = 139910184101632
+cpu-time = 8651
+system-time = 18490
+resident_size = 9816
+page-faults = 0
+testing csdn.net
+ URL : csdn.net is working thread id = 139910184101632
+cpu-time = 8651
+system-time = 19607
+resident_size = 9816
+page-faults = 0
+testing office.com
+ URL : office.com is working thread id = 139910184101632
+cpu-time = 8651
+system-time = 20591
+resident_size = 9816
+page-faults = 0
+testing yahoo.co.jp
+ URL : yahoo.co.jp is working thread id = 139910184101632
+cpu-time = 8651
+system-time = 22010
+resident_size = 9816
+page-faults = 0
+testing mail.ru
+ URL : mail.ru is working thread id = 139910184101632
+cpu-time = 8651
+system-time = 23725
+resident_size = 9816
+page-faults = 0
+testing twitch.tv
+ URL : twitch.tv is working thread id = 139910184101632
+cpu-time = 8651
+system-time = 25147
+resident_size = 9816
+page-faults = 0
+testing microsoftonline.com
+ URL : microsoftonline.com is not working thread id = 139910184101632
+testing alipay.com
+ URL : alipay.com is working thread id = 139910184101632
+cpu-time = 10462
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing pages.tmall.com
+ URL : pages.tmall.com is working thread id = 139910184101632
+cpu-time = 11490
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing livejasmin.com
+ URL : livejasmin.com is working thread id = 139910184101632
+cpu-time = 12482
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing vk.com
+ URL : vk.com is working thread id = 139910184101632
+cpu-time = 13557
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing google.ru
+ URL : google.ru is working thread id = 139910184101632
+cpu-time = 14366
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing google.co.uk
+ URL : google.co.uk is working thread id = 139910184101632
+cpu-time = 15418
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing microsoft.com
+ URL : microsoft.com is working thread id = 139910184101632
+cpu-time = 16539
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing google.fr
+ URL : google.fr is working thread id = 139910184101632
+cpu-time = 17507
+system-time = 25147
+resident_size = 9824
+page-faults = 0
+testing ebay.com
+ URL : ebay.com is working thread id = 139910184101632
+cpu-time = 17507
+system-time = 26385
+resident_size = 9824
+page-faults = 0
+testing google.de
+ URL : google.de is working thread id = 139910184101632
+cpu-time = 18655
+system-time = 26385
+resident_size = 9824
+page-faults = 0
+testing t.co
+ URL : t.co is working thread id = 139910184101632
+cpu-time = 19580
+system-time = 26385
+resident_size = 9832
+page-faults = 0
+testing aliexpress.com
+ URL : aliexpress.com is working thread id = 139910184101632
+cpu-time = 20582
+system-time = 26385
+resident_size = 9832
+page-faults = 0
+testing bing.com
+ URL : bing.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 26567
+resident_size = 9832
+page-faults = 0
+testing msn.com
+ URL : msn.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 27159
+resident_size = 9832
+page-faults = 0
+testing whatsapp.com
+ URL : whatsapp.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 28127
+resident_size = 9832
+page-faults = 0
+testing stackoverflow.com
+ URL : stackoverflow.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 29511
+resident_size = 9832
+page-faults = 0
+testing naver.com
+ URL : naver.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 30491
+resident_size = 9832
+page-faults = 0
+testing xvideos.com
+ URL : xvideos.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 31105
+resident_size = 9832
+page-faults = 0
+testing google.ca
+ URL : google.ca is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 32195
+resident_size = 9832
+page-faults = 0
+testing wordpress.com
+ URL : wordpress.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 33336
+resident_size = 9832
+page-faults = 0
+testing google.com.mx
+ URL : google.com.mx is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 34278
+resident_size = 9832
+page-faults = 0
+testing amazon.co.jp
+ URL : amazon.co.jp is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 35440
+resident_size = 9832
+page-faults = 0
+testing tribunnews.com
+ URL : tribunnews.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 36367
+resident_size = 9832
+page-faults = 0
+testing github.com
+ URL : github.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 37297
+resident_size = 9832
+page-faults = 0
+testing google.it
+ URL : google.it is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 38136
+resident_size = 9832
+page-faults = 0
+testing imdb.com
+ URL : imdb.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 39376
+resident_size = 9832
+page-faults = 0
+testing paypal.com
+ URL : paypal.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 40436
+resident_size = 9832
+page-faults = 0
+testing google.es
+ URL : google.es is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 41283
+resident_size = 9840
+page-faults = 0
+testing xhamster.com
+ URL : xhamster.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 42609
+resident_size = 9840
+page-faults = 0
+testing tumblr.com
+ URL : tumblr.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 43649
+resident_size = 9840
+page-faults = 0
+testing google.com.tw
+ URL : google.com.tw is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 44688
+resident_size = 9840
+page-faults = 0
+testing adobe.com
+ URL : adobe.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 45283
+resident_size = 9840
+page-faults = 0
+testing apple.com
+ URL : apple.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 46219
+resident_size = 9840
+page-faults = 0
+testing imgur.com
+ URL : imgur.com is working thread id = 139910184101632
+cpu-time = 21254
+system-time = 47321
+resident_size = 9840
+page-faults = 0
+testing google.com.tr
+ URL : google.com.tr is working thread id = 139910184101632
+cpu-time = 21470
+system-time = 48308
+resident_size = 9840
+page-faults = 0
+testing espn.com
+ URL : espn.com is working thread id = 139910184101632
+cpu-time = 21801
+system-time = 49053
+resident_size = 9840
+page-faults = 0
+testing googleusercontent.com
+ URL : googleusercontent.com is not working thread id = 139910184101632
+testing google.co.kr
+ URL : google.co.kr is working thread id = 139910184101632
+cpu-time = 21901
+system-time = 50280
+resident_size = 10020
+page-faults = 0
+testing wikia.com
+ URL : wikia.com is working thread id = 139910184101632
+cpu-time = 21901
+system-time = 51118
+resident_size = 10024
+page-faults = 0
+testing amazon.in
+ URL : amazon.in is working thread id = 139910184101632
+cpu-time = 21901
+system-time = 52347
+resident_size = 10024
+page-faults = 0
+testing pinterest.com
+ URL : pinterest.com is working thread id = 139910184101632
+cpu-time = 21901
+system-time = 52651
+resident_size = 10024
+page-faults = 0
+testing dropbox.com
+ URL : dropbox.com is working thread id = 139910184101632
+cpu-time = 21901
+system-time = 53451
+resident_size = 10024
+page-faults = 0
+testing bongacams.com
+ URL : bongacams.com is working thread id = 139910184101632
+cpu-time = 21901
+system-time = 54699
+resident_size = 10024
+page-faults = 0
+testing porn.com
+ URL : porn.com is working thread id = 139910184101632
+cpu-time = 23080
+system-time = 54699
+resident_size = 10024
+page-faults = 0
+testing google.com.au
+ URL : google.com.au is working thread id = 139910184101632
+cpu-time = 24206
+system-time = 54699
+resident_size = 10024
+page-faults = 0
+testing detail.tmall.com
+ URL : detail.tmall.com is working thread id = 139910184101632
+cpu-time = 25009
+system-time = 54699
+resident_size = 10024
+page-faults = 0
+testing amazon.de
+ URL : amazon.de is working thread id = 139910184101632
+cpu-time = 26403
+system-time = 54699
+resident_size = 10024
+page-faults = 0
+testing thestartmagazine.com
+ URL : thestartmagazine.com is working thread id = 139910184101632
+cpu-time = 27349
+system-time = 54699
+resident_size = 10032
+page-faults = 0
+testing fbcdn.net
+ URL : fbcdn.net is working thread id = 139910184101632
+cpu-time = 28048
+system-time = 54699
+resident_size = 10032
+page-faults = 0
+testing google.co.id
+ URL : google.co.id is working thread id = 139910184101632
+cpu-time = 29379
+system-time = 54699
+resident_size = 10032
+page-faults = 0
+testing quora.com
+ URL : quora.com is working thread id = 139910184101632
+cpu-time = 29877
+system-time = 55487
+resident_size = 10032
+page-faults = 0
+testing bilibili.com
+ URL : bilibili.com is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 56008
+resident_size = 10032
+page-faults = 0
+testing xinhuanet.com
+ URL : xinhuanet.com is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 56461
+resident_size = 10032
+page-faults = 0
+testing amazon.co.uk
+ URL : amazon.co.uk is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 57828
+resident_size = 10032
+page-faults = 0
+testing cobalten.com
+ URL : cobalten.com is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 58659
+resident_size = 10032
+page-faults = 0
+testing xnxx.com
+ URL : xnxx.com is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 59845
+resident_size = 10032
+page-faults = 0
+testing google.cn
+ URL : google.cn is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 60890
+resident_size = 10032
+page-faults = 0
+testing salesforce.com
+ URL : salesforce.com is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 61515
+resident_size = 10032
+page-faults = 0
+testing cnn.com
+ URL : cnn.com is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 62463
+resident_size = 10032
+page-faults = 0
+testing hao.com
+ URL : hao.com is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 63496
+resident_size = 10032
+page-faults = 0
+testing google.co.th
+ URL : google.co.th is working thread id = 139910184101632
+cpu-time = 30158
+system-time = 64606
+resident_size = 10032
+page-faults = 0
+testing amazonaws.com
+ URL : amazonaws.com is working thread id = 139910184101632
+cpu-time = 30422
+system-time = 65190
+resident_size = 10040
+page-faults = 0
+testing pixnet.net
+ URL : pixnet.net is working thread id = 139910184101632
+cpu-time = 30619
+system-time = 65612
+resident_size = 10040
+page-faults = 0
+testing bbc.com
+ URL : bbc.com is working thread id = 139910184101632
+cpu-time = 30971
+system-time = 66367
+resident_size = 10040
+page-faults = 0
+testing tianya.cn
+ URL : tianya.cn is working thread id = 139910184101632
+cpu-time = 31223
+system-time = 66907
+resident_size = 10040
+page-faults = 0
+testing google.com.ar
+ URL : google.com.ar is working thread id = 139910184101632
+cpu-time = 31628
+system-time = 67775
+resident_size = 10040
+page-faults = 0
+testing booking.com
+ URL : booking.com is working thread id = 139910184101632
+cpu-time = 31808
+system-time = 68161
+resident_size = 10040
+page-faults = 0
+testing google.pl
+ URL : google.pl is working thread id = 139910184101632
+cpu-time = 32014
+system-time = 68601
+resident_size = 10040
+page-faults = 0
+testing force.com
+ URL : force.com is working thread id = 139910184101632
+cpu-time = 33869
+system-time = 68601
+resident_size = 10040
+page-faults = 0
+testing txxx.com
+ URL : txxx.com is working thread id = 139910184101632
+cpu-time = 34809
+system-time = 68601
+resident_size = 10040
+page-faults = 0
+testing bbc.co.uk
+ URL : bbc.co.uk is working thread id = 139910184101632
+cpu-time = 35932
+system-time = 68601
+resident_size = 10040
+page-faults = 0
+testing google.com.eg
+ URL : google.com.eg is working thread id = 139910184101632
+cpu-time = 36698
+system-time = 68808
+resident_size = 10040
+page-faults = 0
+testing google.com.pk
+ URL : google.com.pk is working thread id = 139910184101632
+cpu-time = 37003
+system-time = 69381
+resident_size = 10040
+page-faults = 0
+testing getadblock.com
+ URL : getadblock.com is working thread id = 139910184101632
+cpu-time = 37349
+system-time = 70030
+resident_size = 10040
+page-faults = 0
+testing google.com.sa
+ URL : google.com.sa is working thread id = 139910184101632
+cpu-time = 37709
+system-time = 70704
+resident_size = 10040
+page-faults = 0
+testing stackexchange.com
+ URL : stackexchange.com is working thread id = 139910184101632
+cpu-time = 37929
+system-time = 71117
+resident_size = 10048
+page-faults = 0
+testing zhihu.com
+ URL : zhihu.com is working thread id = 139910184101632
+cpu-time = 38280
+system-time = 71776
+resident_size = 10048
+page-faults = 0
+testing nih.gov
+ URL : nih.gov is working thread id = 139910184101632
+cpu-time = 38280
+system-time = 72424
+resident_size = 10048
+page-faults = 0
+testing popads.net
+ URL : popads.net is working thread id = 139910184101632
+cpu-time = 38280
+system-time = 73483
+resident_size = 10048
+page-faults = 0
+testing detik.com
+ URL : detik.com is working thread id = 139910184101632
+cpu-time = 38280
+system-time = 74564
+resident_size = 10048
+page-faults = 0
+testing ask.com
+ URL : ask.com is working thread id = 139910184101632
+cpu-time = 38280
+system-time = 75977
+resident_size = 10048
+page-faults = 0
+testing onlinesbi.com
+ URL : onlinesbi.com is working thread id = 139910184101632
+cpu-time = 38280
+system-time = 76457
+resident_size = 10048
+page-faults = 0
+testing soundcloud.com
+ URL : soundcloud.com is working thread id = 139910184101632
+cpu-time = 38606
+system-time = 77212
+resident_size = 10048
+page-faults = 0
+testing nytimes.com
+ URL : nytimes.com is working thread id = 139910184101632
+cpu-time = 38718
+system-time = 77437
+resident_size = 10048
+page-faults = 0
+testing flipkart.com
+ URL : flipkart.com is working thread id = 139910184101632
+cpu-time = 39073
+system-time = 78147
+resident_size = 10048
+page-faults = 0
+testing aparat.com
+ URL : aparat.com is working thread id = 139910184101632
+cpu-time = 40772
+system-time = 78147
+resident_size = 10048
+page-faults = 0
+testing babytree.com
+ URL : babytree.com is working thread id = 139910184101632
+cpu-time = 41545
+system-time = 78474
+resident_size = 10048
+page-faults = 0
+testing bukalapak.com
+ URL : bukalapak.com is working thread id = 139910184101632
+cpu-time = 41976
+system-time = 79288
+resident_size = 10048
+page-faults = 0
+testing soso.com
+ URL : soso.com is working thread id = 139910184101632
+cpu-time = 42425
+system-time = 80137
+resident_size = 10048
+page-faults = 0
+testing craigslist.org
+ URL : craigslist.org is working thread id = 139910184101632
+cpu-time = 42830
+system-time = 80902
+resident_size = 10048
+page-faults = 0
+testing chase.com
+ URL : chase.com is working thread id = 139910184101632
+cpu-time = 43108
+system-time = 81426
+resident_size = 10048
+page-faults = 0
+testing rakuten.co.jp
+ URL : rakuten.co.jp is working thread id = 139910184101632
+cpu-time = 44297
+system-time = 81426
+resident_size = 10056
+page-faults = 0
+testing iqiyi.com
+ URL : iqiyi.com is working thread id = 139910184101632
+cpu-time = 45661
+system-time = 81426
+resident_size = 10056
+page-faults = 0
+testing spotify.com
+ URL : spotify.com is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 81426
+resident_size = 10056
+page-faults = 0
+testing ettoday.net
+ URL : ettoday.net is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 82807
+resident_size = 10056
+page-faults = 0
+testing ebay.de
+ URL : ebay.de is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 84123
+resident_size = 10056
+page-faults = 0
+testing so.com
+ URL : so.com is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 85301
+resident_size = 10056
+page-faults = 0
+testing sogou.com
+ URL : sogou.com is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 86321
+resident_size = 10056
+page-faults = 0
+testing google.com.ua
+ URL : google.com.ua is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 87337
+resident_size = 10056
+page-faults = 0
+testing vimeo.com
+ URL : vimeo.com is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 88494
+resident_size = 10056
+page-faults = 0
+testing panda.tv
+ URL : panda.tv is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 89682
+resident_size = 10056
+page-faults = 0
+testing indeed.com
+ URL : indeed.com is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 90946
+resident_size = 10056
+page-faults = 0
+testing .com
+ URL : .com is not working thread id = 139910184101632
+testing avito.ru
+ URL : avito.ru is working thread id = 139910184101632
+cpu-time = 46382
+system-time = 92183
+resident_size = 10060
+page-faults = 0
+testing dailymotion.com
+ URL : dailymotion.com is working thread id = 139910184101632
+cpu-time = 47455
+system-time = 92183
+resident_size = 10060
+page-faults = 0
+testing google.co.ao
+ URL : google.co.ao is working thread id = 139910184101632
+cpu-time = 48310
+system-time = 92228
+resident_size = 10060
+page-faults = 0
+testing instructure.com
+ URL : instructure.com is working thread id = 139910184101632
+cpu-time = 48310
+system-time = 93481
+resident_size = 10060
+page-faults = 0
+testing google.com.vn
+ URL : google.com.vn is working thread id = 139910184101632
+cpu-time = 48310
+system-time = 94504
+resident_size = 10060
+page-faults = 0
+testing nicovideo.jp
+ URL : nicovideo.jp is working thread id = 139910184101632
+cpu-time = 48310
+system-time = 95123
+resident_size = 10060
+page-faults = 0
+testing google.com.sg
+ URL : google.com.sg is working thread id = 139910184101632
+cpu-time = 48310
+system-time = 96194
+resident_size = 10060
+page-faults = 0
+testing globo.com
+ URL : globo.com is working thread id = 139910184101632
+cpu-time = 49409
+system-time = 96194
+resident_size = 10060
+page-faults = 0
+testing uol.com.br
+ URL : uol.com.br is working thread id = 139910184101632
+cpu-time = 51303
+system-time = 96194
+resident_size = 10060
+page-faults = 0
+testing google.co.za
+ URL : google.co.za is working thread id = 139910184101632
+cpu-time = 52396
+system-time = 96194
+resident_size = 10060
+page-faults = 0
+testing theguardian.com
+ URL : theguardian.com is working thread id = 139910184101632
+cpu-time = 53447
+system-time = 96194
+resident_size = 10060
+page-faults = 0
+testing slideshare.net
+ URL : slideshare.net is working thread id = 139910184101632
+cpu-time = 54435
+system-time = 96309
+resident_size = 10068
+page-faults = 0
+testing researchgate.net
+ URL : researchgate.net is working thread id = 139910184101632
+cpu-time = 54737
+system-time = 96842
+resident_size = 10068
+page-faults = 0
+testing openload.co
+ URL : openload.co is working thread id = 139910184101632
+cpu-time = 55181
+system-time = 97629
+resident_size = 10068
+page-faults = 0
+testing daum.net
+ URL : daum.net is working thread id = 139910184101632
+cpu-time = 55532
+system-time = 98249
+resident_size = 10068
+page-faults = 0
+testing ok.ru
+ URL : ok.ru is working thread id = 139910184101632
+cpu-time = 56235
+system-time = 98966
+resident_size = 10068
+page-faults = 0
+testing roblox.com
+ URL : roblox.com is working thread id = 139910184101632
+cpu-time = 56235
+system-time = 100406
+resident_size = 10068
+page-faults = 0
+testing cnblogs.com
+ URL : cnblogs.com is working thread id = 139910184101632
+cpu-time = 56527
+system-time = 100942
+resident_size = 10068
+page-faults = 0
+testing wschools.com
+ URL : wschools.com is working thread id = 139910184101632
+cpu-time = 56527
+system-time = 102528
+resident_size = 10068
+page-faults = 0
+testing chaturbate.com
+ URL : chaturbate.com is working thread id = 139910184101632
+cpu-time = 56527
+system-time = 103294
+resident_size = 10068
+page-faults = 0
+testing ebay.co.uk
+ URL : ebay.co.uk is working thread id = 139910184101632
+cpu-time = 56527
+system-time = 104676
+resident_size = 10068
+page-faults = 0
