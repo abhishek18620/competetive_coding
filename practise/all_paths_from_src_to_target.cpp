@@ -57,7 +57,9 @@ Solve(const std::vector<std::vector<int>>& graph) {
 }
 
 int main() {
+#ifdef DEBUG
     freopen("input.txt", "rt", stdin);
+#endif
     int vertices, edges, u, v;
     scanf("%d %d", &vertices, &edges);
     std::vector<std::vector<int>> graph(vertices);
