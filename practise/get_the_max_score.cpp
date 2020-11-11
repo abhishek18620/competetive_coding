@@ -34,13 +34,8 @@ int SolveOptimised(const std::vector<int>& arr1, const std::vector<int>& arr2) {
         prev_sol2 = sol2;
     }
     return std::max(std::accumulate(arr1.begin() + i, arr1.end(), sol1),
-                    std::accumulate(arr2.begin() + j, arr2.end(), sol2));
-    // while (i <= n1)
-    //    sol1 += arr1[i++];
-    // while (j <= n2)
-    // sol2 += arr2[j++];
-
-    return std::max(sol1, sol2) % MOD;
+                    std::accumulate(arr2.begin() + j, arr2.end(), sol2)) %
+           MOD;
 }
 
 int Solve(const std::vector<int>& arr1, const std::vector<int>& arr2) {
@@ -95,7 +90,8 @@ int Solve(const std::vector<int>& arr1, const std::vector<int>& arr2) {
     }
     return std::max({dp[arr1[n1]][0][0], dp[arr1[n1]][0][1], dp[arr1[n1]][1][0],
                      dp[arr1[n1]][1][1], dp[arr2[n2]][0][0], dp[arr2[n2]][0][1],
-                     dp[arr2[n2]][1][0], dp[arr2[n2]][1][1]});
+                     dp[arr2[n2]][1][0], dp[arr2[n2]][1][1]}) %
+           MOD;
 }
 
 int main() {
