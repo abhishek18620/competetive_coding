@@ -27,17 +27,15 @@ int BFS(const std::string& src, const std::string& dest) {
     bfs_que.push({src, 0, 0});
     visited.insert(src);
     while (!bfs_que.empty()) {
-        auto u   = bfs_que.front().str;
-        int  w   = bfs_que.front().dist;
-        int  idx = bfs_que.front().start_idx;
+        auto [str, idx, w] = bfs_que.front();
         bfs_que.pop();
-        if (u == dest) {
+        if (str == dest) {
             return w;
         }
-        idx = str_diff(u, dest, idx);
-        for (int i = idx + 1; i < u.length(); ++i) {
-            if (u[i] == dest[idx]) {
-                tmp = u;
+        idx = str_diff(str, dest, idx);
+        for (int i = idx + 1; i < str.length(); ++i) {
+            if (str[i] == dest[idx]) {
+                tmp = str;
                 std::swap(tmp[i], tmp[idx]);
                 if (visited.count(tmp) == 0) {
                     bfs_que.push({tmp, idx + 1, w + 1});
@@ -50,7 +48,6 @@ int BFS(const std::string& src, const std::string& dest) {
 }
 
 int Solve(const std::string str1, const std::string str2) {
-    std::unordered_map<std::string, std::vector<std::string>> graph;
     return BFS(str1, str2);
 }
 
