@@ -28,10 +28,8 @@ std::vector<int> Solve(std::vector<int>& nums) {
     int                              start_idx = 0;
     for (int i = 0; i < n; ++i) {
         std::pair<int, int> curr_sol = {i, 1};
-        // printf("for %d ", nums[i]);
         for (int j = i - 1; j >= 0; --j) {
             if (nums[i] % nums[j] == 0 && dp[j].second + 1 > curr_sol.second) {
-                // printf("%d ", nums[j]);
                 curr_sol = {j, dp[j].second + 1};
             }
         }
@@ -41,7 +39,6 @@ std::vector<int> Solve(std::vector<int>& nums) {
             start_idx = i;
         }
         printf("dp[%d] = %d %d\n", i, dp[i].first, dp[i].second);
-        // printf(":   sz = %d\n", dp[i].second);
     }
 
     // build sol
