@@ -97,6 +97,5 @@ int main() {
     }
     auto sol_node = Solve(ll_list);
     PrintLL(sol_node);
-
     return 0;
 }
