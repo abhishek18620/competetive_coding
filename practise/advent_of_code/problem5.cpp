@@ -27,7 +27,7 @@ int main() {
     std::string                    str;
     std::vector<std::vector<bool>> grid(323, std::vector<bool>(31));
     for (auto& row : grid) {
-        std::getline(std::cin, str);
+        // std::getline(std::cin, str);
         // printf("%s\n", str.c_str());
         for (int idx = 0; idx < str.length(); ++idx) {
             row[idx] = str[idx] == '.';
