@@ -14,10 +14,9 @@ auto get_occ = [](std::unordered_map<int, std::pair<int, int>>& numbers_map,
     return 2;
 };
 
-void Solve(const std::vector<int>& starting_nums) {
+int Solve(const std::vector<int>& starting_nums) {
     std::unordered_map<int, std::pair<int, int>> numbers_map;
     std::vector<int>                             turn;
-
     for (int i = 0; i < starting_nums.size(); ++i) {
         numbers_map[starting_nums[i]] = {i + 1, -1};
     }
@@ -25,7 +24,7 @@ void Solve(const std::vector<int>& starting_nums) {
     int last_num  = starting_nums[starting_nums.size() - 1];
 
     // Simulate game
-    while (curr_turn++ != 2020) {
+    while (curr_turn++ != 30000000) {
         int occ = get_occ(numbers_map, last_num);
         if (occ == 1) {
             last_num = 0;
@@ -34,7 +33,11 @@ void Solve(const std::vector<int>& starting_nums) {
             last_num = numbers_map.at(last_num).second -
                        numbers_map.at(last_num).first;
         }
-        printf("curr_turn = %d last_num = %d\n", curr_turn, last_num);
+#ifdef DEBUG
+        if (curr_turn % 1000000 == 0) {
+            printf("curr_turn = %d last_num = %d\n", curr_turn, last_num);
+        }
+#endif
 
         occ = get_occ(numbers_map, last_num);
         if (occ == 0) {
@@ -47,6 +50,8 @@ void Solve(const std::vector<int>& starting_nums) {
             numbers_map.at(last_num).second = curr_turn;
         }
     }
+
+    return last_num;
 }
 
 int main() {
@@ -56,4 +61,3 @@ int main() {
     Solve({15, 5, 1, 4, 7, 0});
     return 0;
 }
-
